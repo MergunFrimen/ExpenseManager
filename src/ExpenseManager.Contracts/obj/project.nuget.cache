@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "nO9z7hGzxqVc2TlHPa9MBE3Ig+37StjIRFKPXa+eNBlSuo88hZ6/9QQ9bI7dmKU00nkkWdPgwCWM/kTa1sDKiw==",
+  "dgSpecHash": "zuUc4fl8SVMrSdpocYB6pat5JWiQ0+UhV++43nxlKza6+w2ouY4Rux3um1xa9oVEimEDo2/YQMZNgqdjP9iAjA==",
   "success": true,
   "projectFilePath": "/home/mergun/ExpenseManager/src/ExpenseManager.Contracts/ExpenseManager.Contracts.csproj",
   "expectedPackageFiles": [
