@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "zUHyHRtnXA/Oi3C7E4a5n8Se7Cf2uMVQKTbQb9jxIAMOjMgcPYqgDzVE1hvS6kXUDwFeMiWSNrAhKtQk9Cihkw==",
+  "success": true,
+  "projectFilePath": "/home/mergun/ExpenseManager/src/ExpenseManager.Infrastructure/ExpenseManager.Infrastructure.csproj",
+  "expectedPackageFiles": [
+    "/home/mergun/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.5/microsoft.aspnetcore.app.ref.8.0.5.nupkg.sha512"
+  ],
+  "logs": []
+}
