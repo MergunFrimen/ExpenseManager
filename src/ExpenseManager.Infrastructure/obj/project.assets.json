@@ -1,11 +1,48 @@
 {
   "version": 3,
   "targets": {
-    "net8.0": {}
+    "net8.0": {
+      "ExpenseManager.Application/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "ExpenseManager.Domain": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/ExpenseManager.Application.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/ExpenseManager.Application.dll": {}
+        }
+      },
+      "ExpenseManager.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "compile": {
+          "bin/placeholder/ExpenseManager.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/ExpenseManager.Domain.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "ExpenseManager.Application/1.0.0": {
+      "type": "project",
+      "path": "../ExpenseManager.Application/ExpenseManager.Application.csproj",
+      "msbuildProject": "../ExpenseManager.Application/ExpenseManager.Application.csproj"
+    },
+    "ExpenseManager.Domain/1.0.0": {
+      "type": "project",
+      "path": "../ExpenseManager.Domain/ExpenseManager.Domain.csproj",
+      "msbuildProject": "../ExpenseManager.Domain/ExpenseManager.Domain.csproj"
+    }
+  },
   "projectFileDependencyGroups": {
-    "net8.0": []
+    "net8.0": [
+      "ExpenseManager.Application >= 1.0.0"
+    ]
   },
   "packageFolders": {
     "/home/mergun/.nuget/packages/": {}
@@ -31,7 +68,11 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "/home/mergun/ExpenseManager/src/ExpenseManager.Application/ExpenseManager.Application.csproj": {
+              "projectPath": "/home/mergun/ExpenseManager/src/ExpenseManager.Application/ExpenseManager.Application.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
