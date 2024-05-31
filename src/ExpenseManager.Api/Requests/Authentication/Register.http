@@ -1,0 +1,13 @@
+@ExpenseManager.Api_HostAddress = http://localhost:5222
+
+POST {{ExpenseManager.Api_HostAddress}}/auth/register
+Content-Type: application/json
+
+{
+  "firstName": "Dominik",
+  "lastName": "Tichy",
+  "email": "dominik@tichy.cz",
+  "password": "password"
+}
+
+###
