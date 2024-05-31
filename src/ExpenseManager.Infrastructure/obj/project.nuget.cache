@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "NlueqdUGzNe2jlamqTVxffLfiWgddhi4eCNY1s3HbzXKwr+Cx6Iy8d86lephtSlqmBbCqQcckwe+n5KRkZ7fOw==",
+  "dgSpecHash": "WHwlFeu3OfWg+QuOLAdVZitWfEBxXmRJy/Ja/lpz+S9uddzCgfHeZRA+D97NNEiMhA0HeQ6cd0yj7NKj8Kio9w==",
   "success": true,
   "projectFilePath": "/home/mergun/ExpenseManager/src/ExpenseManager.Infrastructure/ExpenseManager.Infrastructure.csproj",
   "expectedPackageFiles": [
+    "/home/mergun/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/9.0.0-preview.4.24266.19/microsoft.extensions.dependencyinjection.abstractions.9.0.0-preview.4.24266.19.nupkg.sha512",
     "/home/mergun/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.5/microsoft.aspnetcore.app.ref.8.0.5.nupkg.sha512"
   ],
   "logs": []
