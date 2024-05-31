@@ -19,10 +19,10 @@ public class AuthenticationController(IAuthenticationService authenticationServi
             );
 
         var response = new AuthenticationResponse(
-            result.Id,
-            result.FirstName,
-            result.LastName,
-            result.Email,
+            result.User.Id,
+            result.User.FirstName,
+            result.User.LastName,
+            result.User.Email,
             result.Token
             );
         
@@ -38,10 +38,10 @@ public class AuthenticationController(IAuthenticationService authenticationServi
         );
         
         var response = new AuthenticationResponse(
-            result.Id,
-            result.FirstName,
-            result.LastName,
-            result.Email,
+            result.User.Id,
+            result.User.FirstName,
+            result.User.LastName,
+            result.User.Email,
             result.Token
         );
 
