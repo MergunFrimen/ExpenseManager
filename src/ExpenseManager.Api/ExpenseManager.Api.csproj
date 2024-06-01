@@ -1,22 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>8eca9b12-12db-4d2d-bd76-0e3124b4cd32</UserSecretsId>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UserSecretsId>8eca9b12-12db-4d2d-bd76-0e3124b4cd32</UserSecretsId>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.5" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.5"/>
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\ExpenseManager.Contracts\ExpenseManager.Contracts.csproj" />
-    <ProjectReference Include="..\ExpenseManager.Application\ExpenseManager.Application.csproj" />
-  <!--  Ideally this wouldn't require a reference  -->
-    <ProjectReference Include="..\ExpenseManager.Infrastructure\ExpenseManager.Infrastructure.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\ExpenseManager.Contracts\ExpenseManager.Contracts.csproj"/>
+        <ProjectReference Include="..\ExpenseManager.Application\ExpenseManager.Application.csproj"/>
+        <!--  Ideally this wouldn't require a reference  -->
+        <ProjectReference Include="..\ExpenseManager.Infrastructure\ExpenseManager.Infrastructure.csproj"/>
+    </ItemGroup>
 
 </Project>

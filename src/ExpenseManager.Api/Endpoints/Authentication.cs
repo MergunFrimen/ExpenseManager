@@ -12,7 +12,7 @@ public class Authentication(IAuthenticationService authenticationService) : Endp
             .MapPost(Register)
             .MapPost(Login);
     }
-    
+
     public void Register(RegisterRequest request)
     {
         var result = authenticationService.Register(
@@ -29,17 +29,15 @@ public class Authentication(IAuthenticationService authenticationService) : Endp
             result.User.Email,
             result.Token
         );
-
-        return;
     }
-    
+
     public void Login(LoginRequest request)
     {
         var result = authenticationService.Login(
             request.Email,
             request.Password
         );
-        
+
         var response = new AuthenticationResponse(
             result.User.Id,
             result.User.FirstName,
@@ -47,8 +45,5 @@ public class Authentication(IAuthenticationService authenticationService) : Endp
             result.User.Email,
             result.Token
         );
-
-        return;
     }
-
 }

@@ -17,11 +17,11 @@ var app = builder.Build();
         // app.UseSwagger();
         // app.UseSwaggerUI();
     }
-    
+
     app.UseExceptionHandler("/error");
     app.UseHttpsRedirection();
     app.MapControllers();
     // app.UseMiddleware<ErrorHandlingMiddleware>();
-    
+
     app.Run();
 }

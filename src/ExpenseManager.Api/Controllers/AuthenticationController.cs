@@ -16,7 +16,7 @@ public class AuthenticationController(IAuthenticationService authenticationServi
             request.LastName,
             request.Email,
             request.Password
-            );
+        );
 
         var response = new AuthenticationResponse(
             result.User.Id,
@@ -24,11 +24,11 @@ public class AuthenticationController(IAuthenticationService authenticationServi
             result.User.LastName,
             result.User.Email,
             result.Token
-            );
-        
+        );
+
         return Ok(response);
     }
-    
+
     [HttpPost("login")]
     public IActionResult Login(LoginRequest request)
     {
@@ -36,7 +36,7 @@ public class AuthenticationController(IAuthenticationService authenticationServi
             request.Email,
             request.Password
         );
-        
+
         var response = new AuthenticationResponse(
             result.User.Id,
             result.User.FirstName,

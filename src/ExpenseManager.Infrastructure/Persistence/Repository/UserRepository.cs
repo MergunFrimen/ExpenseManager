@@ -3,9 +3,10 @@ using ExpenseManager.Domain.Entities;
 
 namespace ExpenseManager.Infrastructure.Persistence.Repository;
 
-public class UserRepository: IUserRepository
+public class UserRepository : IUserRepository
 {
     private static readonly List<User> Users = [];
+
     public User? GetUserByEmail(string email)
     {
         var user = Users.SingleOrDefault(user => user.Email == email);

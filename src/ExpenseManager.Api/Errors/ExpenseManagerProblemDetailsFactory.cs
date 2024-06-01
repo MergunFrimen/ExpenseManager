@@ -8,11 +8,11 @@ namespace ExpenseManager.Api.Errors;
 
 public class ExpenseManagerProblemDetailsFactory : ProblemDetailsFactory
 {
-    private readonly ApiBehaviorOptions _options;
     private readonly Action<ProblemDetailsContext>? _configure;
+    private readonly ApiBehaviorOptions _options;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ExpenseManagerProblemDetailsFactory"/> class.
+    ///     Initializes a new instance of the <see cref="ExpenseManagerProblemDetailsFactory" /> class.
     /// </summary>
     /// <param name="options">The options for API behavior.</param>
     /// <param name="problemDetailsOptions">The options for customizing problem details.</param>
@@ -24,7 +24,7 @@ public class ExpenseManagerProblemDetailsFactory : ProblemDetailsFactory
         _configure = problemDetailsOptions?.Value?.CustomizeProblemDetails;
     }
 
-    
+
     /// <inheritdoc />
     public override ProblemDetails CreateProblemDetails(
         HttpContext httpContext,
@@ -42,7 +42,7 @@ public class ExpenseManagerProblemDetailsFactory : ProblemDetailsFactory
             Title = title,
             Type = type,
             Detail = detail,
-            Instance = instance,
+            Instance = instance
         };
 
         ApplyProblemDetailsDefaults(httpContext, problemDetails, statusCode.Value);
@@ -69,14 +69,12 @@ public class ExpenseManagerProblemDetailsFactory : ProblemDetailsFactory
             Status = statusCode,
             Type = type,
             Detail = detail,
-            Instance = instance,
+            Instance = instance
         };
 
         if (title != null)
-        {
             // For validation problem details, don't overwrite the default title with null.
             problemDetails.Title = title;
-        }
 
         ApplyProblemDetailsDefaults(httpContext, problemDetails, statusCode.Value);
 
@@ -94,13 +92,10 @@ public class ExpenseManagerProblemDetailsFactory : ProblemDetailsFactory
         }
 
         var traceId = Activity.Current?.Id ?? httpContext?.TraceIdentifier;
-        if (traceId != null)
-        {
-            problemDetails.Extensions["traceId"] = traceId;
-        }
+        if (traceId != null) problemDetails.Extensions["traceId"] = traceId;
 
-        _configure?.Invoke(new() { HttpContext = httpContext!, ProblemDetails = problemDetails });
-        
+        _configure?.Invoke(new ProblemDetailsContext { HttpContext = httpContext!, ProblemDetails = problemDetails });
+
         // add custom properties to the problem details response
         // problemDetails.Extensions.Add("someProperty", "someValue");
     }

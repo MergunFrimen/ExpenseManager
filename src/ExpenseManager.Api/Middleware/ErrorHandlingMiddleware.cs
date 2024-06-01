@@ -24,7 +24,7 @@ public class ErrorHandlingMiddleware(RequestDelegate next)
 
         context.Response.ContentType = "application/json";
         context.Response.StatusCode = (int)code;
-        
+
         return context.Response.WriteAsync(result);
     }
 }

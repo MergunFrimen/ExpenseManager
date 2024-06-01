@@ -1,7 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using System.Text.Unicode;
 using ExpenseManager.Application.Common.Interfaces.Authentication;
 using ExpenseManager.Application.Common.Interfaces.Services;
 using ExpenseManager.Domain.Entities;
@@ -32,7 +31,7 @@ public class JwtTokenGenerator(IDateTimeProvider dateTimeProvider, IOptions<JwtS
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
 
             new Claim(JwtRegisteredClaimNames.Iss, _jwtSettingsOptions.Issuer),
-            new Claim(JwtRegisteredClaimNames.Aud, _jwtSettingsOptions.Audience),
+            new Claim(JwtRegisteredClaimNames.Aud, _jwtSettingsOptions.Audience)
         };
 
         var jwtSecurityToken = new JwtSecurityToken(
