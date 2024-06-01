@@ -1,16 +1,13 @@
+using ExpenseManager.Api;
+using ExpenseManager.Api.Middleware;
 using ExpenseManager.Application;
 using ExpenseManager.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 {
-    // swagger
-    // builder.Services.AddEndpointsApiExplorer();
-    // builder.Services.AddSwaggerGen();
-    
     builder.Services.AddApplication();
     builder.Services.AddInfrastructure(builder.Configuration);
-    
-    builder.Services.AddControllers();
+    builder.Services.AddApi();
 }
 
 var app = builder.Build();
@@ -24,6 +21,7 @@ var app = builder.Build();
     
     app.UseHttpsRedirection();
     app.MapControllers();
+    // app.UseMiddleware<ErrorHandlingMiddleware>();
     
     app.Run();
 }

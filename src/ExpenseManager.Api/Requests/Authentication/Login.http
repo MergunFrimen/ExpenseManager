@@ -1,5 +1,7 @@
 @ExpenseManager.Api_HostAddress = http://localhost:5222
 
+###
+
 POST {{ExpenseManager.Api_HostAddress}}/auth/login
 Content-Type: application/json
 
@@ -8,4 +10,12 @@ Content-Type: application/json
   "password": "password"
 }
 
-###
+### Empty password
+
+POST {{ExpenseManager.Api_HostAddress}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "dominik@tichy.cz",
+  "password": ""
+}
