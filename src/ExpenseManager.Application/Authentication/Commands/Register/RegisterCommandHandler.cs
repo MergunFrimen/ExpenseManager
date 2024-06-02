@@ -1,7 +1,7 @@
 using ErrorOr;
+using ExpenseManager.Application.Authentication.Common;
 using ExpenseManager.Application.Common.Interfaces.Authentication;
 using ExpenseManager.Application.Common.Interfaces.Persistence;
-using ExpenseManager.Application.Services.Authentication;
 using ExpenseManager.Domain.Common.Errors;
 using ExpenseManager.Domain.Entities;
 using MediatR;

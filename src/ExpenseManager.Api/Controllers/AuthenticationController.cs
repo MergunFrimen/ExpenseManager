@@ -1,30 +1,27 @@
 using ExpenseManager.Application.Authentication.Commands.Register;
+using ExpenseManager.Application.Authentication.Common;
 using ExpenseManager.Application.Authentication.Queries.Login;
-using ExpenseManager.Application.Services.Authentication;
 using ExpenseManager.Contracts.Authentication;
 using ExpenseManager.Domain.Common.Errors;
+using Mapster;
+using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ExpenseManager.Api.Controllers;
 
 [Route("auth")]
-public class AuthenticationController(ISender mediatr) : ApiController
+public class AuthenticationController(ISender mediatr, IMapper mapper) : ApiController
 {
     [HttpPost("register")]
     public async Task<IActionResult> Register(RegisterRequest request)
     {
-        var command = new RegisterCommand(
-            request.FirstName,
-            request.LastName,
-            request.Email,
-            request.Password
-        );
+        var command = mapper.Map<RegisterCommand>(request);
         var authenticationResult = await mediatr.Send(command);
 
         return authenticationResult.Match(
             value =>
-                Ok(MapAuthenticationResponse(value)),
+                Ok(mapper.Map<AuthenticationResponse>(authenticationResult.Value)),
             Problem
         );
     }
@@ -32,10 +29,7 @@ public class AuthenticationController(ISender mediatr) : ApiController
     [HttpPost("login")]
     public async Task<IActionResult> Login(LoginRequest request)
     {
-        var query = new LoginQuery(
-            request.Email,
-            request.Password
-        );
+        var query = mapper.Map<LoginQuery>(request);
         var authenticationResult = await mediatr.Send(query);
 
         if (authenticationResult.IsError && authenticationResult.FirstError == Errors.Authentication.InvalidCredentials)
@@ -44,19 +38,8 @@ public class AuthenticationController(ISender mediatr) : ApiController
 
         return authenticationResult.Match(
             value =>
-                Ok(MapAuthenticationResponse(value)),
+                Ok(mapper.Map<AuthenticationResponse>(authenticationResult.Value)),
             Problem
-        );
-    }
-
-    private static AuthenticationResponse MapAuthenticationResponse(AuthenticationResult authenticationResult)
-    {
-        return new AuthenticationResponse(
-            authenticationResult.User.Id,
-            authenticationResult.User.FirstName,
-            authenticationResult.User.LastName,
-            authenticationResult.User.Email,
-            authenticationResult.Token
         );
     }
 }

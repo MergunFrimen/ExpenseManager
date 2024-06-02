@@ -1,4 +1,4 @@
-namespace ExpenseManager.Api.Http;
+namespace ExpenseManager.Api.Common.Http;
 
 public static class HttpContextItemKeys
 {

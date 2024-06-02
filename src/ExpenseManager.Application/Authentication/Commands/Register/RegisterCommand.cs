@@ -1,5 +1,5 @@
 using ErrorOr;
-using ExpenseManager.Application.Services.Authentication;
+using ExpenseManager.Application.Authentication.Common;
 using MediatR;
 
 namespace ExpenseManager.Application.Authentication.Commands.Register;

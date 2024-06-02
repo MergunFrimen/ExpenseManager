@@ -107,15 +107,15 @@
             },
             "Microsoft.Extensions.Configuration": {
               "target": "Package",
-              "version": "[9.0.0-preview.4.24266.19, )"
+              "version": "[8.0.0, )"
             },
             "Microsoft.Extensions.DependencyInjection.Abstractions": {
               "target": "Package",
-              "version": "[9.0.0-preview.4.24266.19, )"
+              "version": "[8.0.1, )"
             },
             "Microsoft.Extensions.Options.ConfigurationExtensions": {
               "target": "Package",
-              "version": "[9.0.0-preview.4.24266.19, )"
+              "version": "[8.0.0, )"
             }
           },
           "imports": [

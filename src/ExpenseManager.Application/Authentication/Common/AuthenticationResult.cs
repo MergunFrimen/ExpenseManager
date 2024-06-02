@@ -1,6 +1,6 @@
 using ExpenseManager.Domain.Entities;
 
-namespace ExpenseManager.Application.Services.Authentication;
+namespace ExpenseManager.Application.Authentication.Common;
 
 public record AuthenticationResult(
     User User,

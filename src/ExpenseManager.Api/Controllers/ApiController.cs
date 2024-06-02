@@ -1,5 +1,5 @@
 using ErrorOr;
-using ExpenseManager.Api.Http;
+using ExpenseManager.Api.Common.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ExpenseManager.Api.Controllers;
