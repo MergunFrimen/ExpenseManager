@@ -1,50 +1,57 @@
 using ExpenseManager.Application.Services.Authentication;
 using ExpenseManager.Contracts.Authentication;
+using ExpenseManager.Domain.Common.Errors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ExpenseManager.Api.Controllers;
 
-[ApiController]
 [Route("auth")]
-public class AuthenticationController(IAuthenticationService authenticationService) : ControllerBase
+public class AuthenticationController(IAuthenticationService authenticationService) : ApiController
 {
     [HttpPost("register")]
     public IActionResult Register(RegisterRequest request)
     {
-        var result = authenticationService.Register(
+        var authenticationResult = authenticationService.Register(
             request.FirstName,
             request.LastName,
             request.Email,
             request.Password
         );
 
-        var response = new AuthenticationResponse(
-            result.User.Id,
-            result.User.FirstName,
-            result.User.LastName,
-            result.User.Email,
-            result.Token
+        return authenticationResult.Match(
+            value =>
+                Ok(MapAuthenticationResponse(value)),
+            Problem
         );
-
-        return Ok(response);
     }
 
     [HttpPost("login")]
     public IActionResult Login(LoginRequest request)
     {
-        var result = authenticationService.Login(
+        var authenticationResult = authenticationService.Login(
             request.Email,
             request.Password
         );
 
-        var response = new AuthenticationResponse(
-            result.User.Id,
-            result.User.FirstName,
-            result.User.LastName,
-            result.User.Email,
-            result.Token
-        );
+        if (authenticationResult.IsError && authenticationResult.FirstError == Errors.Authentication.InvalidCredentials)
+            return Problem(statusCode: StatusCodes.Status401Unauthorized,
+                title: authenticationResult.FirstError.Description);
 
-        return Ok(response);
+        return authenticationResult.Match(
+            value =>
+                Ok(MapAuthenticationResponse(value)),
+            Problem
+        );
+    }
+
+    private static AuthenticationResponse MapAuthenticationResponse(AuthenticationResult authenticationResult)
+    {
+        return new AuthenticationResponse(
+            authenticationResult.User.Id,
+            authenticationResult.User.FirstName,
+            authenticationResult.User.LastName,
+            authenticationResult.User.Email,
+            authenticationResult.Token
+        );
     }
 }

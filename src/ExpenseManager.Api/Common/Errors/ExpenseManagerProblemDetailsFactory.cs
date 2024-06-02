@@ -1,10 +1,12 @@
 using System.Diagnostics;
+using ErrorOr;
+using ExpenseManager.Api.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Options;
 
-namespace ExpenseManager.Api.Errors;
+namespace ExpenseManager.Api.Common.Errors;
 
 public class ExpenseManagerProblemDetailsFactory : ProblemDetailsFactory
 {
@@ -96,7 +98,7 @@ public class ExpenseManagerProblemDetailsFactory : ProblemDetailsFactory
 
         _configure?.Invoke(new ProblemDetailsContext { HttpContext = httpContext!, ProblemDetails = problemDetails });
 
-        // add custom properties to the problem details response
-        // problemDetails.Extensions.Add("someProperty", "someValue");
+        if (httpContext?.Items[HttpContextItemKeys.Errors] is List<Error> errors)
+            problemDetails.Extensions.Add("errorCodes", errors.Select(error => error.Code));
     }
 }

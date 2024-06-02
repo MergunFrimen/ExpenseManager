@@ -1,5 +1,7 @@
+using ErrorOr;
 using ExpenseManager.Application.Common.Interfaces.Authentication;
 using ExpenseManager.Application.Common.Interfaces.Persistence;
+using ExpenseManager.Domain.Common.Errors;
 using ExpenseManager.Domain.Entities;
 
 namespace ExpenseManager.Application.Services.Authentication;
@@ -7,12 +9,10 @@ namespace ExpenseManager.Application.Services.Authentication;
 public class AuthenticationService(IJwtTokenGenerator tokenGenerator, IUserRepository userRepository)
     : IAuthenticationService
 {
-    public AuthenticationResult Register(string firstName, string lastName, string email, string password)
+    public ErrorOr<AuthenticationResult> Register(string firstName, string lastName, string email, string password)
     {
-        // Check if user already exists with arguments
-        if (userRepository.GetUserByEmail(email) is not null) throw new Exception("User with email exists");
+        if (userRepository.GetUserByEmail(email) is not null) return Errors.User.DuplicateEmail;
 
-        // Generate user (gets the user's ID)
         var user = new User
         {
             FirstName = firstName,
@@ -23,17 +23,16 @@ public class AuthenticationService(IJwtTokenGenerator tokenGenerator, IUserRepos
 
         var userId = userRepository.Add(user);
 
-        // Create JWT token
         var token = tokenGenerator.GenerateToken(user);
 
         return new AuthenticationResult(user, token);
     }
 
-    public AuthenticationResult Login(string email, string password)
+    public ErrorOr<AuthenticationResult> Login(string email, string password)
     {
-        if (userRepository.GetUserByEmail(email) is not { } user) throw new Exception("User doesn't exist");
+        if (userRepository.GetUserByEmail(email) is not { } user) return Errors.Authentication.InvalidCredentials;
 
-        if (user.Password != password) throw new Exception("Password incorrect");
+        if (user.Password != password) return Errors.Authentication.InvalidCredentials;
 
         var token = tokenGenerator.GenerateToken(user);
 
