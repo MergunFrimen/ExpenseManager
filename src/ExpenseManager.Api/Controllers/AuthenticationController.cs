@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ExpenseManager.Api.Controllers;
 
 [Route("auth")]
-public class AuthenticationController(IMediator mediator) : ApiController
+public class AuthenticationController(ISender mediatr) : ApiController
 {
     [HttpPost("register")]
     public async Task<IActionResult> Register(RegisterRequest request)
@@ -20,7 +20,7 @@ public class AuthenticationController(IMediator mediator) : ApiController
             request.Email,
             request.Password
         );
-        var authenticationResult = await mediator.Send(command);
+        var authenticationResult = await mediatr.Send(command);
 
         return authenticationResult.Match(
             value =>
@@ -36,7 +36,7 @@ public class AuthenticationController(IMediator mediator) : ApiController
             request.Email,
             request.Password
         );
-        var authenticationResult = await mediator.Send(query);
+        var authenticationResult = await mediatr.Send(query);
 
         if (authenticationResult.IsError && authenticationResult.FirstError == Errors.Authentication.InvalidCredentials)
             return Problem(statusCode: StatusCodes.Status401Unauthorized,
