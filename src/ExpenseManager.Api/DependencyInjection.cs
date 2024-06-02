@@ -1,4 +1,4 @@
-using ExpenseManager.Api.Errors;
+using ExpenseManager.Api.Common.Errors;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace ExpenseManager.Api;
@@ -9,7 +9,6 @@ public static class DependencyInjection
     {
         // swagger
         services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen();
 
         services.AddControllers();
 
