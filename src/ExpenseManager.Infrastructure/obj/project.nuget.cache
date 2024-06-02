@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "8oWftDnGee/CebmMB3O42+tptEaIg362B3pQXVwu7wWQiMgbX4PJLM1q13foYLr3tkuMSetBnNVYTm+QiXloaw==",
+  "dgSpecHash": "dIh0+xuWEq5dQNt0FsFOvb9G0GWjgWLNNm03LTDVFFSq8TBZ318cVVPEj1zgcie9eN0iUa6srve44WvTpcEIxw==",
   "success": true,
   "projectFilePath": "/home/mergun/ExpenseManager/src/ExpenseManager.Infrastructure/ExpenseManager.Infrastructure.csproj",
   "expectedPackageFiles": [
+    "/home/mergun/.nuget/packages/erroror/2.0.1/erroror.2.0.1.nupkg.sha512",
     "/home/mergun/.nuget/packages/microsoft.extensions.configuration/9.0.0-preview.4.24266.19/microsoft.extensions.configuration.9.0.0-preview.4.24266.19.nupkg.sha512",
     "/home/mergun/.nuget/packages/microsoft.extensions.configuration.abstractions/9.0.0-preview.4.24266.19/microsoft.extensions.configuration.abstractions.9.0.0-preview.4.24266.19.nupkg.sha512",
     "/home/mergun/.nuget/packages/microsoft.extensions.configuration.binder/9.0.0-preview.4.24266.19/microsoft.extensions.configuration.binder.9.0.0-preview.4.24266.19.nupkg.sha512",
