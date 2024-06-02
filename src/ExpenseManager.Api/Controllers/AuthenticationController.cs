@@ -1,9 +1,7 @@
 using ExpenseManager.Application.Authentication.Commands.Register;
-using ExpenseManager.Application.Authentication.Common;
 using ExpenseManager.Application.Authentication.Queries.Login;
 using ExpenseManager.Contracts.Authentication;
 using ExpenseManager.Domain.Common.Errors;
-using Mapster;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

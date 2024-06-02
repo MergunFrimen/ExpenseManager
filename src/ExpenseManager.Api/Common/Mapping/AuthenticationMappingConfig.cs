@@ -4,7 +4,7 @@ using Mapster;
 
 namespace ExpenseManager.Api.Common.Mapping;
 
-public class AuthenticationMappingConfig: IRegister
+public class AuthenticationMappingConfig : IRegister
 {
     public void Register(TypeAdapterConfig config)
     {
@@ -12,4 +12,4 @@ public class AuthenticationMappingConfig: IRegister
             .Map(dest => dest.Token, src => src.Token)
             .Map(dest => dest, src => src.User);
     }
-}   
+}
