@@ -1,6 +1,6 @@
 @ExpenseManager.Api_HostAddress = http://localhost:5222
 
-###
+### Correct credentials
 
 POST {{ExpenseManager.Api_HostAddress}}/auth/login
 Content-Type: application/json
@@ -10,7 +10,7 @@ Content-Type: application/json
   "password": "password"
 }
 
-### Empty password
+### Ivalid credentials
 
 POST {{ExpenseManager.Api_HostAddress}}/auth/login
 Content-Type: application/json
@@ -19,3 +19,14 @@ Content-Type: application/json
   "email": "dominik@tichy.cz",
   "password": ""
 }
+
+### Non existant email
+
+POST {{ExpenseManager.Api_HostAddress}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "something@not.exists",
+  "password": ""
+}
+
