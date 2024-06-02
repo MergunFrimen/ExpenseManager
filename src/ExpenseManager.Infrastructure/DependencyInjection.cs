@@ -1,7 +1,6 @@
 using ExpenseManager.Application.Common.Interfaces.Authentication;
 using ExpenseManager.Application.Common.Interfaces.Persistence;
 using ExpenseManager.Application.Common.Interfaces.Services;
-using ExpenseManager.Application.Services.Authentication;
 using ExpenseManager.Infrastructure.Authentication;
 using ExpenseManager.Infrastructure.Persistence.Repository;
 using ExpenseManager.Infrastructure.Services;
@@ -17,7 +16,6 @@ public static class DependencyInjection
     {
         services.Configure<JwtSettings>(configurationManager.GetSection(JwtSettings.SectionName));
 
-        services.AddScoped<IAuthenticationService, AuthenticationService>();
         services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 

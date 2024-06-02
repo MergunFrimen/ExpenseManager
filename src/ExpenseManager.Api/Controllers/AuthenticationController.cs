@@ -1,22 +1,26 @@
+using ExpenseManager.Application.Authentication.Commands.Register;
+using ExpenseManager.Application.Authentication.Queries.Login;
 using ExpenseManager.Application.Services.Authentication;
 using ExpenseManager.Contracts.Authentication;
 using ExpenseManager.Domain.Common.Errors;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ExpenseManager.Api.Controllers;
 
 [Route("auth")]
-public class AuthenticationController(IAuthenticationService authenticationService) : ApiController
+public class AuthenticationController(IMediator mediator) : ApiController
 {
     [HttpPost("register")]
-    public IActionResult Register(RegisterRequest request)
+    public async Task<IActionResult> Register(RegisterRequest request)
     {
-        var authenticationResult = authenticationService.Register(
+        var command = new RegisterCommand(
             request.FirstName,
             request.LastName,
             request.Email,
             request.Password
         );
+        var authenticationResult = await mediator.Send(command);
 
         return authenticationResult.Match(
             value =>
@@ -26,12 +30,13 @@ public class AuthenticationController(IAuthenticationService authenticationServi
     }
 
     [HttpPost("login")]
-    public IActionResult Login(LoginRequest request)
+    public async Task<IActionResult> Login(LoginRequest request)
     {
-        var authenticationResult = authenticationService.Login(
+        var query = new LoginQuery(
             request.Email,
             request.Password
         );
+        var authenticationResult = await mediator.Send(query);
 
         if (authenticationResult.IsError && authenticationResult.FirstError == Errors.Authentication.InvalidCredentials)
             return Problem(statusCode: StatusCodes.Status401Unauthorized,
