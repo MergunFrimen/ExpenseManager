@@ -8,11 +8,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.5"/>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
-    </ItemGroup>
-
-    <ItemGroup>
         <ProjectReference Include="..\ExpenseManager.Contracts\ExpenseManager.Contracts.csproj"/>
         <ProjectReference Include="..\ExpenseManager.Application\ExpenseManager.Application.csproj"/>
         <!--  Ideally this wouldn't require a reference  -->
