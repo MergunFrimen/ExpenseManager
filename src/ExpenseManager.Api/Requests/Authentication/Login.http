@@ -10,17 +10,17 @@ Content-Type: application/json
   "password": "password"
 }
 
-### Ivalid credentials
+### Ivalid email address
 
 POST {{ExpenseManager.Api_HostAddress}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "dominik@tichy.cz",
+  "email": "dominik@",
   "password": ""
 }
 
-### Non existant email
+### Invalid password
 
 POST {{ExpenseManager.Api_HostAddress}}/auth/login
 Content-Type: application/json

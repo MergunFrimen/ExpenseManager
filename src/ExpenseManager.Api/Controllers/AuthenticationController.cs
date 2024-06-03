@@ -18,8 +18,7 @@ public class AuthenticationController(ISender mediatr, IMapper mapper) : ApiCont
         var authenticationResult = await mediatr.Send(command);
 
         return authenticationResult.Match(
-            value =>
-                Ok(mapper.Map<AuthenticationResponse>(authenticationResult.Value)),
+            value => Ok(mapper.Map<AuthenticationResponse>(value)),
             Problem
         );
     }
@@ -35,8 +34,7 @@ public class AuthenticationController(ISender mediatr, IMapper mapper) : ApiCont
                 title: authenticationResult.FirstError.Description);
 
         return authenticationResult.Match(
-            value =>
-                Ok(mapper.Map<AuthenticationResponse>(authenticationResult.Value)),
+            value => Ok(mapper.Map<AuthenticationResponse>(value)),
             Problem
         );
     }

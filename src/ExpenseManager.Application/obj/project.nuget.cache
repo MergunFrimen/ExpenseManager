@@ -1,10 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "J6ydr1zoqW665hlF7xvm5puCQFZzYgOm+M3PJXwXvxM28CeX210sSlYcin2PNvzqllIFMpSQsD+PQobfsfw17g==",
+  "dgSpecHash": "WuW12vJY2Hbf5koLKKGTFiBjpuKToNBDp36Z51fI0VmdtTi6oTCgbdT6GN0C1qpmqOXh/kOAUIBJuVEBk+uG2A==",
   "success": true,
   "projectFilePath": "/home/mergun/ExpenseManager/src/ExpenseManager.Application/ExpenseManager.Application.csproj",
   "expectedPackageFiles": [
     "/home/mergun/.nuget/packages/erroror/2.0.1/erroror.2.0.1.nupkg.sha512",
+    "/home/mergun/.nuget/packages/fluentvalidation/11.9.1/fluentvalidation.11.9.1.nupkg.sha512",
+    "/home/mergun/.nuget/packages/fluentvalidation.aspnetcore/11.3.0/fluentvalidation.aspnetcore.11.3.0.nupkg.sha512",
+    "/home/mergun/.nuget/packages/fluentvalidation.dependencyinjectionextensions/11.5.1/fluentvalidation.dependencyinjectionextensions.11.5.1.nupkg.sha512",
     "/home/mergun/.nuget/packages/mediatr/12.2.0/mediatr.12.2.0.nupkg.sha512",
     "/home/mergun/.nuget/packages/mediatr.contracts/2.0.1/mediatr.contracts.2.0.1.nupkg.sha512",
     "/home/mergun/.nuget/packages/microsoft.extensions.configuration/8.0.0/microsoft.extensions.configuration.8.0.0.nupkg.sha512",
