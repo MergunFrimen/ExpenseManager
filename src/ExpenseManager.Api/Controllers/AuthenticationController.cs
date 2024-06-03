@@ -4,10 +4,12 @@ using ExpenseManager.Contracts.Authentication;
 using ExpenseManager.Domain.Common.Errors;
 using MapsterMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ExpenseManager.Api.Controllers;
 
+[AllowAnonymous]
 [Route("auth")]
 public class AuthenticationController(ISender mediatr, IMapper mapper) : ApiController
 {

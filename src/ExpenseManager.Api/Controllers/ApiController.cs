@@ -1,10 +1,12 @@
 using ErrorOr;
 using ExpenseManager.Api.Common.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace ExpenseManager.Api.Controllers;
 
+[Authorize]
 [ApiController]
 public class ApiController : ControllerBase
 {
