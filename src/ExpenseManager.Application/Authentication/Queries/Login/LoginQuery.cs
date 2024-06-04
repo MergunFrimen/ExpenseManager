@@ -1,6 +1,5 @@
 using ErrorOr;
 using ExpenseManager.Application.Authentication.Common;
-using ExpenseManager.Application.Common.Interfaces.Cqrs;
 using MediatR;
 
 namespace ExpenseManager.Application.Authentication.Queries.Login;

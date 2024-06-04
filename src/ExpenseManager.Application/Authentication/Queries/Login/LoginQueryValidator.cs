@@ -1,4 +1,3 @@
-using ExpenseManager.Application.Authentication.Commands.Register;
 using FluentValidation;
 
 namespace ExpenseManager.Application.Authentication.Queries.Login;

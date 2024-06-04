@@ -3,7 +3,7 @@ using ExpenseManager.Application.Authentication.Common;
 using ExpenseManager.Application.Common.Interfaces.Authentication;
 using ExpenseManager.Application.Common.Interfaces.Persistence;
 using ExpenseManager.Domain.Common.Errors;
-using ExpenseManager.Domain.Entities;
+using ExpenseManager.Domain.UserAggregate;
 using MediatR;
 
 namespace ExpenseManager.Application.Authentication.Commands.Register;
@@ -16,13 +16,11 @@ public class RegisterCommandHandler(IJwtTokenGenerator tokenGenerator, IUserRepo
         if (userRepository.GetUserByEmail(command.Email) is not null)
             return Task.FromResult<ErrorOr<AuthenticationResult>>(Errors.User.DuplicateEmail);
 
-        var user = new User
-        {
-            FirstName = command.FirstName,
-            LastName = command.LastName,
-            Email = command.Email,
-            Password = command.Password
-        };
+        var user = User.Create(
+            command.FirstName,
+            command.LastName,
+            command.Email,
+            command.Password);
 
         var userId = userRepository.Add(user);
 
