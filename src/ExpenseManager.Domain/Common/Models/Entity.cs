@@ -9,7 +9,7 @@ public abstract class Entity<TId>(TId id) : IEquatable<Entity<TId>>
     {
         return Equals((object?)other);
     }
-    
+
     public override bool Equals(object? obj)
     {
         return obj is Entity<TId> entity && Id.Equals(entity.Id);

@@ -21,7 +21,7 @@ public static class DependencyInjection
         services
             .AddAuth(configurationManager)
             .AddPersistence(configurationManager);
-        
+
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 
         return services;

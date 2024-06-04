@@ -4,12 +4,12 @@ namespace ExpenseManager.Domain.TransactionAggregate.ValueObjects;
 
 public sealed class Category : ValueObject
 {
-    public string Name { get; private set; }
-    
     public Category(string name)
     {
         Name = name;
     }
+
+    public string Name { get; }
 
     protected override IEnumerable<object> GetEqualityComponents()
     {
