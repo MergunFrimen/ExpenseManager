@@ -13,16 +13,10 @@ public class ApiController : ControllerBase
 {
     protected IActionResult Problem(List<Error> errors)
     {
-        if (errors.Count == 0)
-        {
-            return Problem();
-        }
-        
-        if (errors.All(error => error.Type == ErrorType.Validation))
-        {
-            return ValidationProblem(errors);
-        }
-        
+        if (errors.Count == 0) return Problem();
+
+        if (errors.All(error => error.Type == ErrorType.Validation)) return ValidationProblem(errors);
+
         HttpContext.Items[HttpContextItemKeys.Errors] = errors;
 
         var firstError = errors.First();
@@ -45,11 +39,8 @@ public class ApiController : ControllerBase
     {
         var modelState = new ModelStateDictionary();
 
-        foreach (var error in errors)
-        {   
-            modelState.AddModelError(error.Code, error.Description);
-        }
-            
+        foreach (var error in errors) modelState.AddModelError(error.Code, error.Description);
+
         return ValidationProblem(modelState);
     }
 }

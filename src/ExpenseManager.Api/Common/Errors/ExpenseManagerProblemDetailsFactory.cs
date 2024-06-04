@@ -68,10 +68,7 @@ public class ExpenseManagerProblemDetailsFactory : ProblemDetailsFactory
 
         var problemDetails = new ValidationProblemDetails(modelStateDictionary)
         {
-            Status = statusCode,
-            Type = type,
-            Detail = detail,
-            Instance = instance
+            Status = statusCode, Type = type, Detail = detail, Instance = instance
         };
 
         if (title != null)
