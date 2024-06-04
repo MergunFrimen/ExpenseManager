@@ -8,6 +8,7 @@ namespace ExpenseManager.Api.Controllers;
 
 [Authorize]
 [ApiController]
+[Route("[controller]")]
 public class ApiController : ControllerBase
 {
     protected IActionResult Problem(List<Error> errors)

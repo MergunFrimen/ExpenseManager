@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ExpenseManager.Api.Controllers;
 
-[Route("[controller]")]
 public class DinnersController : ApiController
 {
     [HttpGet]
