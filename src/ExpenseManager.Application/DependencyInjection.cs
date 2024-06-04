@@ -1,7 +1,4 @@
 using System.Reflection;
-using ErrorOr;
-using ExpenseManager.Application.Authentication.Commands.Register;
-using ExpenseManager.Application.Authentication.Common;
 using ExpenseManager.Application.Common.Behaviors;
 using FluentValidation;
 using MediatR;
