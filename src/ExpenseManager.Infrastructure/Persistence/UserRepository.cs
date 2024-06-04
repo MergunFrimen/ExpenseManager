@@ -1,7 +1,7 @@
 using ExpenseManager.Application.Common.Interfaces.Persistence;
-using ExpenseManager.Domain.Entities;
+using ExpenseManager.Domain.UserAggregate;
 
-namespace ExpenseManager.Infrastructure.Persistence.Repository;
+namespace ExpenseManager.Infrastructure.Persistence;
 
 public class UserRepository : IUserRepository
 {

@@ -3,7 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using ExpenseManager.Application.Common.Interfaces.Authentication;
 using ExpenseManager.Application.Common.Interfaces.Services;
-using ExpenseManager.Domain.Entities;
+using ExpenseManager.Domain.UserAggregate;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
@@ -23,15 +23,14 @@ public class JwtTokenGenerator(IDateTimeProvider dateTimeProvider, IOptions<JwtS
             SecurityAlgorithms.HmacSha256
         );
 
-        var claims = new[]
+        Claim[] claims =
         {
-            new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-            new Claim(JwtRegisteredClaimNames.GivenName, user.FirstName),
-            new Claim(JwtRegisteredClaimNames.FamilyName, user.LastName),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-
-            new Claim(JwtRegisteredClaimNames.Iss, _jwtSettingsOptions.Issuer),
-            new Claim(JwtRegisteredClaimNames.Aud, _jwtSettingsOptions.Audience)
+            new(JwtRegisteredClaimNames.Sub, user.Id.ToString() ?? string.Empty),
+            new(JwtRegisteredClaimNames.GivenName, user.FirstName),
+            new(JwtRegisteredClaimNames.FamilyName, user.LastName),
+            new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new(JwtRegisteredClaimNames.Iss, _jwtSettingsOptions.Issuer),
+            new(JwtRegisteredClaimNames.Aud, _jwtSettingsOptions.Audience)
         };
 
         var jwtSecurityToken = new JwtSecurityToken(
