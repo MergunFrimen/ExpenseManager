@@ -1,8 +1,8 @@
 using ErrorOr;
 using ExpenseManager.Application.Authentication.Common;
 using ExpenseManager.Application.Common.Interfaces.Authentication;
-using ExpenseManager.Application.Common.Interfaces.Persistence;
 using ExpenseManager.Application.Common.Interfaces.Cqrs;
+using ExpenseManager.Application.Common.Interfaces.Persistence;
 using ExpenseManager.Domain.Common.Errors;
 
 namespace ExpenseManager.Application.Authentication.Queries.Login;

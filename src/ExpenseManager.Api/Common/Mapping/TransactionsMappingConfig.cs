@@ -9,7 +9,9 @@ public class TransactionsMappingConfig : IRegister
 {
     public void Register(TypeAdapterConfig config)
     {
-        config.NewConfig<CreateTransactionRequest, CreateTransactionCommand>();
+        config.NewConfig<(CreateTransactionRequest Request, string UserId), CreateTransactionCommand>()
+            .Map(dest => dest.UserId, src => src.UserId)
+            .Map(dest => dest, src => src.Request);
 
         config.NewConfig<TransactionResult, TransactionResponse>()
             .Map(dest => dest.Id, src => src.Transaction.Id)

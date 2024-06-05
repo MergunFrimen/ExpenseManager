@@ -8,7 +8,7 @@ public sealed class Transaction : Entity
 {
     private Transaction(
         Guid id,
-        Guid ledgerId,
+        Guid userId,
         TransactionType type,
         Category category,
         string description,
@@ -16,7 +16,7 @@ public sealed class Transaction : Entity
         DateTime date
     ) : base(id)
     {
-        LedgerId = ledgerId;
+        UserId = userId;
         Type = type;
         Category = category;
         Description = description;
@@ -24,7 +24,7 @@ public sealed class Transaction : Entity
         Date = date;
     }
 
-    public Guid LedgerId { get; private set; }
+    public Guid UserId { get; private set; }
     public TransactionType Type { get; private set; }
     public Category Category { get; private set; }
     public string Description { get; private set; }
@@ -32,7 +32,7 @@ public sealed class Transaction : Entity
     public DateTime Date { get; private set; }
 
     public static Transaction Create(
-        Guid ledgerId,
+        Guid userId,
         TransactionType type,
         Category category,
         string description,
@@ -42,7 +42,7 @@ public sealed class Transaction : Entity
     {
         return new Transaction(
             Guid.NewGuid(),
-            ledgerId,
+            userId,
             type,
             category,
             description,

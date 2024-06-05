@@ -5,7 +5,6 @@ using ExpenseManager.Application.Common.Interfaces.Cqrs;
 using ExpenseManager.Application.Common.Interfaces.Persistence;
 using ExpenseManager.Domain.Common.Errors;
 using ExpenseManager.Domain.Users;
-using MediatR;
 
 namespace ExpenseManager.Application.Authentication.Commands.Register;
 

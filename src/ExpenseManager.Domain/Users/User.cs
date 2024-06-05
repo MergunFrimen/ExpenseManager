@@ -21,10 +21,11 @@ public sealed class User : Entity
     }
 
     // TODO: does ledger have to be aggregate root????
-    public Guid LedgerId { get; private set; }
+    public Guid LedgerId { get; }
     public string FirstName { get; private set; }
     public string LastName { get; private set; }
     public string Email { get; private set; }
+
     public string Password { get; private set; }
     // public DateTime CreatedDateTime { get; private set; }
     // public DateTime UpdatedDateTime { get; private set; }

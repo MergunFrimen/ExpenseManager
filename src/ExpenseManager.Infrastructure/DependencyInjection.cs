@@ -26,7 +26,7 @@ public static class DependencyInjection
 
         return services;
     }
-    
+
     public static IServiceCollection AddAuth(this IServiceCollection services,
         ConfigurationManager configurationManager)
     {
@@ -54,7 +54,7 @@ public static class DependencyInjection
 
         return services;
     }
-    
+
     public static IServiceCollection AddPersistence(this IServiceCollection services)
     {
         services.AddScoped<IUserRepository, UserRepository>();

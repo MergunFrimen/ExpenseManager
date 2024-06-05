@@ -16,3 +16,16 @@ Authorization: Bearer {{ExpenseManager.Api_Token}}
   "price": 100.00,
   "date": "2021-01-01T00:00:00Z"
 }
+
+### Missing token
+
+POST {{ExpenseManager.Api_HostAddress}}/users/{{userId}}/transactions
+Content-Type: application/json
+
+{
+  "type": "Expense",
+  "category": "Food",
+  "description": "Today's lunch",
+  "price": 100.00,
+  "date": "2021-01-01T00:00:00Z"
+}

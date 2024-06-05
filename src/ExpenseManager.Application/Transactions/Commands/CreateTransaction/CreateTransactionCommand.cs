@@ -4,6 +4,7 @@ using ExpenseManager.Application.Transactions.Common;
 namespace ExpenseManager.Application.Transactions.Commands.CreateTransaction;
 
 public sealed record CreateTransactionCommand(
+    string UserId,
     string Type,
     string Category,
     string Description,

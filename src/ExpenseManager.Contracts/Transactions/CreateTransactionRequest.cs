@@ -5,5 +5,5 @@ public record CreateTransactionRequest(
     string Category,
     string Description,
     decimal Price,
-    DateTime TransactionDate
+    string Date
 );
