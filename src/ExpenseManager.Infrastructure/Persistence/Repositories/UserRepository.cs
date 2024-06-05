@@ -3,7 +3,7 @@ using ExpenseManager.Domain.Users;
 
 namespace ExpenseManager.Infrastructure.Persistence.Repositories;
 
-public class UserRepository(ExpenseManagerDbContext dbContext) : IUserRepository
+public class UserRepository() : IUserRepository
 {
     private static readonly List<User> Users = [];
 

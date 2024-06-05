@@ -6,7 +6,7 @@ public class CreateTransactionCommandValidator : AbstractValidator<CreateTransac
 {
     public CreateTransactionCommandValidator()
     {
-        RuleFor(x => x.UserId).NotEmpty();
+        RuleFor(x => x.LedgerId).NotEmpty();
         RuleFor(x => x.Type).NotEmpty();
         RuleFor(x => x.Category).NotEmpty();
         RuleFor(x => x.Description).NotEmpty();

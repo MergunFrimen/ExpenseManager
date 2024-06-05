@@ -61,7 +61,7 @@ public static class DependencyInjection
         ConfigurationManager configurationManager)
     {
         services.AddScoped<IUserRepository, UserRepository>();
-        services.AddScoped<ITransactionRepository, TransactionRepository>();
+        services.AddScoped<ITransactionRepository, LedgerRepository>();
 
         services.AddDbContext<ExpenseManagerDbContext>(options =>
             options.UseNpgsql(configurationManager.GetConnectionString("DefaultConnection"))

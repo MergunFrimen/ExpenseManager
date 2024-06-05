@@ -14,11 +14,12 @@ public class CreateTransactionCommandHandler(ITransactionRepository transactionR
         CancellationToken cancellationToken)
     {
         var transaction = Transaction.Create(
+            request.LedgerId,
             TransactionType.Expense,
-            new Category("Something"),
+            request.Category,
             request.Description,
-            new Price(100),
-            DateTime.Now
+            request.Price,
+            request.Date
         );
 
         transactionRepository.Add(transaction);

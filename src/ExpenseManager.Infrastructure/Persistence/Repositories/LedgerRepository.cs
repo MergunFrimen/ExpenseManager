@@ -3,11 +3,12 @@ using ExpenseManager.Domain.Ledger.Entities;
 
 namespace ExpenseManager.Infrastructure.Persistence.Repositories;
 
-public class TransactionRepository(ExpenseManagerDbContext dbContext) : ITransactionRepository
+public class LedgerRepository() : ITransactionRepository
 {
+    private static readonly List<Transaction> _transactions = [];
+
     public void Add(Transaction transaction)
     {
-        dbContext.Add(transaction);
-        dbContext.SaveChanges();
+        _transactions.Add(transaction);
     }
 }
