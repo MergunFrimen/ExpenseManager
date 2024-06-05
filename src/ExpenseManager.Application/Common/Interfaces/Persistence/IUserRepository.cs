@@ -1,4 +1,4 @@
-using ExpenseManager.Domain.UserAggregate;
+using ExpenseManager.Domain.Users;
 
 namespace ExpenseManager.Application.Common.Interfaces.Persistence;
 
