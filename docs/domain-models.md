@@ -2,46 +2,62 @@
 
 ## User
 
-```csharp
-public class User : AggregateRoot
+```json
 {
-    // TODO: add more methods
+    "id": "00000000-0000-0000-0000-000000000000",
+    "ledgerId": "00000000-0000-0000-0000-000000000000",
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "johndoe@gmail.com"
 }
 ```
+
+## Ledger
 
 ```json
 {
     "id": "00000000-0000-0000-0000-000000000000",
-    "firstName": "John",
-    "lastName": "Doe",
-    "email": "johndoe@gmail.com",
-    "password": "password",
+    "userId": "00000000-0000-0000-0000-000000000000",
+    "name": "Personal",
+    "description": "Personal expenses",
+    "balance": 1000.00,
     "transactions": [
-      ...
+        {
+            "id": "00000000-0000-0000-0000-000000000000",
+            "ledgerId": "00000000-0000-0000-0000-000000000000",
+            "type": "Expense",
+            "category": "Food",
+            "description": "Today's lunch",
+            "price": 100.00,
+            "date": "2021-01-01T00:00:00Z"
+        },
+        {
+            "id": "00000000-0000-0000-0000-000000000000",
+            "ledgerId": "00000000-0000-0000-0000-000000000000",
+            "type": "Income",
+            "category": "Salary",
+            "description": "Monthly salary",
+            "price": 100.00,
+            "date": "2021-01-01T00:00:00Z"
+        }
+    ],
+    "categories": [
+        "Food",
+        "Salary"
     ]
 }
 ```
 
 ## Transaction
 
-```csharp
-public class Transaction
-{
-    // add more methods
-}
-```
-
 ```json
 {
-  "id": "00000000-0000-0000-0000-000000000000",
-  "user_id": "00000000-0000-0000-0000-000000000000",
-  "type": "Expense",
-  "category": "Food",
-  "description": "Today's lunch",
-  "price": {
-    "amount": 100.00,
-    "currency": "USD"
-  },
-  "date": "2021-01-01T00:00:00Z"
+    "id": "00000000-0000-0000-0000-000000000000",
+    "ledgerId": "00000000-0000-0000-0000-000000000000",
+    "type": "Expense",
+    "category": "Food",
+    "description": "Today's lunch",
+    "price": 100.00,
+    "date": "2021-01-01T00:00:00Z"
 }
 ```
