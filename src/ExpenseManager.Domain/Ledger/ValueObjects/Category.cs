@@ -1,6 +1,6 @@
 using ExpenseManager.Domain.Common.Models;
 
-namespace ExpenseManager.Domain.Common.ValueObjects;
+namespace ExpenseManager.Domain.Ledger.ValueObjects;
 
 public sealed class Category : ValueObject
 {
@@ -9,7 +9,11 @@ public sealed class Category : ValueObject
         Name = name;
     }
 
-    public string Name { get; }
+    private Category()
+    {
+    }
+
+    public string Name { get; } = null!;
 
     protected override IEnumerable<object> GetEqualityComponents()
     {

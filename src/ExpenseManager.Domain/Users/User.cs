@@ -16,20 +16,16 @@ public sealed class User : Entity
         LastName = lastName;
         Email = email;
         Password = password;
-        // CreatedDateTime = DateTime.UtcNow;
-        // UpdatedDateTime = DateTime.UtcNow;
     }
 
-    // TODO: does ledger have to be aggregate root????
-    public Guid LedgerId { get; }
-    public string FirstName { get; private set; }
-    public string LastName { get; private set; }
-    public string Email { get; private set; }
+    private User()
+    {
+    }
 
-    public string Password { get; private set; }
-    // public DateTime CreatedDateTime { get; private set; }
-    // public DateTime UpdatedDateTime { get; private set; }
-
+    public string FirstName { get; private set; } = null!;
+    public string LastName { get; private set; } = null!;
+    public string Email { get; private set; } = null!;
+    public string Password { get; private set; } = null!;
 
     public static User Create(
         string firstName,

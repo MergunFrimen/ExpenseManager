@@ -4,8 +4,10 @@ using ExpenseManager.Application.Common.Interfaces.Persistence;
 using ExpenseManager.Application.Common.Interfaces.Services;
 using ExpenseManager.Infrastructure.Authentication;
 using ExpenseManager.Infrastructure.Persistence;
+using ExpenseManager.Infrastructure.Persistence.Repositories;
 using ExpenseManager.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -20,7 +22,7 @@ public static class DependencyInjection
     {
         services
             .AddAuth(configurationManager)
-            .AddPersistence();
+            .AddPersistence(configurationManager);
 
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 
@@ -55,10 +57,15 @@ public static class DependencyInjection
         return services;
     }
 
-    public static IServiceCollection AddPersistence(this IServiceCollection services)
+    public static IServiceCollection AddPersistence(this IServiceCollection services,
+        ConfigurationManager configurationManager)
     {
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<ITransactionRepository, TransactionRepository>();
+
+        services.AddDbContext<ExpenseManagerDbContext>(options =>
+            options.UseNpgsql(configurationManager.GetConnectionString("DefaultConnection"))
+        );
 
         return services;
     }

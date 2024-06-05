@@ -1,8 +1,17 @@
 namespace ExpenseManager.Domain.Common.Models;
 
-public abstract class Entity(Guid id) : IEquatable<Entity>
+public abstract class Entity : IEquatable<Entity>
 {
-    public Guid Id { get; } = id;
+    protected Entity(Guid id)
+    {
+        Id = id;
+    }
+
+    protected Entity()
+    {
+    }
+
+    public Guid Id { get; }
 
     public bool Equals(Entity? other)
     {

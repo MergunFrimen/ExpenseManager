@@ -1,9 +1,9 @@
 using ExpenseManager.Application.Common.Interfaces.Persistence;
 using ExpenseManager.Domain.Users;
 
-namespace ExpenseManager.Infrastructure.Persistence;
+namespace ExpenseManager.Infrastructure.Persistence.Repositories;
 
-public class UserRepository : IUserRepository
+public class UserRepository(ExpenseManagerDbContext dbContext) : IUserRepository
 {
     private static readonly List<User> Users = [];
 

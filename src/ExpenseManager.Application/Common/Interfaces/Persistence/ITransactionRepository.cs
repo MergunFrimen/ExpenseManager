@@ -1,8 +1,8 @@
-using ExpenseManager.Domain.Transactions;
+using ExpenseManager.Domain.Ledger.Entities;
 
 namespace ExpenseManager.Application.Common.Interfaces.Persistence;
 
 public interface ITransactionRepository
 {
-    void AddTransaction(Transaction transaction);
+    void Add(Transaction transaction);
 }

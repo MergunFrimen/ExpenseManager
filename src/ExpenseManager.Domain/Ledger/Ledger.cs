@@ -1,59 +1,44 @@
 using ExpenseManager.Domain.Common.Models;
-using ExpenseManager.Domain.Common.ValueObjects;
+using ExpenseManager.Domain.Ledger.Entities;
 
 namespace ExpenseManager.Domain.Ledger;
 
 public sealed class Ledger : Entity
 {
-    private readonly List<Category> _categories;
-    private readonly List<Guid> _transactionsIds;
+    private readonly List<Transaction> _transactions = null!;
 
     private Ledger(
         Guid id,
         Guid userId,
         string name,
-        string description,
-        decimal balance,
-        List<Guid> transactionsIds,
-        List<Category> categories
+        List<Transaction> transactions
     ) : base(id)
     {
         UserId = userId;
         Name = name;
-        Description = description;
-        Balance = balance;
-        _transactionsIds = transactionsIds;
-        _categories = categories;
+        _transactions = transactions;
+    }
+
+    private Ledger()
+    {
     }
 
     public Guid UserId { get; }
-    public string Name { get; }
-    public string Description { get; }
+    public string Name { get; } = null!;
 
-    public decimal Balance { get; }
-    // public DateTime CreatedDateTime { get; }
-    // public DateTime UpdatedDateTime { get; }
-
-    public IReadOnlyList<Category> Categories => _categories.AsReadOnly();
-    public IReadOnlyList<Guid> TransactionIds => _transactionsIds.AsReadOnly();
+    public IReadOnlyList<Transaction> Transactions => _transactions.AsReadOnly();
 
     public static Ledger Create(
         Guid userId,
         string name,
-        string description,
-        decimal? balance,
-        List<Guid>? transactionIds,
-        List<Category>? categories
+        List<Transaction>? transactions
     )
     {
         return new Ledger(
             Guid.NewGuid(),
             userId,
             name,
-            description,
-            balance ?? 0,
-            transactionIds ?? [],
-            categories ?? []
+            transactions ?? []
         );
     }
 }

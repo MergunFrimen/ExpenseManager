@@ -36,23 +36,3 @@ POST /users/{userId}/transactions
   "date": "2021-01-01T00:00:00Z"
 }
 ```
-
-### Get Balance
-
-#### Get Balance Request
-
-```http request
-GET /users/{userId}/balance
-```
-
-#### Get Balance Response
-
-```http
-200 OK
-```
-
-```json
-{
-    "balance": 1000.00
-}
-```

@@ -1,4 +1,4 @@
-using ExpenseManager.Domain.Transactions;
+using ExpenseManager.Domain.Ledger.Entities;
 
 namespace ExpenseManager.Application.Transactions.Common;
 

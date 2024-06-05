@@ -1,12 +1,16 @@
 using ExpenseManager.Domain.Common.Models;
 
-namespace ExpenseManager.Domain.Transactions.ValueObjects;
+namespace ExpenseManager.Domain.Ledger.ValueObjects;
 
 public sealed class Price : ValueObject
 {
     public Price(decimal amount)
     {
         Amount = amount;
+    }
+
+    private Price()
+    {
     }
 
     public decimal Amount { get; }

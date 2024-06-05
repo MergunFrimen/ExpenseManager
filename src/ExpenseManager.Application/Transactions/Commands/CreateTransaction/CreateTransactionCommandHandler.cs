@@ -2,9 +2,8 @@ using ErrorOr;
 using ExpenseManager.Application.Common.Interfaces.Cqrs;
 using ExpenseManager.Application.Common.Interfaces.Persistence;
 using ExpenseManager.Application.Transactions.Common;
-using ExpenseManager.Domain.Common.ValueObjects;
-using ExpenseManager.Domain.Transactions;
-using ExpenseManager.Domain.Transactions.ValueObjects;
+using ExpenseManager.Domain.Ledger.Entities;
+using ExpenseManager.Domain.Ledger.ValueObjects;
 
 namespace ExpenseManager.Application.Transactions.Commands.CreateTransaction;
 
@@ -15,7 +14,6 @@ public class CreateTransactionCommandHandler(ITransactionRepository transactionR
         CancellationToken cancellationToken)
     {
         var transaction = Transaction.Create(
-            Guid.NewGuid(),
             TransactionType.Expense,
             new Category("Something"),
             request.Description,
@@ -23,7 +21,7 @@ public class CreateTransactionCommandHandler(ITransactionRepository transactionR
             DateTime.Now
         );
 
-        transactionRepository.AddTransaction(transaction);
+        transactionRepository.Add(transaction);
 
         return Task.FromResult<ErrorOr<TransactionResult>>(new TransactionResult(transaction));
     }
