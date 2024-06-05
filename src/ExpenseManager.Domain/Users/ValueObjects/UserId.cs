@@ -1,6 +1,6 @@
 using ExpenseManager.Domain.Common.Models;
 
-namespace ExpenseManager.Domain.UserAggregate.ValueObjects;
+namespace ExpenseManager.Domain.Users.ValueObjects;
 
 public sealed class UserId : AggregateRootId<Guid>
 {

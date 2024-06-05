@@ -1,6 +1,6 @@
 using ExpenseManager.Domain.Common.Models;
 
-namespace ExpenseManager.Domain.TransactionAggregate.ValueObjects;
+namespace ExpenseManager.Domain.Ledger.ValueObjects;
 
 public sealed class Category : ValueObject
 {

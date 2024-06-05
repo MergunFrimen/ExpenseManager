@@ -3,7 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using ExpenseManager.Application.Common.Interfaces.Authentication;
 using ExpenseManager.Application.Common.Interfaces.Services;
-using ExpenseManager.Domain.UserAggregate;
+using ExpenseManager.Domain.Users;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 

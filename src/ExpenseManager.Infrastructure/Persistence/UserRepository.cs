@@ -1,5 +1,5 @@
 using ExpenseManager.Application.Common.Interfaces.Persistence;
-using ExpenseManager.Domain.UserAggregate;
+using ExpenseManager.Domain.Users;
 
 namespace ExpenseManager.Infrastructure.Persistence;
 

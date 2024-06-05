@@ -1,12 +1,12 @@
 using ExpenseManager.Domain.Common.Models;
-using ExpenseManager.Domain.TransactionAggregate.ValueObjects;
-using ExpenseManager.Domain.UserAggregate.ValueObjects;
+using ExpenseManager.Domain.Ledger.ValueObjects;
+using ExpenseManager.Domain.Users.ValueObjects;
 
-namespace ExpenseManager.Domain.TransactionAggregate;
+namespace ExpenseManager.Domain.Ledger.Entities;
 
-public sealed class Transaction : AggregateRoot<TransactionId, Guid>
+public sealed class Transaction : Entity<TransactionId>
 {
-    public Transaction(
+    private Transaction(
         TransactionId id,
         UserId userId,
         TransactionType type,
@@ -16,7 +16,6 @@ public sealed class Transaction : AggregateRoot<TransactionId, Guid>
         DateTime date
     ) : base(id)
     {
-        Id = id;
         UserId = userId;
         Type = type;
         Category = category;

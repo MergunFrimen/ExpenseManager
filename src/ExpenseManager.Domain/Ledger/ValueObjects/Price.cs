@@ -1,21 +1,18 @@
 using ExpenseManager.Domain.Common.Models;
 
-namespace ExpenseManager.Domain.TransactionAggregate.ValueObjects;
+namespace ExpenseManager.Domain.Ledger.ValueObjects;
 
 public sealed class Price : ValueObject
 {
-    public Price(decimal amount, string currency)
+    public Price(decimal amount)
     {
         Amount = amount;
-        Currency = currency;
     }
 
     public decimal Amount { get; }
-    public string Currency { get; }
 
     protected override IEnumerable<object> GetEqualityComponents()
     {
         yield return Amount;
-        yield return Currency;
     }
 }
