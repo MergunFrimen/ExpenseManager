@@ -1,6 +1,7 @@
 using ErrorOr;
 using ExpenseManager.Application.Authentication.Common;
 using ExpenseManager.Application.Common.Interfaces.Authentication;
+using ExpenseManager.Application.Common.Interfaces.Cqrs;
 using ExpenseManager.Application.Common.Interfaces.Persistence;
 using ExpenseManager.Domain.Common.Errors;
 using ExpenseManager.Domain.Users;
@@ -9,7 +10,7 @@ using MediatR;
 namespace ExpenseManager.Application.Authentication.Commands.Register;
 
 public class RegisterCommandHandler(IJwtTokenGenerator tokenGenerator, IUserRepository userRepository)
-    : IRequestHandler<RegisterCommand, ErrorOr<AuthenticationResult>>
+    : ICommandHandler<RegisterCommand, AuthenticationResult>
 {
     public Task<ErrorOr<AuthenticationResult>> Handle(RegisterCommand command, CancellationToken cancellationToken)
     {
@@ -20,9 +21,10 @@ public class RegisterCommandHandler(IJwtTokenGenerator tokenGenerator, IUserRepo
             command.FirstName,
             command.LastName,
             command.Email,
-            command.Password);
+            command.Password
+        );
 
-        var userId = userRepository.Add(user);
+        userRepository.Add(user);
 
         var token = tokenGenerator.GenerateToken(user);
 

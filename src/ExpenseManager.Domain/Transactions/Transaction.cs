@@ -1,14 +1,14 @@
 using ExpenseManager.Domain.Common.Models;
-using ExpenseManager.Domain.Ledger.ValueObjects;
-using ExpenseManager.Domain.Users.ValueObjects;
+using ExpenseManager.Domain.Common.ValueObjects;
+using ExpenseManager.Domain.Transactions.ValueObjects;
 
-namespace ExpenseManager.Domain.Ledger.Entities;
+namespace ExpenseManager.Domain.Transactions;
 
-public sealed class Transaction : Entity<TransactionId>
+public sealed class Transaction : Entity
 {
     private Transaction(
-        TransactionId id,
-        UserId userId,
+        Guid id,
+        Guid ledgerId,
         TransactionType type,
         Category category,
         string description,
@@ -16,7 +16,7 @@ public sealed class Transaction : Entity<TransactionId>
         DateTime date
     ) : base(id)
     {
-        UserId = userId;
+        LedgerId = ledgerId;
         Type = type;
         Category = category;
         Description = description;
@@ -24,7 +24,7 @@ public sealed class Transaction : Entity<TransactionId>
         Date = date;
     }
 
-    public UserId UserId { get; private set; }
+    public Guid LedgerId { get; private set; }
     public TransactionType Type { get; private set; }
     public Category Category { get; private set; }
     public string Description { get; private set; }
@@ -32,7 +32,7 @@ public sealed class Transaction : Entity<TransactionId>
     public DateTime Date { get; private set; }
 
     public static Transaction Create(
-        UserId userId,
+        Guid ledgerId,
         TransactionType type,
         Category category,
         string description,
@@ -41,8 +41,8 @@ public sealed class Transaction : Entity<TransactionId>
     )
     {
         return new Transaction(
-            TransactionId.CreateUnique(),
-            userId,
+            Guid.NewGuid(),
+            ledgerId,
             type,
             category,
             description,

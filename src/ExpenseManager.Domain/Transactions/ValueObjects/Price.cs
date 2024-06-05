@@ -1,6 +1,6 @@
 using ExpenseManager.Domain.Common.Models;
 
-namespace ExpenseManager.Domain.Ledger.ValueObjects;
+namespace ExpenseManager.Domain.Transactions.ValueObjects;
 
 public sealed class Price : ValueObject
 {

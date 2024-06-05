@@ -12,6 +12,18 @@ Content-Type: application/json
   "password": "password"
 }
 
+### All invalid
+
+POST {{ExpenseManager.Api_HostAddress}}/auth/register
+Content-Type: application/json
+
+{
+  "firstName": "",
+  "lastName": "",
+  "email": "",
+  "password": ""
+}
+
 ### Invalid last name
 
 POST {{ExpenseManager.Api_HostAddress}}/auth/register
@@ -23,16 +35,3 @@ Content-Type: application/json
   "email": "dominik@tichy.cz",
   "password": "password"
 }
-
-### Invalid email
-
-POST {{ExpenseManager.Api_HostAddress}}/auth/register
-Content-Type: application/json
-
-{
-  "firstName": "Dominik",
-  "lastName": "Tichy",
-  "email": "dominik@",
-  "password": "password"
-}
-

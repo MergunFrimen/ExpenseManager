@@ -2,13 +2,13 @@ using ErrorOr;
 using ExpenseManager.Application.Authentication.Common;
 using ExpenseManager.Application.Common.Interfaces.Authentication;
 using ExpenseManager.Application.Common.Interfaces.Persistence;
+using ExpenseManager.Application.Common.Interfaces.Cqrs;
 using ExpenseManager.Domain.Common.Errors;
-using MediatR;
 
 namespace ExpenseManager.Application.Authentication.Queries.Login;
 
 public class LoginQueryHandler(IJwtTokenGenerator tokenGenerator, IUserRepository userRepository)
-    : IRequestHandler<LoginQuery, ErrorOr<AuthenticationResult>>
+    : IQueryHandler<LoginQuery, AuthenticationResult>
 {
     public Task<ErrorOr<AuthenticationResult>> Handle(LoginQuery query, CancellationToken cancellationToken)
     {

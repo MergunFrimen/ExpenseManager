@@ -14,10 +14,8 @@ public class UserRepository : IUserRepository
         return user;
     }
 
-    public Guid Add(User user)
+    public void Add(User user)
     {
         Users.Add(user);
-
-        return user.Id;
     }
 }

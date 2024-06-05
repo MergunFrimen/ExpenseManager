@@ -1,12 +1,11 @@
-using ErrorOr;
 using ExpenseManager.Application.Authentication.Common;
-using MediatR;
+using ExpenseManager.Application.Common.Interfaces.Cqrs;
 
 namespace ExpenseManager.Application.Authentication.Commands.Register;
 
-public record RegisterCommand(
+public sealed record RegisterCommand(
     string FirstName,
     string LastName,
     string Email,
     string Password
-) : IRequest<ErrorOr<AuthenticationResult>>;
+) : ICommand<AuthenticationResult>;

@@ -1,22 +1,20 @@
 using ExpenseManager.Domain.Common.Models;
-using ExpenseManager.Domain.Ledger.Entities;
-using ExpenseManager.Domain.Ledger.ValueObjects;
-using ExpenseManager.Domain.Users.ValueObjects;
+using ExpenseManager.Domain.Common.ValueObjects;
 
 namespace ExpenseManager.Domain.Ledger;
 
-public sealed class Ledger : AggregateRoot<LedgerId, Guid>
+public sealed class Ledger : Entity
 {
     private readonly List<Category> _categories;
-    private readonly List<Transaction> _transactions;
+    private readonly List<Guid> _transactionsIds;
 
     private Ledger(
-        LedgerId id,
-        UserId userId,
+        Guid id,
+        Guid userId,
         string name,
         string description,
         decimal balance,
-        List<Transaction> transactions,
+        List<Guid> transactionsIds,
         List<Category> categories
     ) : base(id)
     {
@@ -24,11 +22,11 @@ public sealed class Ledger : AggregateRoot<LedgerId, Guid>
         Name = name;
         Description = description;
         Balance = balance;
-        _transactions = transactions;
+        _transactionsIds = transactionsIds;
         _categories = categories;
     }
 
-    public UserId UserId { get; }
+    public Guid UserId { get; }
     public string Name { get; }
     public string Description { get; }
 
@@ -36,25 +34,25 @@ public sealed class Ledger : AggregateRoot<LedgerId, Guid>
     // public DateTime CreatedDateTime { get; }
     // public DateTime UpdatedDateTime { get; }
 
-    public IReadOnlyList<Transaction> Transactions => _transactions.AsReadOnly();
     public IReadOnlyList<Category> Categories => _categories.AsReadOnly();
+    public IReadOnlyList<Guid> TransactionIds => _transactionsIds.AsReadOnly();
 
     public static Ledger Create(
-        UserId userId,
+        Guid userId,
         string name,
         string description,
         decimal? balance,
-        List<Transaction>? transactions,
+        List<Guid>? transactionIds,
         List<Category>? categories
     )
     {
         return new Ledger(
-            LedgerId.CreateUnique(),
+            Guid.NewGuid(),
             userId,
             name,
             description,
             balance ?? 0,
-            transactions ?? [],
+            transactionIds ?? [],
             categories ?? []
         );
     }

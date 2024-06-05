@@ -1,10 +1,9 @@
-using ErrorOr;
 using ExpenseManager.Application.Authentication.Common;
-using MediatR;
+using ExpenseManager.Application.Common.Interfaces.Cqrs;
 
 namespace ExpenseManager.Application.Authentication.Queries.Login;
 
-public record LoginQuery(
+public sealed record LoginQuery(
     string Email,
     string Password
-) : IRequest<ErrorOr<AuthenticationResult>>;
+) : IQuery<AuthenticationResult>;

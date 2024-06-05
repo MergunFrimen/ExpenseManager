@@ -7,7 +7,7 @@
 #### Create Transaction Request
 
 ```http request
-POST /api/users/{userId}/transactions
+POST /users/{userId}/transactions
 ```
 
 ```json
@@ -42,7 +42,7 @@ POST /api/users/{userId}/transactions
 #### Get Balance Request
 
 ```http request
-GET /api/users/{userId}/balance
+GET /users/{userId}/balance
 ```
 
 #### Get Balance Response

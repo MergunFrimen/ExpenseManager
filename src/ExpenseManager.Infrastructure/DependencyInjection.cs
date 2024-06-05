@@ -20,22 +20,13 @@ public static class DependencyInjection
     {
         services
             .AddAuth(configurationManager)
-            .AddPersistence(configurationManager);
+            .AddPersistence();
 
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 
         return services;
     }
-
-
-    public static IServiceCollection AddPersistence(this IServiceCollection services,
-        ConfigurationManager configurationManager)
-    {
-        services.AddScoped<IUserRepository, UserRepository>();
-
-        return services;
-    }
-
+    
     public static IServiceCollection AddAuth(this IServiceCollection services,
         ConfigurationManager configurationManager)
     {
@@ -60,6 +51,14 @@ public static class DependencyInjection
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret))
                 };
             });
+
+        return services;
+    }
+    
+    public static IServiceCollection AddPersistence(this IServiceCollection services)
+    {
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<ITransactionRepository, TransactionRepository>();
 
         return services;
     }

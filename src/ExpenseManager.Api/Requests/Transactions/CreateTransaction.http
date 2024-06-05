@@ -1,0 +1,18 @@
+@ExpenseManager.Api_HostAddress = http://localhost:5222
+@ExpenseManager.Api_Token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZDQ5NGZmYi0yZTM1LTRjYjktOTFiNy0xMjFiMDliYjZkMjMiLCJnaXZlbl9uYW1lIjoiRG9taW5payIsImZhbWlseV9uYW1lIjoiVGljaHkiLCJqdGkiOiI5NTE2NzM2OC0yOTJkLTQ3NjQtYmYzMS02MDgzNDM1OGI4ZTMiLCJpc3MiOiJFeHBlbnNlTWFuYWdlciIsImF1ZCI6IkV4cGVuc2VNYW5hZ2VyIiwiZXhwIjoxNzE3NjM0NTQwfQ.y9guRvA8ilxS4TJWG8wleMauAZsgTVk4kbssEzA-P_4
+
+@userId = variable value
+
+### Create a new transaction
+
+POST {{ExpenseManager.Api_HostAddress}}/users/{{userId}}/transactions
+Content-Type: application/json
+Authorization: Bearer {{ExpenseManager.Api_Token}}
+
+{
+  "type": "Expense",
+  "category": "Food",
+  "description": "Today's lunch",
+  "price": 100.00,
+  "date": "2021-01-01T00:00:00Z"
+}
