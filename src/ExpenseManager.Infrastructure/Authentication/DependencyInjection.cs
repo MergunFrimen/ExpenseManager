@@ -15,9 +15,11 @@ public static class DependencyInjection
     {
         var jwtSettings = new JwtSettings();
         configurationManager.GetSection(JwtSettings.SectionName).Bind(jwtSettings);
-        
+
         services.AddSingleton(Options.Create(jwtSettings));
+
         services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
+        services.AddSingleton<IPasswordHasher, PasswordHasher>();
 
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>

@@ -20,13 +20,13 @@ public class TransactionRepository(ExpenseManagerDbContext dbContext) : ITransac
             cancellationToken);
 
         if (transaction is null) return transaction;
-        
+
         dbContext.Transactions.Remove(transaction);
         await dbContext.SaveChangesAsync(cancellationToken);
 
         return transaction;
     }
-    
+
     public async Task<Transaction?> UpdateAsync(Transaction transaction, CancellationToken cancellationToken)
     {
         var existingTransaction = await dbContext.Transactions.FirstOrDefaultAsync(t => t.Id == transaction.Id,
@@ -45,14 +45,14 @@ public class TransactionRepository(ExpenseManagerDbContext dbContext) : ITransac
     {
         var transaction = await dbContext.Transactions.FirstOrDefaultAsync(t => t.Id == transactionId,
             cancellationToken);
-        
+
         return transaction;
     }
 
     public async Task<List<Transaction>> GetAllByUserIdAsync(Guid userId, CancellationToken cancellationToken)
     {
         var transactions = await dbContext.Transactions.Where(t => t.UserId == userId).ToListAsync(cancellationToken);
-        
+
         return transactions;
     }
 }

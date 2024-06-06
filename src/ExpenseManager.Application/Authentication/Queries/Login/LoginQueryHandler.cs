@@ -7,16 +7,21 @@ using ExpenseManager.Domain.Common.Errors;
 
 namespace ExpenseManager.Application.Authentication.Queries.Login;
 
-public class LoginQueryHandler(IJwtTokenGenerator tokenGenerator, IUserRepository userRepository)
+public class LoginQueryHandler(
+    IJwtTokenGenerator tokenGenerator,
+    IUserRepository userRepository,
+    IPasswordHasher passwordHasher)
     : IQueryHandler<LoginQuery, AuthenticationResult>
 {
     public async Task<ErrorOr<AuthenticationResult>> Handle(LoginQuery query, CancellationToken cancellationToken)
     {
         var user = await userRepository.GetByEmailAsync(query.Email, cancellationToken);
+
+        // don't leak information about whether the user exists
         if (user is null)
             return Errors.Authentication.InvalidCredentials;
 
-        if (user.Password != query.Password)
+        if (!passwordHasher.Verify(query.Password, user.Password))
             return Errors.Authentication.InvalidCredentials;
 
         var token = tokenGenerator.GenerateToken(user);

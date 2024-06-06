@@ -10,6 +10,7 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
+        // TODO: delete this
         // services.AddMediatR(options =>
         // {
         //     options.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly);
@@ -22,7 +23,9 @@ public static class DependencyInjection
         // // services.AddValidatorsFromAssemblyContaining(typeof(DependencyInjection));
 
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+
         services.AddScoped(
             typeof(IPipelineBehavior<,>),
             typeof(ValidationBehavior<,>));

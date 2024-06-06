@@ -8,20 +8,27 @@ using ExpenseManager.Domain.Users;
 
 namespace ExpenseManager.Application.Authentication.Commands.Register;
 
-public class RegisterCommandHandler(IJwtTokenGenerator tokenGenerator, IUserRepository userRepository)
+public class RegisterCommandHandler(
+    IJwtTokenGenerator tokenGenerator,
+    IUserRepository userRepository,
+    IPasswordHasher passwordHasher)
     : ICommandHandler<RegisterCommand, AuthenticationResult>
 {
-    public async Task<ErrorOr<AuthenticationResult>> Handle(RegisterCommand command, CancellationToken cancellationToken)
+    public async Task<ErrorOr<AuthenticationResult>> Handle(RegisterCommand command,
+        CancellationToken cancellationToken)
     {
         var user = await userRepository.GetByEmailAsync(command.Email, cancellationToken);
+
         if (user is not null)
             return Errors.User.DuplicateEmail;
+
+        var hashedPassword = passwordHasher.Hash(command.Password);
 
         var newUser = User.Create(
             command.FirstName,
             command.LastName,
             command.Email,
-            command.Password,
+            hashedPassword,
             []
         );
 

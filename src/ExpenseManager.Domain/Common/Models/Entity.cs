@@ -13,17 +13,18 @@ public abstract class Entity : IEquatable<Entity>, IHasDomainEvents
     {
     }
 
-    public IReadOnlyList<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
-    public void ClearDomainEvents()
-    {
-        _domainEvents.Clear();
-    }
-
     public Guid Id { get; }
 
     public bool Equals(Entity? other)
     {
         return Equals((object?)other);
+    }
+
+    public IReadOnlyList<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
+
+    public void ClearDomainEvents()
+    {
+        _domainEvents.Clear();
     }
 
     public override bool Equals(object? obj)

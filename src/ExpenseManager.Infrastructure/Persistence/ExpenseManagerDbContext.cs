@@ -26,18 +26,18 @@ public class ExpenseManagerDbContext(
             .Where(property => property.IsPrimaryKey())
             .ToList()
             .ForEach(property => property.ValueGenerated = ValueGenerated.Never);
-        
+
         // Never store domain events in the database
         modelBuilder
             .Ignore<List<IDomainEvent>>();
-        
+
         base.OnModelCreating(modelBuilder);
     }
-    
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.AddInterceptors(eventsInterceptor);
-        
+
         base.OnConfiguring(optionsBuilder);
     }
 }
