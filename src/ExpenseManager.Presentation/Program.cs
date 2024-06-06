@@ -17,6 +17,7 @@ var app = builder.Build();
     }
 
     app.UseExceptionHandler("/error");
+    app.UseCors("CorsPolicy");
     app.UseHttpsRedirection();
     app.UseAuthentication();
     app.UseAuthorization();

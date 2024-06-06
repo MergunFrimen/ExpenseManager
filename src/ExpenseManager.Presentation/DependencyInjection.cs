@@ -8,9 +8,20 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddPresentation(this IServiceCollection services)
     {
-        services.AddControllers();
         services.AddSingleton<ProblemDetailsFactory, ExpenseManagerProblemDetailsFactory>();
         services.AddMappings();
+        services.AddControllers();
+        
+        services.AddCors(options =>
+        {
+            options.AddPolicy("CorsPolicy",
+                builder =>
+                {
+                    builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                });
+        });
 
         return services;
     }
