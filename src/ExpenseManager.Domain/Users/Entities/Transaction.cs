@@ -53,7 +53,7 @@ public sealed class Transaction : Entity
             date
         );
 
-        transaction.AddDomainEvent(new TransactionCreated(transaction));
+        transaction.AddDomainEvent(new TransactionCreatedEvent(transaction));
 
         return transaction;
     }

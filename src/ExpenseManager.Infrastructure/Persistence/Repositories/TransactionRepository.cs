@@ -1,47 +1,58 @@
 using ExpenseManager.Application.Common.Interfaces.Persistence;
 using ExpenseManager.Domain.Users.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace ExpenseManager.Infrastructure.Persistence.Repositories;
 
-public class TransactionRepository : ITransactionRepository
+public class TransactionRepository(ExpenseManagerDbContext dbContext) : ITransactionRepository
 {
-    private static readonly List<Transaction> Transactions = [];
-
-    public Transaction Add(Transaction transaction)
+    public async Task<Transaction> AddAsync(Transaction transaction, CancellationToken cancellationToken)
     {
-        Transactions.Add(transaction);
-        return transaction;
-    }
-
-    public Transaction? Remove(Guid transactionId)
-    {
-        var transaction = Transactions.FirstOrDefault(t => t.Id == transactionId);
-
-        if (transaction is not null)
-            Transactions.Remove(transaction);
+        await dbContext.Transactions.AddAsync(transaction, cancellationToken);
+        await dbContext.SaveChangesAsync(cancellationToken);
 
         return transaction;
     }
 
-    public Transaction? Update(Transaction transaction)
+    public async Task<Transaction?> RemoveAsync(Guid transactionId, CancellationToken cancellationToken)
     {
-        var existingTransaction = Transactions.FirstOrDefault(t => t.Id == transaction.Id);
+        var transaction = await dbContext.Transactions.FirstOrDefaultAsync(t => t.Id == transactionId,
+            cancellationToken);
+
+        if (transaction is null) return transaction;
+        
+        dbContext.Transactions.Remove(transaction);
+        await dbContext.SaveChangesAsync(cancellationToken);
+
+        return transaction;
+    }
+    
+    public async Task<Transaction?> UpdateAsync(Transaction transaction, CancellationToken cancellationToken)
+    {
+        var existingTransaction = await dbContext.Transactions.FirstOrDefaultAsync(t => t.Id == transaction.Id,
+            cancellationToken);
 
         if (existingTransaction is null) return existingTransaction;
 
-        Transactions.Remove(existingTransaction);
-        Transactions.Add(transaction);
+        dbContext.Transactions.Remove(existingTransaction);
+        dbContext.Transactions.Add(transaction);
+        await dbContext.SaveChangesAsync(cancellationToken);
 
         return existingTransaction;
     }
 
-    public Transaction? GetById(Guid transactionId)
+    public async Task<Transaction?> GetByIdAsync(Guid transactionId, CancellationToken cancellationToken)
     {
-        return Transactions.FirstOrDefault(t => t.Id == transactionId);
+        var transaction = await dbContext.Transactions.FirstOrDefaultAsync(t => t.Id == transactionId,
+            cancellationToken);
+        
+        return transaction;
     }
 
-    public List<Transaction> GetAllByUserId(Guid userId)
+    public async Task<List<Transaction>> GetAllByUserIdAsync(Guid userId, CancellationToken cancellationToken)
     {
-        return Transactions.Where(t => t.UserId == userId).ToList();
+        var transactions = await dbContext.Transactions.Where(t => t.UserId == userId).ToListAsync(cancellationToken);
+        
+        return transactions;
     }
 }

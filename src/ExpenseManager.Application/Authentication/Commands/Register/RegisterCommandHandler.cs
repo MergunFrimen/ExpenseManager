@@ -11,12 +11,13 @@ namespace ExpenseManager.Application.Authentication.Commands.Register;
 public class RegisterCommandHandler(IJwtTokenGenerator tokenGenerator, IUserRepository userRepository)
     : ICommandHandler<RegisterCommand, AuthenticationResult>
 {
-    public Task<ErrorOr<AuthenticationResult>> Handle(RegisterCommand command, CancellationToken cancellationToken)
+    public async Task<ErrorOr<AuthenticationResult>> Handle(RegisterCommand command, CancellationToken cancellationToken)
     {
-        if (userRepository.GetUserByEmail(command.Email) is not null)
-            return Task.FromResult<ErrorOr<AuthenticationResult>>(Errors.User.DuplicateEmail);
+        var user = await userRepository.GetByEmailAsync(command.Email, cancellationToken);
+        if (user is not null)
+            return Errors.User.DuplicateEmail;
 
-        var user = User.Create(
+        var newUser = User.Create(
             command.FirstName,
             command.LastName,
             command.Email,
@@ -24,10 +25,10 @@ public class RegisterCommandHandler(IJwtTokenGenerator tokenGenerator, IUserRepo
             []
         );
 
-        userRepository.Add(user);
+        await userRepository.AddAsync(newUser, cancellationToken);
 
-        var token = tokenGenerator.GenerateToken(user);
+        var token = tokenGenerator.GenerateToken(newUser);
 
-        return Task.FromResult<ErrorOr<AuthenticationResult>>(new AuthenticationResult(user, token));
+        return new AuthenticationResult(newUser, token);
     }
 }

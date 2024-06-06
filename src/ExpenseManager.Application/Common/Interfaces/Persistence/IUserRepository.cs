@@ -4,6 +4,6 @@ namespace ExpenseManager.Application.Common.Interfaces.Persistence;
 
 public interface IUserRepository
 {
-    User? GetUserByEmail(string email);
-    void Add(User user);
+    Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken);
+    Task AddAsync(User user, CancellationToken cancellationToken);
 }

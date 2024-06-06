@@ -1,19 +1,22 @@
 using ExpenseManager.Application.Common.Interfaces.Persistence;
 using ExpenseManager.Domain.Users;
+using Microsoft.EntityFrameworkCore;
 
 namespace ExpenseManager.Infrastructure.Persistence.Repositories;
 
 public class UserRepository(ExpenseManagerDbContext dbContext) : IUserRepository
 {
-    public User? GetUserByEmail(string email)
+    public async Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken)
     {
-        var user = dbContext.Users.SingleOrDefault(user => user.Email == email);
+        var user = await dbContext.Users.SingleOrDefaultAsync(user => user.Email == email, cancellationToken);
+        await dbContext.SaveChangesAsync(cancellationToken);
 
         return user;
     }
 
-    public void Add(User user)
+    public async Task AddAsync(User user, CancellationToken cancellationToken)
     {
-        dbContext.Users.Add(user);
+        await dbContext.Users.AddAsync(user, cancellationToken);
+        await dbContext.SaveChangesAsync(cancellationToken);
     }
 }

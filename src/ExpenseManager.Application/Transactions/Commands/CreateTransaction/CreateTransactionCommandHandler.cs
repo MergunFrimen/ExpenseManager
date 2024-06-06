@@ -9,7 +9,7 @@ namespace ExpenseManager.Application.Transactions.Commands.CreateTransaction;
 public class CreateTransactionCommandHandler(ITransactionRepository transactionRepository)
     : ICommandHandler<CreateTransactionCommand, TransactionResult>
 {
-    public Task<ErrorOr<TransactionResult>> Handle(CreateTransactionCommand request,
+    public async Task<ErrorOr<TransactionResult>> Handle(CreateTransactionCommand request,
         CancellationToken cancellationToken)
     {
         var transaction = Transaction.Create(
@@ -21,8 +21,8 @@ public class CreateTransactionCommandHandler(ITransactionRepository transactionR
             request.Date
         );
 
-        transactionRepository.Add(transaction);
+        await transactionRepository.AddAsync(transaction, cancellationToken);
 
-        return Task.FromResult<ErrorOr<TransactionResult>>(new TransactionResult(transaction));
+        return new TransactionResult(transaction);
     }
 }

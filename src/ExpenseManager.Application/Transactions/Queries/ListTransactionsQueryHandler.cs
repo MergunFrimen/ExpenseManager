@@ -8,13 +8,11 @@ namespace ExpenseManager.Application.Transactions.Queries;
 public class ListTransactionsQueryHandler(ITransactionRepository transactionRepository)
     : IQueryHandler<ListTransactionsQuery, List<TransactionResult>>
 {
-    public Task<ErrorOr<List<TransactionResult>>> Handle(ListTransactionsQuery query,
+    public async Task<ErrorOr<List<TransactionResult>>> Handle(ListTransactionsQuery query,
         CancellationToken cancellationToken)
     {
-        var transactions = transactionRepository.GetAllByUserId(query.UserId);
+        var transactions = await transactionRepository.GetAllByUserIdAsync(query.UserId, cancellationToken);
 
-        return Task.FromResult<ErrorOr<List<TransactionResult>>>(transactions
-            .Select(transaction => new TransactionResult(transaction))
-            .ToList());
+        return new List<TransactionResult>(transactions.Select(transaction => new TransactionResult(transaction)));
     }
 }

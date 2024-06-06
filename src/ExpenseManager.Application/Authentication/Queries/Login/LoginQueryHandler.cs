@@ -10,16 +10,17 @@ namespace ExpenseManager.Application.Authentication.Queries.Login;
 public class LoginQueryHandler(IJwtTokenGenerator tokenGenerator, IUserRepository userRepository)
     : IQueryHandler<LoginQuery, AuthenticationResult>
 {
-    public Task<ErrorOr<AuthenticationResult>> Handle(LoginQuery query, CancellationToken cancellationToken)
+    public async Task<ErrorOr<AuthenticationResult>> Handle(LoginQuery query, CancellationToken cancellationToken)
     {
-        if (userRepository.GetUserByEmail(query.Email) is not { } user)
-            return Task.FromResult<ErrorOr<AuthenticationResult>>(Errors.Authentication.InvalidCredentials);
+        var user = await userRepository.GetByEmailAsync(query.Email, cancellationToken);
+        if (user is null)
+            return Errors.Authentication.InvalidCredentials;
 
         if (user.Password != query.Password)
-            return Task.FromResult<ErrorOr<AuthenticationResult>>(Errors.Authentication.InvalidCredentials);
+            return Errors.Authentication.InvalidCredentials;
 
         var token = tokenGenerator.GenerateToken(user);
 
-        return Task.FromResult<ErrorOr<AuthenticationResult>>(new AuthenticationResult(user, token));
+        return new AuthenticationResult(user, token);
     }
 }

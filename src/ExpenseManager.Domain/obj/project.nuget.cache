@@ -1,10 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "9g9e0lzzAxw0VFjg2yt7L/CL1JesF5YUeN32PhdbvH+hEZv1uKCGTeyRTHXl8ac7QKm3//073mgm5D1gTY/zrw==",
+  "dgSpecHash": "UgiKUKNTXgDkZsL4K5IbL2skTgjLaxb9gl0Uq53ivIS4towI3qBqL62YIR9iK96VY0IuRi/iSknJ2eHe+CT+2w==",
   "success": true,
   "projectFilePath": "/home/mergun/ExpenseManager/src/ExpenseManager.Domain/ExpenseManager.Domain.csproj",
   "expectedPackageFiles": [
     "/home/mergun/.nuget/packages/erroror/2.0.1/erroror.2.0.1.nupkg.sha512",
+    "/home/mergun/.nuget/packages/mediatr/12.2.0/mediatr.12.2.0.nupkg.sha512",
+    "/home/mergun/.nuget/packages/mediatr.contracts/2.0.1/mediatr.contracts.2.0.1.nupkg.sha512",
     "/home/mergun/.nuget/packages/microsoft.extensions.configuration/8.0.0/microsoft.extensions.configuration.8.0.0.nupkg.sha512",
     "/home/mergun/.nuget/packages/microsoft.extensions.configuration.abstractions/8.0.0/microsoft.extensions.configuration.abstractions.8.0.0.nupkg.sha512",
     "/home/mergun/.nuget/packages/microsoft.extensions.configuration.binder/8.0.0/microsoft.extensions.configuration.binder.8.0.0.nupkg.sha512",
