@@ -8,7 +8,7 @@ import {
 export function TotalBalance() {
     return (
         <Card className="w-[300px] h-[120px]">
-            <CardHeader className="pb-2">
+            <CardHeader className="">
                 <CardDescription>Total balance</CardDescription>
                 <CardTitle className="text-4xl">$1,329</CardTitle>
             </CardHeader>

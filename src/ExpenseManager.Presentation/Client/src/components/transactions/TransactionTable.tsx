@@ -5,17 +5,17 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import {Table, TableBody, TableHead, TableHeader, TableRow} from "@/components/ui/table";
-import {TransactionItem} from "@/components/transactions/TransactionItem.tsx";
+import {TransactionRow} from "@/components/transactions/TransactionRow.tsx";
 
 export default function TransactionTable() {
     return (
-        <Card className="size-full">
+        <Card className="p-5 h-[500px]">
             <CardHeader className="px-7">
                 <CardTitle>Transactions</CardTitle>
                 {/*<CardDescription>Recent orders from your store.</CardDescription>*/}
             </CardHeader>
-            <CardContent>
-                <Table>
+            <CardContent className="">
+                <Table className="">
                     <TableHeader>
                         <TableRow>
                             <TableHead>Description</TableHead>
@@ -26,25 +26,25 @@ export default function TransactionTable() {
                             <TableHead className="text-right"></TableHead>
                         </TableRow>
                     </TableHeader>
-                    <TableBody className="odd:bg-accent">
-                        <TransactionItem/>
-                        <TransactionItem/>
-                        <TransactionItem/>
-                        <TransactionItem/>
-                        <TransactionItem/>
-                        <TransactionItem/>
-                        <TransactionItem/>
-                        <TransactionItem/>
-                        <TransactionItem/>
-                        <TransactionItem/>
-                        <TransactionItem/>
-                        <TransactionItem/>
-                        <TransactionItem/>
-                        <TransactionItem/>
-                        <TransactionItem/>
-                        <TransactionItem/>
-                        <TransactionItem/>
-                        <TransactionItem/>
+                    <TableBody className="">
+                            <TransactionRow/>
+                            <TransactionRow/>
+                            <TransactionRow/>
+                            <TransactionRow/>
+                            <TransactionRow/>
+                            <TransactionRow/>
+                            <TransactionRow/>
+                            <TransactionRow/>
+                            <TransactionRow/>
+                            <TransactionRow/>
+                            {/*<TransactionRow/>*/}
+                            {/*<TransactionRow/>*/}
+                            {/*<TransactionRow/>*/}
+                            {/*<TransactionRow/>*/}
+                            {/*<TransactionRow/>*/}
+                            {/*<TransactionRow/>*/}
+                            {/*<TransactionRow/>*/}
+                            {/*<TransactionRow/>*/}
                     </TableBody>
                 </Table>
             </CardContent>

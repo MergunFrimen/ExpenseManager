@@ -12,9 +12,9 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-export function TransactionItem() {
+export function TransactionRow() {
     return (
-        <TableRow className="items-center">
+        <TableRow className="items-center odd:bg-accent/20">
             <TableCell>
                 <div className="font-medium">Lunch</div>
             </TableCell>
@@ -27,7 +27,7 @@ export function TransactionItem() {
             <TableCell className="hidden md:table-cell">2023-06-23</TableCell>
             <TableCell className="hidden md:table-cell">-$10,000.00</TableCell>
             <TableCell className="text-right">
-                <DropdownMenuDemo/>
+                {/*<DropdownMenuDemo/>*/}
             </TableCell>
         </TableRow>
     );
