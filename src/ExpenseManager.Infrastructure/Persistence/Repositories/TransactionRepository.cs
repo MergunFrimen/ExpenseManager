@@ -28,7 +28,7 @@ public class TransactionRepository : ITransactionRepository
         var existingTransaction = Transactions.FirstOrDefault(t => t.Id == transaction.Id);
 
         if (existingTransaction is null) return existingTransaction;
-        
+
         Transactions.Remove(existingTransaction);
         Transactions.Add(transaction);
 
