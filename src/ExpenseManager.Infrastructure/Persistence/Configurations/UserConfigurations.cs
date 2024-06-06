@@ -52,7 +52,7 @@ public sealed class UserConfigurations : IEntityTypeConfiguration<User>
             transactionsBuilder
                 .WithOwner()
                 .HasForeignKey("UserId");
-           
+
             transactionsBuilder
                 .Property(s => s.Id)
                 .ValueGeneratedNever()

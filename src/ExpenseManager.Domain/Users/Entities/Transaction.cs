@@ -1,4 +1,5 @@
 using ExpenseManager.Domain.Common.Models;
+using ExpenseManager.Domain.Users.Events;
 
 namespace ExpenseManager.Domain.Users.Entities;
 
@@ -42,7 +43,7 @@ public sealed class Transaction : Entity
         DateTime date
     )
     {
-        return new Transaction(
+        var transaction = new Transaction(
             Guid.NewGuid(),
             userId,
             type,
@@ -51,10 +52,9 @@ public sealed class Transaction : Entity
             price,
             date
         );
-    }
 
-    public void Update(string requestCategory, string requestDescription, decimal requestPrice, DateTime requestDate)
-    {
-        throw new NotImplementedException();
+        transaction.AddDomainEvent(new TransactionCreated(transaction));
+
+        return transaction;
     }
 }

@@ -2,6 +2,8 @@ namespace ExpenseManager.Domain.Common.Models;
 
 public abstract class Entity : IEquatable<Entity>
 {
+    private readonly List<IDomainEvent> _domainEvents = [];
+
     protected Entity(Guid id)
     {
         Id = id;
@@ -10,6 +12,8 @@ public abstract class Entity : IEquatable<Entity>
     protected Entity()
     {
     }
+
+    public IReadOnlyList<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
 
     public Guid Id { get; }
 
@@ -36,5 +40,10 @@ public abstract class Entity : IEquatable<Entity>
     public override int GetHashCode()
     {
         return Id.GetHashCode();
+    }
+
+    public void AddDomainEvent(IDomainEvent domainEvent)
+    {
+        _domainEvents.Add(domainEvent);
     }
 }
