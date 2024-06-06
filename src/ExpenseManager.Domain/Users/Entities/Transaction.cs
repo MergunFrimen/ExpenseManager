@@ -1,21 +1,20 @@
 using ExpenseManager.Domain.Common.Models;
-using ExpenseManager.Domain.Ledger.ValueObjects;
 
-namespace ExpenseManager.Domain.Ledger.Entities;
+namespace ExpenseManager.Domain.Users.Entities;
 
 public sealed class Transaction : Entity
 {
     private Transaction(
         Guid id,
-        Guid ledgerId,
-        TransactionType type,
+        Guid userId,
+        string type,
         string category,
         string description,
         decimal price,
         DateTime date
     ) : base(id)
     {
-        LedgerId = ledgerId;
+        UserId = userId;
         Type = type;
         Category = category;
         Description = description;
@@ -27,16 +26,16 @@ public sealed class Transaction : Entity
     {
     }
 
-    public object LedgerId { get; set; } = null!;
-    public TransactionType Type { get; private set; }
+    public Guid UserId { get; private set; }
+    public string Type { get; private set; } = null!;
     public string Category { get; private set; } = null!;
     public string Description { get; private set; } = null!;
     public decimal Price { get; private set; }
     public DateTime Date { get; private set; }
 
     public static Transaction Create(
-        Guid ledgerId,
-        TransactionType type,
+        Guid userId,
+        string type,
         string category,
         string description,
         decimal price,
@@ -45,12 +44,17 @@ public sealed class Transaction : Entity
     {
         return new Transaction(
             Guid.NewGuid(),
-            ledgerId,
+            userId,
             type,
             category,
             description,
             price,
             date
         );
+    }
+
+    public void Update(string requestCategory, string requestDescription, decimal requestPrice, DateTime requestDate)
+    {
+        throw new NotImplementedException();
     }
 }

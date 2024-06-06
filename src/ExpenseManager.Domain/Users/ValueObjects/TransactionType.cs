@@ -1,4 +1,4 @@
-namespace ExpenseManager.Domain.Ledger.ValueObjects;
+namespace ExpenseManager.Domain.Users.ValueObjects;
 
 public enum TransactionType
 {

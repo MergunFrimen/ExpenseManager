@@ -2,8 +2,7 @@ using ErrorOr;
 using ExpenseManager.Application.Common.Interfaces.Cqrs;
 using ExpenseManager.Application.Common.Interfaces.Persistence;
 using ExpenseManager.Application.Transactions.Common;
-using ExpenseManager.Domain.Ledger.Entities;
-using ExpenseManager.Domain.Ledger.ValueObjects;
+using ExpenseManager.Domain.Users.Entities;
 
 namespace ExpenseManager.Application.Transactions.Commands.CreateTransaction;
 
@@ -14,8 +13,8 @@ public class CreateTransactionCommandHandler(ITransactionRepository transactionR
         CancellationToken cancellationToken)
     {
         var transaction = Transaction.Create(
-            request.LedgerId,
-            TransactionType.Expense,
+            request.UserId,
+            request.Type,
             request.Category,
             request.Description,
             request.Price,

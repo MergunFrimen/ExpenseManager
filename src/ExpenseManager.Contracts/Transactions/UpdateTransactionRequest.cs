@@ -1,11 +1,11 @@
 namespace ExpenseManager.Contracts.Transactions;
 
-public record TransactionResponse(
-    Guid Id,
+public record UpdateTransactionRequest(
     Guid UserId,
+    string TransactionId,
     string Type,
     string Category,
     string Description,
     decimal Price,
-    DateTime Date
+    string Date
 );

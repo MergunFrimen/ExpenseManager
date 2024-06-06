@@ -20,7 +20,8 @@ public class RegisterCommandHandler(IJwtTokenGenerator tokenGenerator, IUserRepo
             command.FirstName,
             command.LastName,
             command.Email,
-            command.Password
+            command.Password,
+            []
         );
 
         userRepository.Add(user);

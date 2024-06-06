@@ -1,11 +1,12 @@
 using FluentValidation;
 
-namespace ExpenseManager.Application.Transactions.Commands.CreateTransaction;
+namespace ExpenseManager.Application.Transactions.Commands.UpdateTransaction;
 
-public class CreateTransactionCommandValidator : AbstractValidator<CreateTransactionCommand>
+public class UpdateTransactionCommandValidator : AbstractValidator<UpdateTransactionCommand>
 {
-    public CreateTransactionCommandValidator()
+    public UpdateTransactionCommandValidator()
     {
+        RuleFor(x => x.TransactionId).NotEmpty();
         RuleFor(x => x.UserId).NotEmpty();
         RuleFor(x => x.Type).NotEmpty();
         RuleFor(x => x.Category).NotEmpty();

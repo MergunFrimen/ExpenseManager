@@ -1,4 +1,4 @@
-using ExpenseManager.Domain.Ledger;
+using ExpenseManager.Domain.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -6,7 +6,7 @@ namespace ExpenseManager.Infrastructure.Persistence;
 
 public class ExpenseManagerDbContext(DbContextOptions<ExpenseManagerDbContext> options) : DbContext(options)
 {
-    public DbSet<Ledger> Ledgers { get; init; } = null!;
+    public DbSet<User> Users { get; init; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

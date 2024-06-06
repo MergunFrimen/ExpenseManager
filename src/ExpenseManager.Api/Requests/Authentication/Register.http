@@ -1,37 +1,13 @@
-@ExpenseManager.Api_HostAddress = http://localhost:5222
+@host = http://localhost:5222
 
 ### Register
 
-POST {{ExpenseManager.Api_HostAddress}}/auth/register
+POST {{host}}/auth/register
 Content-Type: application/json
 
 {
   "firstName": "Dominik",
   "lastName": "Tichy",
-  "email": "dominik@tichy.cz",
-  "password": "password"
-}
-
-### All invalid
-
-POST {{ExpenseManager.Api_HostAddress}}/auth/register
-Content-Type: application/json
-
-{
-  "firstName": "",
-  "lastName": "",
-  "email": "",
-  "password": ""
-}
-
-### Invalid last name
-
-POST {{ExpenseManager.Api_HostAddress}}/auth/register
-Content-Type: application/json
-
-{
-  "firstName": "Dominik",
-  "lastName": "",
   "email": "dominik@tichy.cz",
   "password": "password"
 }
