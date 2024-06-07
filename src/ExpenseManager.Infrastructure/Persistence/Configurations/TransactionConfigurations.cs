@@ -11,7 +11,7 @@ public sealed class TransactionConfigurations : IEntityTypeConfiguration<Transac
     {
         ConfigureTransactionTable(builder);
     }
-    
+
     private void ConfigureTransactionTable(EntityTypeBuilder<Transaction> transactionsBuilder)
     {
         transactionsBuilder
@@ -47,6 +47,9 @@ public sealed class TransactionConfigurations : IEntityTypeConfiguration<Transac
             .IsRequired();
         transactionsBuilder
             .Property(s => s.Date)
+            .HasConversion(
+                x => DateTime.SpecifyKind(x, DateTimeKind.Utc),
+                x => DateTime.SpecifyKind(x, DateTimeKind.Utc))
             .IsRequired();
     }
 }

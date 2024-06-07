@@ -8,15 +8,5 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "name": "Food"
-}
-
-### Create category
-
-POST {{host}}/categories
-Content-Type: application/json
-Authorization: Bearer {{token}}
-
-{
-  "name": "Drinks"
+  "name": "asdfasdf"
 }
