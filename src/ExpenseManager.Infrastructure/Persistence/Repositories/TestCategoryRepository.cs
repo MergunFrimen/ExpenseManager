@@ -5,12 +5,21 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ExpenseManager.Infrastructure.Persistence.Repositories;
 
-public class TestCategoryRepository : ICategoryRepository
+public class TestCategoryRepository(ExpenseManagerDbContext dbContext) : ICategoryRepository
 {
     private static readonly List<Category> Categories = [];
 
+    public void TestConnection()
+    {
+        var connection = dbContext.Database.GetDbConnection();
+        var canConnect = dbContext.Database.CanConnect();
+        Console.WriteLine("Test connection");
+    }
+
     public Task<Category> AddAsync(Category category, CancellationToken cancellationToken)
     {
+        TestConnection();
+        
         Categories.Add(category);
         
         return Task.FromResult(category);

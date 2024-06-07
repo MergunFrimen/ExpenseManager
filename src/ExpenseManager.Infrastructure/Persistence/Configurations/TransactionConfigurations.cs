@@ -36,6 +36,7 @@ public sealed class TransactionConfigurations : IEntityTypeConfiguration<Transac
             .IsRequired();
         transactionsBuilder
             .Property(s => s.Type)
+            .HasConversion<int>()
             .IsRequired();
         transactionsBuilder
             .Property(s => s.Description)

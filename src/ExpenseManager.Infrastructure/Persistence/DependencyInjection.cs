@@ -22,8 +22,9 @@ public static class DependencyInjection
         // services.AddScoped<IUserRepository, UserRepository>();
         // services.AddScoped<ITransactionRepository, TransactionRepository>();
 
+        var connectionString = configurationManager.GetConnectionString("DefaultConnection");
         services.AddDbContext<ExpenseManagerDbContext>(options =>
-            options.UseNpgsql("Server=127.0.0.1;UserName=postgres;Password=postgres;Database=ExpenseManager;Port=5432")
+            options.UseNpgsql(connectionString)
         );
 
         return services;
