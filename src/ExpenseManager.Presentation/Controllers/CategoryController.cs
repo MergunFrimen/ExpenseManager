@@ -66,7 +66,7 @@ public class CategoryController(ISender mediatr, IMapper mapper) : ApiController
         );
     }
     
-    [HttpGet("{id}")]
+    [HttpGet("{:id}")]
     public async Task<IActionResult> Get(Guid id)
     {
         var userId = GetUserId();

@@ -4,7 +4,7 @@ import {TransactionRow} from "@/components/transactions/TransactionRow.tsx";
 import {TransactionDto} from "@/models/transactions/TransactionDto.ts";
 import {ScrollArea} from "@/components/ui/scroll-area.tsx";
 import {useEffect, useState} from "react";
-import {DownloadIcon, FilterIcon, LogOutIcon, SettingsIcon, UploadIcon} from "lucide-react";
+import {CirclePlus, DownloadIcon, FilterIcon, LogOutIcon, SettingsIcon, UploadIcon} from "lucide-react";
 import {Button} from "@/components/ui/button.tsx";
 import {
     DropdownMenu, DropdownMenuCheckboxItem,
@@ -14,12 +14,14 @@ import {
 } from "@/components/ui/dropdown-menu.tsx";
 import {useAuth} from "@/components/auth/AuthProvider.tsx";
 import {categoriesApiConnector} from "@/api/categoriesApiConnector.ts";
+import {useNavigate} from "react-router-dom";
 
 export default function TransactionTable({transactions}: { transactions: TransactionDto[] }) {
     const {token} = useAuth();
     const [categories, setCategories] = useState([])
     const [filteredTransactions, setFilteredTransactions] = useState(transactions);
-
+    const navigate = useNavigate();
+    
     function handleFilter(id: string) {
         const categoriesStatus = categories.map((category) => {
                 return {
@@ -66,25 +68,32 @@ export default function TransactionTable({transactions}: { transactions: Transac
         <Card className="p-5 h-[700px]">
             <CardHeader className="px-7 flex flex-row justify-between">
                 <CardTitle>Transactions</CardTitle>
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="outline" size="icon">
-                            <FilterIcon
-                                className="absolute h-[1.2rem] w-[1.2rem]"/>
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        {categories && categories.map((category) => (
-                            <DropdownMenuCheckboxItem
-                                key={category.id}
-                                checked={category.checked}
-                                onClick={() => handleFilter(category.id)}
-                            >
-                                {category.name}
-                            </DropdownMenuCheckboxItem>
-                        ))}
-                    </DropdownMenuContent>
-                </DropdownMenu>
+                <div className={"flex flex-row"}>
+                    <Button variant="outline" size="icon">
+                        <CirclePlus
+                            onClick={() => navigate("/app/createTransaction")}
+                            className="absolute h-[1.2rem] w-[1.2rem]"/>
+                    </Button>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="outline" size="icon">
+                                <FilterIcon
+                                    className="absolute h-[1.2rem] w-[1.2rem]"/>
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                            {categories && categories.map((category) => (
+                                <DropdownMenuCheckboxItem
+                                    key={category.id}
+                                    checked={category.checked}
+                                    onClick={() => handleFilter(category.id)}
+                                >
+                                    {category.name}
+                                </DropdownMenuCheckboxItem>
+                            ))}
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </div>
             </CardHeader>
             <CardContent className="h-[580px]">
                 <ScrollArea className="size-full rounded-md border">

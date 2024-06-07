@@ -6,6 +6,7 @@ import {ProtectedRoute} from "@/routes/ProtectedRoute.tsx";
 import Error from "@/routes/Error.tsx";
 import {useAuth} from "@/components/auth/AuthProvider.tsx";
 import {Logout} from "@/routes/Logout.tsx";
+import {TransactionForm} from "@/components/transactions/TransactionForm.tsx";
 
 export function Routes() {
     const {token} = useAuth();
@@ -38,18 +39,18 @@ export function Routes() {
                 },
                 {
                     path: "createTransaction",
-                    element: <>createTransaction</>,
+                    element: <TransactionForm type={"create"}/>,
                 },
                 {
-                    path: "editTransaction",
-                    element: <>editTransaction</>,
+                    path: "updateTransaction/:id",
+                    element: <TransactionForm type={"update"}/>,
                 },
                 {
                     path: "createCategory",
                     element: <>createCategory</>,
                 },
                 {
-                    path: "editCategory",
+                    path: "updateCategory/:id",
                     element: <>editCategory</>,
                 }
             ],

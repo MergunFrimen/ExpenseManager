@@ -2,6 +2,7 @@ import axios, {AxiosResponse} from "axios";
 import {CategoryDto} from "@/models/categories/CategoryDto.ts";
 import {ListCategoriesResponse} from "@/models/categories/ListCategoriesResponse.ts";
 import {ListTransactionsResponse} from "@/models/transactions/ListTransactionsResponse.ts";
+import {TransactionDto} from "@/models/transactions/TransactionDto.ts";
 
 export const categoriesApiConnector = {
     createCategory: async (category: CategoryDto) => {
@@ -49,4 +50,18 @@ export const categoriesApiConnector = {
             throw error;
         }
     },
+    getCategory: async (token: string, id: string) => {
+        try {
+            const response: AxiosResponse<CategoryDto> =
+                await axios.get(`/api/categories/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+            return response.data;
+        } catch (error) {
+            console.log('Error in getCategory: ', error);
+            throw error;
+        }
+    }
 }

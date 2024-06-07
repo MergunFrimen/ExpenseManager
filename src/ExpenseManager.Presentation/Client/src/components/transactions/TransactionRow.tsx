@@ -14,9 +14,11 @@ import {
 } from "../ui/dialog";
 import {transactionsApiConnector} from "@/api/transactionsApiConnector.ts";
 import {useAuth} from "@/components/auth/AuthProvider.tsx";
+import {useNavigate} from "react-router-dom";
 
 export function TransactionRow({transaction}: { transaction: TransactionDto }) {
     const {token} = useAuth();
+    const navigate = useNavigate();
     const {description, type, category, amount, date} = transaction;
     const sign = type === "Income" ? "+" : "-";
 
@@ -35,7 +37,9 @@ export function TransactionRow({transaction}: { transaction: TransactionDto }) {
             <TableCell className="hidden md:table-cell">{`${sign}\$${amount}`}</TableCell>
             <TableCell className="text-right">
                 <div className="flex flex-row gap-x-2 justify-end">
-                    <Button variant="outline" size="icon">
+                    <Button variant="outline" size="icon" onClick={() => {
+                        navigate(`/app/updateTransaction/${transaction.id}`)
+                    }}>
                         <Pencil
                             className="h-[1.2rem] w-[1.2rem]"/>
                     </Button>

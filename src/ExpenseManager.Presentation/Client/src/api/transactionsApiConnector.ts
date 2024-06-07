@@ -3,20 +3,29 @@ import {ListTransactionsResponse} from "@/models/transactions/ListTransactionsRe
 import {TransactionDto} from "@/models/transactions/TransactionDto.ts";
 
 export const transactionsApiConnector = {
-    createTransaction: async (transaction: TransactionDto) => {
+    createTransaction: async (token: string, transaction: TransactionDto) => {
         try {
             const response: AxiosResponse<TransactionDto> =
-                await axios.post(`/api/transactions`, transaction)
+                await axios.post(`/api/transactions`, transaction, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    },
+                });
             return response.data;
         } catch (error) {
             console.log('Error in createTransaction: ', error);
             throw error;
         }
     },
-    updateTransaction: async (transaction: TransactionDto) => {
+    updateTransaction: async (token: string, transaction: TransactionDto) => {
         try {
             const response: AxiosResponse<TransactionDto> =
-                await axios.put(`/api/transactions`, transaction);
+                await axios.put(`/api/transactions`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    },
+                    data: transaction
+                });
             return response.data;
         } catch (error) {
             console.log('Error in updateTransaction: ', error);
@@ -49,6 +58,20 @@ export const transactionsApiConnector = {
             return response.data;
         } catch (error) {
             console.log('Error in getTransactions: ', error);
+            throw error;
+        }
+    },
+    getTransaction: async (token: string, id: string) => {
+        try {
+            const response: AxiosResponse<TransactionDto> =
+                await axios.get(`/api/transactions/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+            return response.data;
+        } catch (error) {
+            console.log('Error in getTransaction: ', error);
             throw error;
         }
     }
