@@ -11,7 +11,7 @@ public static class DependencyInjection
         services.AddSingleton<ProblemDetailsFactory, ExpenseManagerProblemDetailsFactory>();
         services.AddMappings();
         services.AddControllers();
-        
+
         services.AddCors(options =>
         {
             options.AddPolicy("CorsPolicy",

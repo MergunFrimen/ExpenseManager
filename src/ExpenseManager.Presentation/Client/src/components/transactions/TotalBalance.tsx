@@ -1,9 +1,4 @@
-import {
-    Card,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card"
+import {Card, CardDescription, CardHeader, CardTitle,} from "@/components/ui/card"
 
 export function TotalBalance() {
     return (

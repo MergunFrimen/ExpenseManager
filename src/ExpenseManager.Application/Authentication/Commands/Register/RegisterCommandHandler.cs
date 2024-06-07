@@ -32,28 +32,25 @@ public class RegisterCommandHandler(
             command.Email,
             hashedPassword
         );
-        
+
         await userRepository.AddAsync(newUser, cancellationToken);
-        
+
         await AddDefaultCategories(newUser, cancellationToken);
 
         var token = tokenGenerator.GenerateToken(newUser);
 
         return new AuthenticationResult(newUser, token);
     }
-    
+
     private async Task AddDefaultCategories(User user, CancellationToken cancellationToken)
     {
         var categories = new List<Category>
         {
-            Category.Create(null,user.Id,"Salary"),
-            Category.Create(null,user.Id,"Food"),
-            Category.Create(null,user.Id,"Entertainment"),
+            Category.Create(null, user.Id, "Salary"),
+            Category.Create(null, user.Id, "Food"),
+            Category.Create(null, user.Id, "Entertainment")
         };
 
-        foreach (var category in categories)
-        {
-            await categoryRepository.AddAsync(category, cancellationToken);
-        }
+        foreach (var category in categories) await categoryRepository.AddAsync(category, cancellationToken);
     }
 }

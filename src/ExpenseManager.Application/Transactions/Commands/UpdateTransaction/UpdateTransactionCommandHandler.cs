@@ -18,7 +18,7 @@ public class UpdateTransactionCommandHandler(
         var transaction = await transactionRepository.GetByIdAsync(command.Id, cancellationToken);
         if (transaction is null)
             return Errors.Transaction.TransactionNotFound;
-        
+
         var category = await categoryRepository.GetByIdAsync(command.CategoryId, cancellationToken);
         if (category is null)
             return Errors.Category.CategoryNotFound;
@@ -32,7 +32,7 @@ public class UpdateTransactionCommandHandler(
             command.Date,
             command.CategoryId
         );
-        
+
         await transactionRepository.RemoveAsync(command.Id, cancellationToken);
         await transactionRepository.AddAsync(newTransaction, cancellationToken);
 

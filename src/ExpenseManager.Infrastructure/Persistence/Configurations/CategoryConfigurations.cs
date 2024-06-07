@@ -1,5 +1,4 @@
 using ExpenseManager.Domain.Categories;
-using ExpenseManager.Domain.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -11,7 +10,7 @@ public sealed class CategoryConfigurations : IEntityTypeConfiguration<Category>
     {
         ConfigureCategoryTable(builder);
     }
-    
+
     private void ConfigureCategoryTable(EntityTypeBuilder<Category> transactionsBuilder)
     {
         transactionsBuilder

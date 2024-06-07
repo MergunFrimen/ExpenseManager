@@ -13,11 +13,11 @@ public static class DependencyInjection
         ConfigurationManager configurationManager)
     {
         services.AddScoped<PublishDomainEventsInterceptor>();
-        
+
         services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<ITransactionRepository, TransactionRepository>();
-        
+
         var connectionString = configurationManager.GetConnectionString("DefaultConnection");
         services.AddDbContext<ExpenseManagerDbContext>(options =>
             options.UseNpgsql(connectionString)

@@ -19,7 +19,7 @@ public class CreateTransactionCommandHandler(
 
         if (category is null)
             return Errors.Category.CategoryNotFound;
-        
+
         var transaction = Transaction.Create(
             null,
             command.UserId,

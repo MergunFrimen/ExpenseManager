@@ -2,7 +2,6 @@ using ExpenseManager.Application.Transactions.Commands.CreateTransaction;
 using ExpenseManager.Application.Transactions.Commands.RemoveTransaction;
 using ExpenseManager.Application.Transactions.Commands.UpdateTransaction;
 using ExpenseManager.Application.Transactions.Common;
-using ExpenseManager.Application.Transactions.Queries;
 using ExpenseManager.Presentation.Contracts.Transactions;
 using Mapster;
 

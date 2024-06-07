@@ -4,6 +4,6 @@ export const Logout = () => {
     const {setToken} = useAuth();
 
     setToken();
-    
+
     return <></>
 };

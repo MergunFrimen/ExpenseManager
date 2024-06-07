@@ -15,9 +15,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Categories\Events\" />
-      <Folder Include="Transactions\Events\" />
-      <Folder Include="Users\Events\" />
+        <Folder Include="Categories\Events\"/>
+        <Folder Include="Transactions\Events\"/>
+        <Folder Include="Users\Events\"/>
     </ItemGroup>
 
 

@@ -1,9 +1,4 @@
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card"
+import {Card, CardContent, CardHeader, CardTitle,} from "@/components/ui/card"
 import {Table, TableBody, TableHead, TableHeader, TableRow} from "@/components/ui/table";
 import {TransactionRow} from "@/components/transactions/TransactionRow.tsx";
 import {useEffect, useState} from "react";
@@ -18,9 +13,10 @@ export default function TransactionTable() {
             const transactions = await apiConnector.getTransactions("1");
             setTransactions(transactions);
         }
+
         fetchTransactions();
     }, []);
-    
+
     return (
         <Card className="p-5 h-[500px]">
             <CardHeader className="px-7">

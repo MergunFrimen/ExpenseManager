@@ -11,8 +11,20 @@ import {
     DropdownMenuShortcut,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import {EllipsisVerticalIcon, Pencil, Trash2} from "lucide-react"
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger
+} from "@/components/ui/dialog.tsx";
+import {ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger} from "@/components/ui/context-menu.tsx";
+import {TransactionDto} from "@/components/models/TransactionDto.ts";
 
-export function TransactionRow({transaction}: {transaction: TransactionDto}) {
+export function TransactionRow({transaction}: { transaction: TransactionDto }) {
     return (
         <TableRow className="items-center odd:bg-accent/20">
             <TableCell>
@@ -32,22 +44,6 @@ export function TransactionRow({transaction}: {transaction: TransactionDto}) {
         </TableRow>
     );
 }
-
-import {
-    EllipsisVerticalIcon,
-    Pencil,
-    Trash2
-} from "lucide-react"
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle, DialogTrigger
-} from "@/components/ui/dialog.tsx";
-import {ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger} from "@/components/ui/context-menu.tsx";
-import {TransactionDto} from "@/components/models/TransactionDto.ts";
 
 export function DropdownMenuDemo() {
     return (

@@ -1,5 +1,4 @@
 using ExpenseManager.Domain.Transactions;
-using ExpenseManager.Domain.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

@@ -8,7 +8,7 @@ public class UserRepository(ExpenseManagerDbContext dbContext) : IUserRepository
 {
     public async Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken)
     {
-        var user = await dbContext.Users.SingleOrDefaultAsync(user => user.Email == email, cancellationToken: cancellationToken);
+        var user = await dbContext.Users.SingleOrDefaultAsync(user => user.Email == email, cancellationToken);
 
         return user;
     }

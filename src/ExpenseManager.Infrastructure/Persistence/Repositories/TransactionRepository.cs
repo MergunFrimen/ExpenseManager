@@ -11,33 +11,33 @@ public class TransactionRepository(ExpenseManagerDbContext dbContext) : ITransac
         var newTransaction = await dbContext.Transactions.AddAsync(transaction, cancellationToken);
 
         await dbContext.SaveChangesAsync(cancellationToken);
-        
+
         return newTransaction.Entity;
     }
-    
+
     public async Task<Transaction?> RemoveAsync(Guid id, CancellationToken cancellationToken)
     {
-        var transaction = await dbContext.Transactions.FirstOrDefaultAsync(t => t.Id == id, cancellationToken: cancellationToken);
+        var transaction = await dbContext.Transactions.FirstOrDefaultAsync(t => t.Id == id, cancellationToken);
 
         if (transaction is null) return null;
 
         dbContext.Transactions.Remove(transaction);
-        
+
         await dbContext.SaveChangesAsync(cancellationToken);
 
         return transaction;
     }
-    
+
     public async Task<Transaction?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
-        var transaction = await dbContext.Transactions.FirstOrDefaultAsync(t => t.Id == id, cancellationToken: cancellationToken);
+        var transaction = await dbContext.Transactions.FirstOrDefaultAsync(t => t.Id == id, cancellationToken);
 
         return transaction;
     }
 
     public async Task<Transaction?> GetByCategoryIdAsync(Guid id, CancellationToken cancellationToken)
     {
-        var transaction = await dbContext.Transactions.FirstOrDefaultAsync(t => t.CategoryId == id, cancellationToken: cancellationToken);
+        var transaction = await dbContext.Transactions.FirstOrDefaultAsync(t => t.CategoryId == id, cancellationToken);
 
         return transaction;
     }

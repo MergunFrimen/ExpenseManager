@@ -2,7 +2,6 @@ using ExpenseManager.Application.Categories.Commands.CreateCategory;
 using ExpenseManager.Application.Categories.Commands.RemoveCategory;
 using ExpenseManager.Application.Categories.Commands.UpdateCategory;
 using ExpenseManager.Application.Categories.Common;
-using ExpenseManager.Application.Categories.Queries;
 using ExpenseManager.Presentation.Contracts.Categories;
 using Mapster;
 

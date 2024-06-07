@@ -1,13 +1,7 @@
-import { Button } from "@/components/ui/button"
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import {Button} from "@/components/ui/button"
+import {Card, CardContent, CardDescription, CardHeader, CardTitle,} from "@/components/ui/card"
+import {Input} from "@/components/ui/input"
+import {Label} from "@/components/ui/label"
 import {Link, useNavigate} from "react-router-dom";
 import {useAuth} from "@/components/auth/AuthProvider.tsx";
 import {useState} from "react";
@@ -26,7 +20,7 @@ async function registerUser(credentials) {
 
 export function RegisterCard() {
     const navigate = useNavigate();
-    const { setToken} = useAuth();
+    const {setToken} = useAuth();
     const [firstName, setFirstName] = useState();
     const [lastName, setLastName] = useState();
     const [email, setEmail] = useState();

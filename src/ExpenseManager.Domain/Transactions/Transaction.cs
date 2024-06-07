@@ -53,7 +53,7 @@ public sealed class Transaction : Entity
             date,
             categoryId
         );
-        
+
         return transaction;
     }
 }

@@ -9,7 +9,7 @@ import App from "@/routes/App.tsx";
 import {Logout} from "@/routes/Logout.tsx";
 
 export function Routes() {
-    const { token } = useAuth();
+    const {token} = useAuth();
 
     const publicRoutes: RouteObject[] = [
         {
@@ -33,7 +33,7 @@ export function Routes() {
     const authRoutes: RouteObject[] = [
         {
             path: "/",
-            element: <ProtectedRoute />,
+            element: <ProtectedRoute/>,
             errorElement: <Error/>,
             children: [
                 {
@@ -47,12 +47,12 @@ export function Routes() {
             ],
         },
     ];
-    
+
     const router = createBrowserRouter([
         ...publicRoutes,
         ...(!token ? notAuthRoutes : []),
         ...authRoutes,
     ]);
 
-    return <RouterProvider router={router} />;
-};
+    return <RouterProvider router={router}/>;
+}

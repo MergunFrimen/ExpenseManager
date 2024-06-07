@@ -1,5 +1,4 @@
 using ExpenseManager.Domain.Common.Models;
-using ExpenseManager.Domain.Transactions;
 
 namespace ExpenseManager.Domain.Users;
 
@@ -23,7 +22,7 @@ public sealed class User : Entity
     private User()
     {
     }
-    
+
     public string FirstName { get; private set; } = null!;
     public string LastName { get; private set; } = null!;
     public string Email { get; private set; } = null!;

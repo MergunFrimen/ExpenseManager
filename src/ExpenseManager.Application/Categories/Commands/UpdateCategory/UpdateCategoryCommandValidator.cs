@@ -1,5 +1,4 @@
 using ExpenseManager.Application.Common.Extensions;
-using ExpenseManager.Application.Transactions.Commands.UpdateTransaction;
 using FluentValidation;
 
 namespace ExpenseManager.Application.Categories.Commands.UpdateCategory;

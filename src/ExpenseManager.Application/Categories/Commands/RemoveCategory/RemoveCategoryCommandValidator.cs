@@ -1,4 +1,3 @@
-using ExpenseManager.Application.Transactions.Commands.RemoveTransaction;
 using FluentValidation;
 
 namespace ExpenseManager.Application.Categories.Commands.RemoveCategory;

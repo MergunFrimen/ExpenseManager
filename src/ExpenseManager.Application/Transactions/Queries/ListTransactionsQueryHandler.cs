@@ -20,7 +20,7 @@ public class ListTransactionsQueryHandler(
         foreach (var transaction in transactions)
         {
             var category = await categoryRepository.GetByIdAsync(transaction.CategoryId, cancellationToken);
-            
+
             if (category is null)
                 return Errors.Category.CategoryNotFound;
 
