@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ExpenseManager.Infrastructure.Migrations
 {
     [DbContext(typeof(ExpenseManagerDbContext))]
-    [Migration("20240607140211_UpdatedDataModel")]
-    partial class UpdatedDataModel
+    [Migration("20240607142433_InitMigration")]
+    partial class InitMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
