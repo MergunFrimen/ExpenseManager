@@ -64,7 +64,7 @@ public class TransactionController(ISender mediatr, IMapper mapper) : ApiControl
             Problem
         );
     }
-    
+
     [HttpGet("{id}")]
     public async Task<IActionResult> Get(Guid id)
     {

@@ -6,7 +6,9 @@ using ExpenseManager.Domain.Common.Errors;
 
 namespace ExpenseManager.Application.Transactions.Queries.GetTransaction;
 
-public class GetTransactionQueryHandler(ITransactionRepository transactionRepository, ICategoryRepository categoryRepository)
+public class GetTransactionQueryHandler(
+    ITransactionRepository transactionRepository,
+    ICategoryRepository categoryRepository)
     : IQueryHandler<GetTransactionQuery, TransactionResult>
 {
     public async Task<ErrorOr<TransactionResult>> Handle(GetTransactionQuery query,
@@ -15,7 +17,7 @@ public class GetTransactionQueryHandler(ITransactionRepository transactionReposi
         var transaction = await transactionRepository.GetByIdAsync(query.Id, cancellationToken);
         if (transaction is null)
             return Errors.Transaction.TransactionNotFound;
-        
+
         var category = await categoryRepository.GetByIdAsync(transaction.CategoryId, cancellationToken);
         if (category is null)
             return Errors.Category.CategoryNotFound;

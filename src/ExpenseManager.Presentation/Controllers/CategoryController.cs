@@ -1,7 +1,6 @@
 using ExpenseManager.Application.Categories.Commands.CreateCategory;
 using ExpenseManager.Application.Categories.Commands.RemoveCategory;
 using ExpenseManager.Application.Categories.Commands.UpdateCategory;
-using ExpenseManager.Application.Categories.Queries;
 using ExpenseManager.Application.Categories.Queries.GetCategory;
 using ExpenseManager.Application.Categories.Queries.ListCategories;
 using ExpenseManager.Presentation.Contracts.Categories;
@@ -65,7 +64,7 @@ public class CategoryController(ISender mediatr, IMapper mapper) : ApiController
             Problem
         );
     }
-    
+
     [HttpGet("{:id}")]
     public async Task<IActionResult> Get(Guid id)
     {

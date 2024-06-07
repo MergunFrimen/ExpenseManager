@@ -1,4 +1,4 @@
-import {Link, useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import {transactionsApiConnector} from "@/api/transactionsApiConnector.ts";
 import {TransactionDto} from "@/models/transactions/TransactionDto.ts";
@@ -9,26 +9,12 @@ import {Input} from "@/components/ui/input.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import BaseLayout from "@/layouts/BaseLayout.tsx";
 import {categoriesApiConnector} from "@/api/categoriesApiConnector.ts";
-import {
-    DropdownMenu,
-    DropdownMenuCheckboxItem,
-    DropdownMenuContent, DropdownMenuLabel, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator,
-    DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu.tsx";
-import {ArrowBigLeft, CalendarIcon, CirclePlus, FilterIcon} from "lucide-react";
+import {ArrowBigLeft, CalendarIcon} from "lucide-react";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover.tsx";
 import {cn} from "@/lib/utils.ts";
 import {Calendar} from "@/components/ui/calendar.tsx";
 import {format} from "date-fns";
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue
-} from "@/components/ui/select.tsx";
+import {Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select.tsx";
 
 export function TransactionForm({type}: { type: "create" | "update" }) {
     const {id} = useParams();

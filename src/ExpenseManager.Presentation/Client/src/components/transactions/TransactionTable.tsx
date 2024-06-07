@@ -4,12 +4,12 @@ import {TransactionRow} from "@/components/transactions/TransactionRow.tsx";
 import {TransactionDto} from "@/models/transactions/TransactionDto.ts";
 import {ScrollArea} from "@/components/ui/scroll-area.tsx";
 import {useEffect, useState} from "react";
-import {CirclePlus, DownloadIcon, FilterIcon, LogOutIcon, SettingsIcon, UploadIcon} from "lucide-react";
+import {CirclePlus, FilterIcon} from "lucide-react";
 import {Button} from "@/components/ui/button.tsx";
 import {
-    DropdownMenu, DropdownMenuCheckboxItem,
+    DropdownMenu,
+    DropdownMenuCheckboxItem,
     DropdownMenuContent,
-    DropdownMenuItem,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu.tsx";
 import {useAuth} from "@/components/auth/AuthProvider.tsx";
@@ -21,7 +21,7 @@ export default function TransactionTable({transactions}: { transactions: Transac
     const [categories, setCategories] = useState([])
     const [filteredTransactions, setFilteredTransactions] = useState(transactions);
     const navigate = useNavigate();
-    
+
     function handleFilter(id: string) {
         const categoriesStatus = categories.map((category) => {
                 return {

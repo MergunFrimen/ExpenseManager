@@ -1,8 +1,6 @@
 import axios, {AxiosResponse} from "axios";
 import {CategoryDto} from "@/models/categories/CategoryDto.ts";
 import {ListCategoriesResponse} from "@/models/categories/ListCategoriesResponse.ts";
-import {ListTransactionsResponse} from "@/models/transactions/ListTransactionsResponse.ts";
-import {TransactionDto} from "@/models/transactions/TransactionDto.ts";
 
 export const categoriesApiConnector = {
     createCategory: async (category: CategoryDto) => {

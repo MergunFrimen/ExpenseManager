@@ -9,11 +9,7 @@ public class PublishDomainEventsInterceptor(IPublisher mediatr) : SaveChangesInt
 {
     public override InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)
     {
-        // TODO: enforce async
         throw new NotImplementedException();
-
-        // PublishDomainEvents(eventData.Context).GetAwaiter().GetResult();
-        // return base.SavingChanges(eventData, result);
     }
 
     public override async ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData,

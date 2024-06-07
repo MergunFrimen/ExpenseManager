@@ -7,7 +7,7 @@ import {
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu.tsx";
 import {Button} from "@/components/ui/button.tsx";
-import {DownloadIcon, LogOutIcon, SettingsIcon, UploadIcon} from "lucide-react";
+import {LogOutIcon, SettingsIcon} from "lucide-react";
 
 export function Header() {
     const location = useLocation();

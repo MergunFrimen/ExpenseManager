@@ -20,7 +20,7 @@ export default function Dashboard() {
 
         fetchTransactions();
     }, [token]);
-    
+
     return <BaseLayout>
         <div className="container flex flex-col size-full gap-y-3">
             <TotalBalance transactions={transactions}/>

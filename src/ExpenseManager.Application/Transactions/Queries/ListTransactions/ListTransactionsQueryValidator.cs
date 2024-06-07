@@ -1,8 +1,9 @@
+using ExpenseManager.Application.Transactions.Queries.GetTransaction;
 using FluentValidation;
 
 namespace ExpenseManager.Application.Transactions.Queries.ListTransactions;
 
-public class ListTransactionsQueryValidator : AbstractValidator<GetTransaction.GetTransactionQuery>
+public class ListTransactionsQueryValidator : AbstractValidator<GetTransactionQuery>
 {
     public ListTransactionsQueryValidator()
     {

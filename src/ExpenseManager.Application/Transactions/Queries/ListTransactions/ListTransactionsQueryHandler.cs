@@ -12,7 +12,8 @@ public class ListTransactionsQueryHandler(
     : IQueryHandler<ListTransactionsQuery, List<TransactionResult>>
 
 {
-    public async Task<ErrorOr<List<TransactionResult>>> Handle(ListTransactionsQuery query, CancellationToken cancellationToken)
+    public async Task<ErrorOr<List<TransactionResult>>> Handle(ListTransactionsQuery query,
+        CancellationToken cancellationToken)
     {
         var transactions = await transactionRepository.GetAllAsync(query.UserId, cancellationToken);
         List<TransactionResult> result = [];
