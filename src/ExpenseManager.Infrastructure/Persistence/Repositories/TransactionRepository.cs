@@ -6,54 +6,40 @@ namespace ExpenseManager.Infrastructure.Persistence.Repositories;
 
 public class TransactionRepository(ExpenseManagerDbContext dbContext) : ITransactionRepository
 {
-    private static List<Transaction> _transactions = [];
-    
     public async Task<Transaction> AddAsync(Transaction transaction, CancellationToken cancellationToken)
     {
-        await dbContext.Transactions.AddAsync(transaction, cancellationToken);
+        var newTransaction = await dbContext.Transactions.AddAsync(transaction, cancellationToken);
+
         await dbContext.SaveChangesAsync(cancellationToken);
-
-        return transaction;
+        
+        return newTransaction.Entity;
     }
-
-    public async Task<Transaction?> RemoveAsync(Guid transactionId, CancellationToken cancellationToken)
+    
+    public async Task<Transaction?> RemoveAsync(Guid id, CancellationToken cancellationToken)
     {
-        var transaction = await dbContext.Transactions.FirstOrDefaultAsync(t => t.Id == transactionId,
-            cancellationToken);
+        var transaction = await dbContext.Transactions.FirstOrDefaultAsync(t => t.Id == id, cancellationToken: cancellationToken);
 
-        if (transaction is null) return transaction;
+        if (transaction is null) return null;
 
         dbContext.Transactions.Remove(transaction);
+        
         await dbContext.SaveChangesAsync(cancellationToken);
 
         return transaction;
     }
-
-    public async Task<Transaction?> UpdateAsync(Transaction transaction, CancellationToken cancellationToken)
+    
+    public async Task<Transaction?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
-        var existingTransaction = await dbContext.Transactions.FirstOrDefaultAsync(t => t.Id == transaction.Id,
-            cancellationToken);
-
-        if (existingTransaction is null) return existingTransaction;
-
-        dbContext.Transactions.Remove(existingTransaction);
-        dbContext.Transactions.Add(transaction);
-        await dbContext.SaveChangesAsync(cancellationToken);
-
-        return existingTransaction;
-    }
-
-    public async Task<Transaction?> GetByIdAsync(Guid transactionId, CancellationToken cancellationToken)
-    {
-        var transaction = await dbContext.Transactions.FirstOrDefaultAsync(t => t.Id == transactionId,
-            cancellationToken);
+        var transaction = await dbContext.Transactions.FirstOrDefaultAsync(t => t.Id == id, cancellationToken: cancellationToken);
 
         return transaction;
     }
 
-    public Task<Transaction?> GetByCategoryIdAsync(Guid id, CancellationToken cancellationToken)
+    public async Task<Transaction?> GetByCategoryIdAsync(Guid id, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var transaction = await dbContext.Transactions.FirstOrDefaultAsync(t => t.CategoryId == id, cancellationToken: cancellationToken);
+
+        return transaction;
     }
 
     public async Task<List<Transaction>> GetAllAsync(Guid userId, CancellationToken cancellationToken)

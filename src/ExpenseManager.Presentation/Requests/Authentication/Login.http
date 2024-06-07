@@ -9,13 +9,3 @@ Content-Type: application/json
   "email": "dominik@tichy.cz",
   "password": "Pa$$word1"
 }
-
-### Invalid request
-
-POST {{host}}/auth/login
-Content-Type: application/json
-
-{
-  "email": "dominik@tichy.cz",
-  "password": ""
-}

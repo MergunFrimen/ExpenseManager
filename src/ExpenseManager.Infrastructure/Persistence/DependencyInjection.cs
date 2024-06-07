@@ -15,8 +15,8 @@ public static class DependencyInjection
         services.AddScoped<PublishDomainEventsInterceptor>();
         
         services.AddScoped<ICategoryRepository, CategoryRepository>();
-        services.AddScoped<IUserRepository, TestUserRepository>();
-        services.AddScoped<ITransactionRepository, TestTransactionRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<ITransactionRepository, TransactionRepository>();
         
         var connectionString = configurationManager.GetConnectionString("DefaultConnection");
         services.AddDbContext<ExpenseManagerDbContext>(options =>
