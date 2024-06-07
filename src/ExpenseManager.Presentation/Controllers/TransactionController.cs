@@ -17,9 +17,9 @@ public class TransactionController(ISender mediatr, IMapper mapper) : ApiControl
     {
         var userId = GetUserId();
         var command = mapper.Map<CreateTransactionCommand>((request, userId));
-        var createTransactionResult = await mediatr.Send(command);
+        var result = await mediatr.Send(command);
 
-        return createTransactionResult.Match(
+        return result.Match(
             value => Ok(mapper.Map<TransactionResponse>(value)),
             Problem
         );
@@ -30,9 +30,9 @@ public class TransactionController(ISender mediatr, IMapper mapper) : ApiControl
     {
         var userId = GetUserId();
         var command = mapper.Map<UpdateTransactionCommand>((request, userId));
-        var updateTransactionResult = await mediatr.Send(command);
+        var result = await mediatr.Send(command);
 
-        return updateTransactionResult.Match(
+        return result.Match(
             value => Ok(mapper.Map<TransactionResponse>(value)),
             Problem
         );
@@ -43,22 +43,22 @@ public class TransactionController(ISender mediatr, IMapper mapper) : ApiControl
     {
         var userId = GetUserId();
         var command = mapper.Map<RemoveTransactionCommand>((request, userId));
-        var removeTransactionResult = await mediatr.Send(command);
+        var result = await mediatr.Send(command);
 
-        return removeTransactionResult.Match(
+        return result.Match(
             value => Ok(mapper.Map<TransactionResponse>(value)),
             Problem
         );
     }
     
     [HttpGet]
-    public async Task<IActionResult> List(ListTransactionsRequest request)
+    public async Task<IActionResult> List()
     {
         var userId = GetUserId();
-        var query = mapper.Map<ListTransactionsQuery>((request, userId));
-        var getTransactionsResult = await mediatr.Send(query);
+        var query = new ListTransactionsQuery(userId);
+        var result = await mediatr.Send(query);
 
-        return getTransactionsResult.Match(
+        return result.Match(
             value => Ok(mapper.Map<List<TransactionResponse>>(value)),
             Problem
         );

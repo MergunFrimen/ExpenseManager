@@ -1,8 +1,8 @@
-using ExpenseManager.Application.Transactions.Commands.CreateTransaction;
-using ExpenseManager.Application.Transactions.Commands.RemoveTransaction;
-using ExpenseManager.Application.Transactions.Commands.UpdateTransaction;
-using ExpenseManager.Application.Transactions.Queries;
-using ExpenseManager.Presentation.Contracts.Transactions;
+using ExpenseManager.Application.Categories.Commands.CreateCategory;
+using ExpenseManager.Application.Categories.Commands.RemoveCategory;
+using ExpenseManager.Application.Categories.Commands.UpdateCategory;
+using ExpenseManager.Application.Categories.Queries;
+using ExpenseManager.Presentation.Contracts.Categories;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -12,54 +12,54 @@ namespace ExpenseManager.Presentation.Controllers;
 [Route("/categories")]
 public class CategoryController(ISender mediatr, IMapper mapper) : ApiController
 {
-    [HttpGet]
-    public async Task<IActionResult> GetAll()
-    {
-        var userId = GetUserId();
-        var query = mapper.Map<ListTransactionsQuery>(userId);
-        var getTransactionsResult = await mediatr.Send(query);
-
-        return getTransactionsResult.Match(
-            value => Ok(mapper.Map<List<TransactionResponse>>(value)),
-            Problem
-        );
-    }
-
     [HttpPost]
-    public async Task<IActionResult> Create(CreateTransactionRequest request)
+    public async Task<IActionResult> Create(CreateCategoryRequest request)
     {
         var userId = GetUserId();
-        var command = mapper.Map<CreateTransactionCommand>((request, userId));
-        var createTransactionResult = await mediatr.Send(command);
+        var command = mapper.Map<CreateCategoryCommand>((request, userId));
+        var result = await mediatr.Send(command);
 
-        return createTransactionResult.Match(
-            value => Ok(mapper.Map<TransactionResponse>(value)),
+        return result.Match(
+            value => Ok(mapper.Map<CategoryResponse>(value)),
             Problem
         );
     }
 
     [HttpPut]
-    public async Task<IActionResult> Update(UpdateTransactionRequest request)
+    public async Task<IActionResult> Update(UpdateCategoryRequest request)
     {
         var userId = GetUserId();
-        var command = mapper.Map<UpdateTransactionCommand>((request, userId));
-        var updateTransactionResult = await mediatr.Send(command);
+        var command = mapper.Map<UpdateCategoryCommand>((request, userId));
+        var result = await mediatr.Send(command);
 
-        return updateTransactionResult.Match(
-            value => Ok(mapper.Map<TransactionResponse>(value)),
+        return result.Match(
+            value => Ok(mapper.Map<CategoryResponse>(value)),
             Problem
         );
     }
 
     [HttpDelete]
-    public async Task<IActionResult> Remove(RemoveTransactionRequest request)
+    public async Task<IActionResult> Remove(RemoveCategoryRequest request)
     {
         var userId = GetUserId();
-        var command = mapper.Map<RemoveTransactionCommand>((request, userId));
-        var removeTransactionResult = await mediatr.Send(command);
+        var command = mapper.Map<RemoveCategoryCommand>((request, userId));
+        var result = await mediatr.Send(command);
 
-        return removeTransactionResult.Match(
-            value => Ok(mapper.Map<TransactionResponse>(value)),
+        return result.Match(
+            value => Ok(mapper.Map<CategoryResponse>(value)),
+            Problem
+        );
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> List()
+    {
+        var userId = GetUserId();
+        var query = new ListCategoriesQuery(userId);
+        var result = await mediatr.Send(query);
+
+        return result.Match(
+            value => Ok(mapper.Map<List<CategoryResponse>>(value)),
             Problem
         );
     }

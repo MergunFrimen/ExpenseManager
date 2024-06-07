@@ -8,7 +8,7 @@ public sealed record UpdateTransactionCommand(
     Guid UserId,
     Guid Id,
     TransactionType Type,
-    Guid? CategoryId,
+    Guid CategoryId,
     string Description,
     decimal Amount,
     DateTime Date

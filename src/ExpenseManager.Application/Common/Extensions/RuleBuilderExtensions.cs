@@ -1,3 +1,4 @@
+using ExpenseManager.Domain.Transactions.ValueObjects;
 using FluentValidation;
 
 namespace ExpenseManager.Application.Common.Extensions;
@@ -13,5 +14,25 @@ public static class RuleBuilderExtensions
             .Matches("[a-z]").WithMessage("Password must contain at least one lowercase letter")
             .Matches("[0-9]").WithMessage("Password must contain at least one number")
             .Matches("[^a-zA-Z0-9]").WithMessage("Password must contain at least one special character");
+    }
+
+    public static void MoneyAmount<T>(this IRuleBuilder<T, decimal> ruleBuilder)
+    {
+        var options = ruleBuilder
+            .NotEmpty()
+            .GreaterThan(0).WithMessage("Amount must be greater than 0");
+    }
+    
+    public static void CategoryName<T>(this IRuleBuilder<T, string> ruleBuilder)
+    {
+        var options = ruleBuilder
+            .NotEmpty()
+            .MaximumLength(50).WithMessage("Category name must not exceed 50 characters");
+    }
+    
+    public static void TransactionType<T>(this IRuleBuilder<T, TransactionType> ruleBuilder)
+    {
+        var options = ruleBuilder
+            .IsInEnum().WithMessage("Transaction type must be either Income or Expense");
     }
 }

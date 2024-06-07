@@ -1,6 +1,6 @@
 using ExpenseManager.Domain.Common.Models;
 
-namespace ExpenseManager.Domain.Category;
+namespace ExpenseManager.Domain.Categories;
 
 public sealed class Category : Entity
 {
@@ -22,16 +22,17 @@ public sealed class Category : Entity
     public string Name { get; private set; } = null!;
 
     public static Category Create(
+        Guid? id,
         Guid userId,
         string name
     )
     {
         var transaction = new Category(
-            Guid.NewGuid(),
+            id ?? Guid.NewGuid(),
             userId,
             name
         );
-        
+
         return transaction;
     }
 }

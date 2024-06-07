@@ -22,22 +22,30 @@ public sealed class TransactionConfigurations : IEntityTypeConfiguration<Transac
         transactionsBuilder
             .Property(s => s.Id)
             .ValueGeneratedNever()
-            .HasConversion<Guid>();
+            .HasConversion<Guid>()
+            .IsRequired();
         transactionsBuilder
             .Property(s => s.UserId)
             .ValueGeneratedNever()
-            .HasConversion<Guid>();
+            .HasConversion<Guid>()
+            .IsRequired();
         transactionsBuilder
             .Property(s => s.CategoryId)
             .ValueGeneratedNever()
-            .HasConversion<Guid>();
+            .HasConversion<Guid>()
+            .IsRequired();
         transactionsBuilder
-            .Property(s => s.Type);
+            .Property(s => s.Type)
+            .IsRequired();
         transactionsBuilder
-            .Property(s => s.Description);
+            .Property(s => s.Description)
+            .HasMaxLength(150)
+            .IsRequired();
         transactionsBuilder
-            .Property(s => s.Amount);
+            .Property(s => s.Amount)
+            .IsRequired();
         transactionsBuilder
-            .Property(s => s.Date);
+            .Property(s => s.Date)
+            .IsRequired();
     }
 }

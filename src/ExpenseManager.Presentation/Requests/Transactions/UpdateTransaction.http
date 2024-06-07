@@ -1,0 +1,20 @@
+@host = http://localhost:5222
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiNGE3ZjE0NC0wMWYyLTQ1MzUtYjIxYS1hMGIxOWIzYmYxMjYiLCJnaXZlbl9uYW1lIjoiRG9taW5payIsImZhbWlseV9uYW1lIjoiVGljaHkiLCJqdGkiOiI4MGMzNDBkMS03YWMxLTRlZjEtOWM4MS1lNTM1NTE2ZDUyYWIiLCJpc3MiOiJFeHBlbnNlTWFuYWdlciIsImF1ZCI6IkV4cGVuc2VNYW5hZ2VyIiwiZXhwIjoxNzE4MTIzNjk0fQ.LxPjf-DffUOmRk0HH-ErNixWVQSIOg6y_Okr9sdBN9c
+
+@transactionId = 4494f46c-3741-4065-8eaa-9c2fd6ec4e4f
+@categoryId = a0a70632-35eb-49b4-95ec-9eecfb7ab9dc
+
+### Update transaction
+
+PUT {{host}}/transactions
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "id": "{{transactionId}}",
+  "type": "Income",
+  "categoryId": "{{categoryId}}",
+  "description": "Something",
+  "amount": 200.00,
+  "date": "2021-01-01T00:00:00Z"
+}

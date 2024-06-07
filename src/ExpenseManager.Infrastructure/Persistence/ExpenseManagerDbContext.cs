@@ -1,3 +1,4 @@
+using ExpenseManager.Domain.Categories;
 using ExpenseManager.Domain.Common.Models;
 using ExpenseManager.Domain.Transactions;
 using ExpenseManager.Domain.Users;
@@ -13,6 +14,7 @@ public class ExpenseManagerDbContext(
 {
     public DbSet<User> Users { get; init; } = null!;
     public DbSet<Transaction> Transactions { get; init; } = null!;
+    public DbSet<Category> Categories { get; init; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

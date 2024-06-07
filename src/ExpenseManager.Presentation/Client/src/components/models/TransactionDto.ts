@@ -4,6 +4,6 @@ export interface TransactionDto {
     type: string;
     category: string;
     description: string;
-    price: number;
+    amount: number;
     date: string;
 }

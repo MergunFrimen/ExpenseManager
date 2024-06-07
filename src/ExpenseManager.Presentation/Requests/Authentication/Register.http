@@ -11,3 +11,15 @@ Content-Type: application/json
   "email": "dominik@tichy.cz",
   "password": "Pa$$word1"
 }
+
+### Invalid request
+
+POST {{host}}/auth/register
+Content-Type: application/json
+
+{
+  "firstName": "Dominik",
+  "lastName": "Tichy",
+  "email": "dominik@tichy.cz",
+  "password": ""
+}

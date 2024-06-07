@@ -21,17 +21,22 @@ public sealed class UserConfigurations : IEntityTypeConfiguration<User>
         usersBuilder
             .Property(u => u.Id)
             .ValueGeneratedNever()
-            .HasConversion<Guid>();
+            .HasConversion<Guid>()
+            .IsRequired();
         usersBuilder
             .Property(u => u.FirstName)
-            .HasMaxLength(50);
+            .HasMaxLength(50)
+            .IsRequired();
         usersBuilder
             .Property(u => u.LastName)
-            .HasMaxLength(50);
+            .HasMaxLength(50)
+            .IsRequired();
         usersBuilder
             .Property(u => u.Email)
-            .HasMaxLength(150);
+            .HasMaxLength(150)
+            .IsRequired();
         usersBuilder
-            .Property(u => u.Password);
+            .Property(u => u.Password)
+            .IsRequired();
     }
 }

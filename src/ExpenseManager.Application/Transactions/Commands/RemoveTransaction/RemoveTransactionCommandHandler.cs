@@ -12,11 +12,11 @@ public class RemoveTransactionCommandHandler(ITransactionRepository transactionR
     public async Task<ErrorOr<TransactionResult>> Handle(RemoveTransactionCommand request,
         CancellationToken cancellationToken)
     {
-        var transaction = await transactionRepository.RemoveAsync(request.TransactionId, cancellationToken);
+        var transaction = await transactionRepository.RemoveAsync(request.Id, cancellationToken);
 
         if (transaction is null)
             return Errors.Transaction.TransactionNotFound;
 
-        return new TransactionResult(transaction);
+        return new TransactionResult(transaction, "");
     }
 }

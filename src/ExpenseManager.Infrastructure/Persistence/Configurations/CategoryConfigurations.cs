@@ -1,4 +1,4 @@
-using ExpenseManager.Domain.Category;
+using ExpenseManager.Domain.Categories;
 using ExpenseManager.Domain.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -22,13 +22,16 @@ public sealed class CategoryConfigurations : IEntityTypeConfiguration<Category>
         transactionsBuilder
             .Property(s => s.Id)
             .ValueGeneratedNever()
-            .HasConversion<Guid>();
+            .HasConversion<Guid>()
+            .IsRequired();
         transactionsBuilder
             .Property(s => s.UserId)
             .ValueGeneratedNever()
-            .HasConversion<Guid>();
+            .HasConversion<Guid>()
+            .IsRequired();
         transactionsBuilder
             .Property(s => s.Name)
+            .HasMaxLength(50)
             .IsRequired();
     }
 }

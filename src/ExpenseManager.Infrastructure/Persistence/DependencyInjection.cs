@@ -13,9 +13,14 @@ public static class DependencyInjection
         ConfigurationManager configurationManager)
     {
         services.AddScoped<PublishDomainEventsInterceptor>();
+        
+        services.AddScoped<ICategoryRepository, TestCategoryRepository>();
+        services.AddScoped<IUserRepository, TestUserRepository>();
+        services.AddScoped<ITransactionRepository, TestTransactionRepository>();
 
-        services.AddScoped<IUserRepository, UserRepository>();
-        services.AddScoped<ITransactionRepository, TransactionRepository>();
+        // services.AddScoped<ICategoryRepository, CategoryRepository>();
+        // services.AddScoped<IUserRepository, UserRepository>();
+        // services.AddScoped<ITransactionRepository, TransactionRepository>();
 
         services.AddDbContext<ExpenseManagerDbContext>(options =>
             options.UseNpgsql("Server=127.0.0.1;UserName=postgres;Password=postgres;Database=ExpenseManager;Port=5432")

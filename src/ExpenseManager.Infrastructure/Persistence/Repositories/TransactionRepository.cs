@@ -51,7 +51,12 @@ public class TransactionRepository(ExpenseManagerDbContext dbContext) : ITransac
         return transaction;
     }
 
-    public async Task<List<Transaction>> GetAllByUserIdAsync(Guid userId, CancellationToken cancellationToken)
+    public Task<Transaction?> GetByCategoryIdAsync(Guid id, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<List<Transaction>> GetAllAsync(Guid userId, CancellationToken cancellationToken)
     {
         var transactions = await dbContext.Transactions.Where(t => t.UserId == userId).ToListAsync(cancellationToken);
 

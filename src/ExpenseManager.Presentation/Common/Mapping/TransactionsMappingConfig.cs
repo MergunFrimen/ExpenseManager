@@ -27,9 +27,5 @@ public class TransactionsMappingConfig : IRegister
         config.NewConfig<(RemoveTransactionRequest Request, Guid UserId), RemoveTransactionCommand>()
             .Map(dest => dest.UserId, src => src.UserId)
             .Map(dest => dest, src => src.Request);
-
-        config.NewConfig<(ListTransactionsRequest Request, Guid UserId), ListTransactionsQuery>()
-            .Map(dest => dest.UserId, src => src)
-            .Map(dest => dest, src => src.Request);
     }
 }
