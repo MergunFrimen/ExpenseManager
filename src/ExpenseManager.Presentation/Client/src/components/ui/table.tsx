@@ -13,8 +13,32 @@ const Table = React.forwardRef<
             {...props}
         />
     </div>
-))
-Table.displayName = "Table"
+));
+Table.displayName = "Table";
+
+const TableFixed = React.forwardRef<
+    HTMLTableElement,
+    React.HTMLAttributes<HTMLTableElement>
+>(({className, ...props}, ref) => (
+    <table
+        ref={ref}
+        className={cn("w-full caption-bottom text-sm", className)}
+        {...props}
+    />
+));
+TableFixed.displayName = "TableFixed";
+
+const TableHeaderFixed = React.forwardRef<
+    HTMLTableSectionElement,
+    React.HTMLAttributes<HTMLTableSectionElement>
+>(({className, ...props}, ref) => (
+    <thead
+        ref={ref}
+        className={cn("sticky top-0 bg-secondary [&_tr]:border-b", className)}
+        {...props}
+    />
+));
+TableHeaderFixed.displayName = "TableHeaderFixed";
 
 const TableHeader = React.forwardRef<
     HTMLTableSectionElement,
@@ -107,6 +131,8 @@ TableCaption.displayName = "TableCaption"
 
 export {
     Table,
+    TableFixed,
+    TableHeaderFixed,
     TableHeader,
     TableBody,
     TableFooter,
@@ -114,4 +140,4 @@ export {
     TableRow,
     TableCell,
     TableCaption,
-}
+};
