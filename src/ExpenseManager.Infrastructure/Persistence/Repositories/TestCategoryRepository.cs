@@ -7,51 +7,46 @@ namespace ExpenseManager.Infrastructure.Persistence.Repositories;
 
 public class TestCategoryRepository(ExpenseManagerDbContext dbContext) : ICategoryRepository
 {
-    private static readonly List<Category> Categories = [];
-
-    public void TestConnection()
+    public async Task<Category> AddAsync(Category category, CancellationToken cancellationToken)
     {
-        var connection = dbContext.Database.GetDbConnection();
-        var canConnect = dbContext.Database.CanConnect();
-        Console.WriteLine("Test connection");
+        var newCategory = await dbContext.Categories.AddAsync(category, cancellationToken);
+        
+        await dbContext.SaveChangesAsync(cancellationToken);
+        
+        return newCategory.Entity;
     }
 
-    public Task<Category> AddAsync(Category category, CancellationToken cancellationToken)
+    public async Task<Category?> RemoveAsync(Guid id, CancellationToken cancellationToken)
     {
-        TestConnection();
-        
-        Categories.Add(category);
-        
-        return Task.FromResult(category);
-    }
+        var category = await dbContext.Categories.FirstOrDefaultAsync(c => c.Id == id, cancellationToken: cancellationToken);
 
-    public Task<Category?> RemoveAsync(Guid id, CancellationToken cancellationToken)
-    {
-        var category = Categories.FirstOrDefault(c => c.Id == id);
+        if (category is null) return null;
         
-        if (category is null) return Task.FromResult<Category?>(null);
+        dbContext.Categories.Remove(category);
         
-        Categories.Remove(category);
+        await dbContext.SaveChangesAsync(cancellationToken);
         
-        return Task.FromResult<Category?>(category);
+        return category;
     }
     
-    public Task<Category?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+    public async Task<Category?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
-        var category = Categories.FirstOrDefault(c => c.Id == id);
+        var category = await dbContext.Categories.FirstOrDefaultAsync(c => c.Id == id, cancellationToken: cancellationToken);
         
-        return Task.FromResult(category);
+        return category;
     }
 
-    public Task<Category?> GetByNameAsync(string name, CancellationToken cancellationToken)
+    public async Task<Category?> GetByNameAsync(string name, CancellationToken cancellationToken)
     {
-        var category = Categories.FirstOrDefault(c => c.Name == name);
+        var category = await dbContext.Categories.FirstOrDefaultAsync(c => c.Name == name, cancellationToken: cancellationToken);
         
-        return Task.FromResult(category);
+        return category;
     }
 
-    public Task<List<Category>> GetAllAsync(Guid userId, CancellationToken cancellationToken)
+    public async Task<List<Category>> GetAllAsync(Guid userId, CancellationToken cancellationToken)
     {
-        return Task.FromResult(Categories);
+        var categories = await dbContext.Categories.Where(c => c.UserId == userId).ToListAsync(cancellationToken);
+        
+        return categories;
     }
 }
