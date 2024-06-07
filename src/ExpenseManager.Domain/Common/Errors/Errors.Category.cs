@@ -17,5 +17,9 @@ public static partial class Errors
         public static Error CategoryUsedInTransactions => Error.Conflict(
             "Category.CategoryUsedInTransactions",
             "Category is used in transactions.");
+        
+        public static Error Unauthorized => Error.Unauthorized(
+            "Category.Unauthorized",
+            "Unauthorized.");
     }
 }

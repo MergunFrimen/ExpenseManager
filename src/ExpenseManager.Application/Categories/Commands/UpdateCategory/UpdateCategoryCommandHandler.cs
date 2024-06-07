@@ -17,6 +17,9 @@ public class UpdateCategoryCommandHandler(
         var category = await categoryRepository.GetByIdAsync(command.Id, cancellationToken);
         if (category is null)
             return Errors.Category.CategoryNotFound;
+        
+        if (category.UserId != command.UserId)
+            return Errors.Category.Unauthorized;
 
         var categories = await categoryRepository.GetAllAsync(command.UserId, cancellationToken);
 

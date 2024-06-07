@@ -9,13 +9,16 @@ namespace ExpenseManager.Application.Transactions.Commands.RemoveTransaction;
 public class RemoveTransactionCommandHandler(ITransactionRepository transactionRepository)
     : ICommandHandler<RemoveTransactionCommand, TransactionResult>
 {
-    public async Task<ErrorOr<TransactionResult>> Handle(RemoveTransactionCommand request,
+    public async Task<ErrorOr<TransactionResult>> Handle(RemoveTransactionCommand command,
         CancellationToken cancellationToken)
     {
-        var transaction = await transactionRepository.RemoveAsync(request.Id, cancellationToken);
+        var transaction = await transactionRepository.RemoveAsync(command.Id, cancellationToken);
 
         if (transaction is null)
             return Errors.Transaction.TransactionNotFound;
+        
+        if (transaction.UserId != command.UserId)
+            return Errors.Transaction.Unauthorized;
 
         return new TransactionResult(transaction, "");
     }
