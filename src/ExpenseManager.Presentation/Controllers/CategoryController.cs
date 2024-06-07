@@ -9,8 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ExpenseManager.Presentation.Controllers;
 
-[Route("/transactions")]
-public class TransactionController(ISender mediatr, IMapper mapper) : ApiController
+[Route("/categories")]
+public class CategoryController(ISender mediatr, IMapper mapper) : ApiController
 {
     [HttpGet]
     public async Task<IActionResult> GetAll()

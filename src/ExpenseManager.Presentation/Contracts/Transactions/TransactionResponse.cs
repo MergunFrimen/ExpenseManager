@@ -1,11 +1,11 @@
 namespace ExpenseManager.Presentation.Contracts.Transactions;
 
 public record TransactionResponse(
-    Guid Id,
-    Guid UserId,
+    string Id,
+    string UserId,
     string Type,
-    string Category,
     string Description,
     decimal Price,
+    string Category,
     DateTime Date
 );

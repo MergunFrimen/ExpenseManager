@@ -7,7 +7,7 @@
 #### Register Request
 
 ```http request
-POST /api/register
+POST /auth/register
 ```
 
 ```json
@@ -27,7 +27,7 @@ POST /api/register
 
 ```json
 {
-  "id": "48f85641-9964-413b-9911-3d3529875671",
+  "id": "00000000-0000-0000-0000-000000000000",
   "firstName": "Dominik",
   "lastName": "Tichy",
   "email": "dominik@tichy.cz",
@@ -40,7 +40,7 @@ POST /api/register
 #### Login Request
 
 ```http request
-POST /api/login
+POST /auth/login
 ```
 
 ```json
@@ -58,7 +58,7 @@ POST /api/login
 
 ```json
 {
-  "id": "48f85641-9964-413b-9911-3d3529875671",
+  "id": "00000000-0000-0000-0000-000000000000",
   "firstName": "Dominik",
   "lastName": "Tichy",
   "email": "dominik@tichy.cz",

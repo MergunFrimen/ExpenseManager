@@ -2,6 +2,7 @@ using ExpenseManager.Application.Transactions.Commands.CreateTransaction;
 using ExpenseManager.Application.Transactions.Commands.RemoveTransaction;
 using ExpenseManager.Application.Transactions.Commands.UpdateTransaction;
 using ExpenseManager.Application.Transactions.Common;
+using ExpenseManager.Application.Transactions.Queries;
 using ExpenseManager.Presentation.Contracts.Transactions;
 using Mapster;
 
@@ -11,6 +12,9 @@ public class TransactionsMappingConfig : IRegister
 {
     public void Register(TypeAdapterConfig config)
     {
+        config.NewConfig<Guid, ListTransactionsQuery>()
+            .Map(dest => dest.UserId, src => src);
+
         config.NewConfig<(CreateTransactionRequest Request, Guid UserId), CreateTransactionCommand>()
             .Map(dest => dest.UserId, src => src.UserId)
             .Map(dest => dest, src => src.Request);

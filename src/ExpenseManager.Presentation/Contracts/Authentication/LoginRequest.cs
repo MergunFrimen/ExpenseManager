@@ -1,6 +1,6 @@
 namespace ExpenseManager.Presentation.Contracts.Authentication;
 
-public record LoginRequest(
+public sealed record LoginRequest(
     string Email,
     string Password
 );

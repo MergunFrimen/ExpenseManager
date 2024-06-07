@@ -6,6 +6,7 @@ import {ProtectedRoute} from "@/routes/ProtectedRoute.tsx";
 import Error from "@/routes/Error.tsx";
 import {useAuth} from "@/components/auth/AuthProvider.tsx";
 import App from "@/routes/App.tsx";
+import {Logout} from "@/routes/Logout.tsx";
 
 export function Routes() {
     const { token } = useAuth();
@@ -39,6 +40,10 @@ export function Routes() {
                     path: "app",
                     element: <App/>,
                 },
+                {
+                    path: "logout",
+                    element: <Logout/>,
+                }
             ],
         },
     ];
