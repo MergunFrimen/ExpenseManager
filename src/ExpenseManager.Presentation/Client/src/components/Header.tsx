@@ -41,14 +41,14 @@ function Settings() {
                     <LogOutIcon className="mr-2 h-4 w-4"/>
                     <span>Logout</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => console.log("export")}>
-                    <UploadIcon className="mr-2 h-4 w-4"/>
-                    <span>Export</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => console.log("import")}>
-                    <DownloadIcon className="mr-2 h-4 w-4"/>
-                    <span>Import</span>
-                </DropdownMenuItem>
+                {/*<DropdownMenuItem onClick={() => console.log("export")}>*/}
+                {/*    <UploadIcon className="mr-2 h-4 w-4"/>*/}
+                {/*    <span>Export</span>*/}
+                {/*</DropdownMenuItem>*/}
+                {/*<DropdownMenuItem onClick={() => console.log("import")}>*/}
+                {/*    <DownloadIcon className="mr-2 h-4 w-4"/>*/}
+                {/*    <span>Import</span>*/}
+                {/*</DropdownMenuItem>*/}
             </DropdownMenuContent>
         </DropdownMenu>
     )
