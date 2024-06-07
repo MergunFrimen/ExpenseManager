@@ -45,7 +45,7 @@ export function LoginCard() {
                 </div>
                 <div className="mt-4 text-center text-sm">
                     Don&apos;t have an account?{" "}
-                    <Link to="/auth/register" className="underline">
+                    <Link to="/register" className="underline">
                         Sign up
                     </Link>
                 </div>

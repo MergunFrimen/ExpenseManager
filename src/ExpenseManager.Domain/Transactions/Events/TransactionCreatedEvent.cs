@@ -1,6 +1,5 @@
 using ExpenseManager.Domain.Common.Models;
-using ExpenseManager.Domain.Users.Entities;
 
-namespace ExpenseManager.Domain.Users.Events;
+namespace ExpenseManager.Domain.Transactions.Events;
 
 public sealed record TransactionCreatedEvent(Transaction Transaction) : IDomainEvent;

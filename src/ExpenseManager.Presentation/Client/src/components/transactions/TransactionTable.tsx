@@ -6,8 +6,21 @@ import {
 } from "@/components/ui/card"
 import {Table, TableBody, TableHead, TableHeader, TableRow} from "@/components/ui/table";
 import {TransactionRow} from "@/components/transactions/TransactionRow.tsx";
+import {useEffect, useState} from "react";
+import {TransactionDto} from "@/components/models/TransactionDto.ts";
+import {apiConnector} from "@/api/apiConnector.ts";
 
 export default function TransactionTable() {
+    const [transactions, setTransactions] = useState<TransactionDto[]>([])
+
+    useEffect(() => {
+        async function fetchTransactions() {
+            const transactions = await apiConnector.getTransactions("1");
+            setTransactions(transactions);
+        }
+        fetchTransactions();
+    }, []);
+    
     return (
         <Card className="p-5 h-[500px]">
             <CardHeader className="px-7">
@@ -27,24 +40,9 @@ export default function TransactionTable() {
                         </TableRow>
                     </TableHeader>
                     <TableBody className="">
-                            <TransactionRow/>
-                            <TransactionRow/>
-                            <TransactionRow/>
-                            <TransactionRow/>
-                            <TransactionRow/>
-                            <TransactionRow/>
-                            <TransactionRow/>
-                            <TransactionRow/>
-                            <TransactionRow/>
-                            <TransactionRow/>
-                            {/*<TransactionRow/>*/}
-                            {/*<TransactionRow/>*/}
-                            {/*<TransactionRow/>*/}
-                            {/*<TransactionRow/>*/}
-                            {/*<TransactionRow/>*/}
-                            {/*<TransactionRow/>*/}
-                            {/*<TransactionRow/>*/}
-                            {/*<TransactionRow/>*/}
+                        {transactions.map((transaction) => (
+                            <TransactionRow key={transaction.id} transaction={transaction}/>
+                        ))}
                     </TableBody>
                 </Table>
             </CardContent>

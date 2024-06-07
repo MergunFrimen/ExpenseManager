@@ -1,17 +1,15 @@
 @host = http://localhost:5222
 @token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhMGU3NjQyNy01NTQ0LTRjY2YtYWJjZi05MDQ4ZGJmYmNmZTIiLCJnaXZlbl9uYW1lIjoiRG9taW5payIsImZhbWlseV9uYW1lIjoiVGljaHkiLCJqdGkiOiI4ODRiOTAwOC1jMzE0LTQ0YTAtOTU3NC1mMGI4MGFhZmE1MjEiLCJpc3MiOiJFeHBlbnNlTWFuYWdlciIsImF1ZCI6IkV4cGVuc2VNYW5hZ2VyIiwiZXhwIjoxNzE3NjYxOTgzfQ.NeWHLN8fvZyUiEEi6RpXMo0DCcMUCQzcyU2bCiABmNE
 
-@userId = a0e76427-5544-4ccf-abcf-9048dbfbcfe2
 @transactionId = c3716b45-9978-4d23-9524-e296d2553287
 
 ### Update transaction
 
-PUT {{host}}/users/{{userId}}/transactions/{{transactionId}}
+PUT {{host}}/transactions
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "userId": "{{userId}}",
   "transactionId": "{{transactionId}}",
   "type": "Expense",
   "category": "Food",

@@ -50,7 +50,7 @@ export function RegisterCard() {
                 </div>
                 <div className="mt-4 text-center text-sm">
                     Already have an account?{" "}
-                    <Link to="/auth/login" className="underline">
+                    <Link to="/login" className="underline">
                         Sign in
                     </Link>
                 </div>

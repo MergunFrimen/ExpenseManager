@@ -1,6 +1,6 @@
 using ExpenseManager.Domain.Common.Models;
+using ExpenseManager.Domain.Transactions;
 using ExpenseManager.Domain.Users;
-using ExpenseManager.Domain.Users.Entities;
 using ExpenseManager.Infrastructure.Persistence.Interceptors;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;

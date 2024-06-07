@@ -9,12 +9,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ExpenseManager.Presentation.Controllers;
 
-[Route("users/{userId}/transactions")]
+[Route("/transactions")]
 public class TransactionController(ISender mediatr, IMapper mapper) : ApiController
 {
     [HttpGet]
-    public async Task<IActionResult> GetTransactions(Guid userId)
+    public async Task<IActionResult> GetTransactions()
     {
+        var userId = GetUserId();
         var query = mapper.Map<ListTransactionsQuery>(userId);
         var getTransactionsResult = await mediatr.Send(query);
 
@@ -25,8 +26,9 @@ public class TransactionController(ISender mediatr, IMapper mapper) : ApiControl
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateTransaction(CreateTransactionRequest request, Guid userId)
+    public async Task<IActionResult> CreateTransaction(CreateTransactionRequest request)
     {
+        var userId = GetUserId();
         var command = mapper.Map<CreateTransactionCommand>((request, userId));
         var createTransactionResult = await mediatr.Send(command);
 
@@ -36,11 +38,11 @@ public class TransactionController(ISender mediatr, IMapper mapper) : ApiControl
         );
     }
 
-    [HttpPut("{transactionId}")]
-    public async Task<IActionResult> UpdateTransaction(UpdateTransactionRequest request, Guid userId,
-        Guid transactionId)
+    [HttpPut]
+    public async Task<IActionResult> UpdateTransaction(UpdateTransactionRequest request)
     {
-        var command = mapper.Map<UpdateTransactionCommand>((request, userId, transactionId));
+        var userId = GetUserId();
+        var command = mapper.Map<UpdateTransactionCommand>((request, userId));
         var updateTransactionResult = await mediatr.Send(command);
 
         return updateTransactionResult.Match(
@@ -49,10 +51,11 @@ public class TransactionController(ISender mediatr, IMapper mapper) : ApiControl
         );
     }
 
-    [HttpDelete("{transactionId}")]
-    public async Task<IActionResult> RemoveTransaction(Guid userId, Guid transactionId)
+    [HttpDelete]
+    public async Task<IActionResult> RemoveTransaction(RemoveTransactionRequest request)
     {
-        var command = mapper.Map<RemoveTransactionCommand>((userId, transactionId));
+        var userId = GetUserId();
+        var command = mapper.Map<RemoveTransactionCommand>((request, userId));
         var removeTransactionResult = await mediatr.Send(command);
 
         return removeTransactionResult.Match(

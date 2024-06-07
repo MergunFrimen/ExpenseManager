@@ -15,15 +15,13 @@ public class TransactionsMappingConfig : IRegister
             .Map(dest => dest.UserId, src => src.UserId)
             .Map(dest => dest, src => src.Request);
 
-        config.NewConfig<(Guid UserId, Guid TransactionId), RemoveTransactionCommand>()
+        config.NewConfig<(RemoveTransactionRequest Request, Guid UserId), RemoveTransactionCommand>()
             .Map(dest => dest.UserId, src => src.UserId)
-            .Map(dest => dest.TransactionId, src => src.TransactionId);
+            .Map(dest => dest, src => src.Request);
 
         config
-            .NewConfig<(UpdateTransactionRequest Request, Guid UserId, Guid TransactionId),
-                UpdateTransactionCommand>()
+            .NewConfig<(UpdateTransactionRequest Request, Guid UserId), UpdateTransactionCommand>()
             .Map(dest => dest.UserId, src => src.UserId)
-            .Map(dest => dest.TransactionId, src => src.TransactionId)
             .Map(dest => dest, src => src.Request);
 
         config.NewConfig<TransactionResult, TransactionResponse>()

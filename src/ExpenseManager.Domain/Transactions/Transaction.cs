@@ -1,26 +1,27 @@
 using ExpenseManager.Domain.Common.Models;
-using ExpenseManager.Domain.Users.Events;
+using ExpenseManager.Domain.Transactions.Events;
+using ExpenseManager.Domain.Transactions.ValueObjects;
 
-namespace ExpenseManager.Domain.Users.Entities;
+namespace ExpenseManager.Domain.Transactions;
 
 public sealed class Transaction : Entity
 {
     private Transaction(
         Guid id,
         Guid userId,
-        string type,
-        string category,
+        TransactionType type,
         string description,
         decimal price,
-        DateTime date
+        DateTime date,
+        Guid? categoryId
     ) : base(id)
     {
         UserId = userId;
         Type = type;
-        Category = category;
         Description = description;
         Price = price;
         Date = date;
+        CategoryId = categoryId;
     }
 
     private Transaction()
@@ -28,29 +29,29 @@ public sealed class Transaction : Entity
     }
 
     public Guid UserId { get; private set; }
-    public string Type { get; private set; } = null!;
-    public string Category { get; private set; } = null!;
+    public Guid? CategoryId { get; private set; }
+    public TransactionType Type { get; private set; }
     public string Description { get; private set; } = null!;
     public decimal Price { get; private set; }
     public DateTime Date { get; private set; }
 
     public static Transaction Create(
         Guid userId,
-        string type,
-        string category,
+        TransactionType type,
         string description,
         decimal price,
-        DateTime date
+        DateTime date,
+        Guid? categoryId
     )
     {
         var transaction = new Transaction(
             Guid.NewGuid(),
             userId,
             type,
-            category,
             description,
             price,
-            date
+            date,
+            categoryId
         );
 
         transaction.AddDomainEvent(new TransactionCreatedEvent(transaction));

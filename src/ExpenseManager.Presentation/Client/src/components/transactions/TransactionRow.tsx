@@ -12,7 +12,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-export function TransactionRow() {
+export function TransactionRow({transaction}: {transaction: TransactionDto}) {
     return (
         <TableRow className="items-center odd:bg-accent/20">
             <TableCell>
@@ -47,6 +47,7 @@ import {
     DialogTitle, DialogTrigger
 } from "@/components/ui/dialog.tsx";
 import {ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger} from "@/components/ui/context-menu.tsx";
+import {TransactionDto} from "@/components/models/TransactionDto.ts";
 
 export function DropdownMenuDemo() {
     return (

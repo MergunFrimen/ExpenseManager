@@ -1,4 +1,4 @@
-using ExpenseManager.Domain.Users.Events;
+using ExpenseManager.Domain.Transactions.Events;
 using MediatR;
 
 namespace ExpenseManager.Application.Transactions.Events;

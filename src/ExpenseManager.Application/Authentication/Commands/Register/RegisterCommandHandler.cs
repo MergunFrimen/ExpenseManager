@@ -28,8 +28,7 @@ public class RegisterCommandHandler(
             command.FirstName,
             command.LastName,
             command.Email,
-            hashedPassword,
-            []
+            hashedPassword
         );
 
         await userRepository.AddAsync(newUser, cancellationToken);

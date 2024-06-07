@@ -1,19 +1,16 @@
 using ExpenseManager.Domain.Common.Models;
-using ExpenseManager.Domain.Users.Entities;
+using ExpenseManager.Domain.Transactions;
 
 namespace ExpenseManager.Domain.Users;
 
 public sealed class User : Entity
 {
-    private readonly List<Transaction> _transactions = null!;
-
     private User(
         Guid id,
         string firstName,
         string lastName,
         string email,
-        string password,
-        List<Transaction> transactions
+        string password
     )
         : base(id)
     {
@@ -21,15 +18,12 @@ public sealed class User : Entity
         LastName = lastName;
         Email = email;
         Password = password;
-        _transactions = transactions;
     }
 
     private User()
     {
     }
-
-    public IReadOnlyList<Transaction> Transactions => _transactions.AsReadOnly();
-
+    
     public string FirstName { get; private set; } = null!;
     public string LastName { get; private set; } = null!;
     public string Email { get; private set; } = null!;
@@ -39,15 +33,14 @@ public sealed class User : Entity
         string firstName,
         string lastName,
         string email,
-        string password,
-        List<Transaction>? transactions)
+        string password)
     {
         return new User(
             Guid.NewGuid(),
             firstName,
             lastName,
             email,
-            password,
-            transactions ?? []);
+            password
+        );
     }
 }

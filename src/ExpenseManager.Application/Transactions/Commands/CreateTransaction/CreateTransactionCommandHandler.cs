@@ -2,7 +2,7 @@ using ErrorOr;
 using ExpenseManager.Application.Common.Interfaces.Cqrs;
 using ExpenseManager.Application.Common.Interfaces.Persistence;
 using ExpenseManager.Application.Transactions.Common;
-using ExpenseManager.Domain.Users.Entities;
+using ExpenseManager.Domain.Transactions;
 
 namespace ExpenseManager.Application.Transactions.Commands.CreateTransaction;
 
@@ -15,10 +15,10 @@ public class CreateTransactionCommandHandler(ITransactionRepository transactionR
         var transaction = Transaction.Create(
             request.UserId,
             request.Type,
-            request.Category,
             request.Description,
             request.Price,
-            request.Date
+            request.Date,
+            request.CategoryId
         );
 
         await transactionRepository.AddAsync(transaction, cancellationToken);

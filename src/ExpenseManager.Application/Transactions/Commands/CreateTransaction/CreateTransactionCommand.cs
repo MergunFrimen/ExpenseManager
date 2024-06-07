@@ -1,13 +1,14 @@
 using ExpenseManager.Application.Common.Interfaces.Cqrs;
 using ExpenseManager.Application.Transactions.Common;
+using ExpenseManager.Domain.Transactions.ValueObjects;
 
 namespace ExpenseManager.Application.Transactions.Commands.CreateTransaction;
 
 public sealed record CreateTransactionCommand(
     Guid UserId,
-    string Type,
-    string Category,
+    TransactionType Type,
     string Description,
     decimal Price,
-    DateTime Date
+    DateTime Date,
+    Guid? CategoryId
 ) : ICommand<TransactionResult>;

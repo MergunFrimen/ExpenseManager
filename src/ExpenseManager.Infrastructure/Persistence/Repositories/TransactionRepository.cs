@@ -1,11 +1,13 @@
 using ExpenseManager.Application.Common.Interfaces.Persistence;
-using ExpenseManager.Domain.Users.Entities;
+using ExpenseManager.Domain.Transactions;
 using Microsoft.EntityFrameworkCore;
 
 namespace ExpenseManager.Infrastructure.Persistence.Repositories;
 
 public class TransactionRepository(ExpenseManagerDbContext dbContext) : ITransactionRepository
 {
+    private static List<Transaction> _transactions = [];
+    
     public async Task<Transaction> AddAsync(Transaction transaction, CancellationToken cancellationToken)
     {
         await dbContext.Transactions.AddAsync(transaction, cancellationToken);

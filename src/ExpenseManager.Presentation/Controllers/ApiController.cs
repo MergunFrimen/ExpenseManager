@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using ErrorOr;
 using ExpenseManager.Presentation.Common.Http;
 using Microsoft.AspNetCore.Authorization;
@@ -11,6 +12,13 @@ namespace ExpenseManager.Presentation.Controllers;
 [Route("[controller]")]
 public class ApiController : ControllerBase
 {
+    protected Guid GetUserId()
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (userId == null) throw new UnauthorizedAccessException();
+        return Guid.Parse(userId);
+    }
+
     protected IActionResult Problem(List<Error> errors)
     {
         if (errors.Count == 0) return Problem();
