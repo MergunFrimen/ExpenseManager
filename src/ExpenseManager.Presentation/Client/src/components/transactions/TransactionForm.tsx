@@ -12,7 +12,7 @@ import {categoriesApiConnector} from "@/api/categoriesApiConnector.ts";
 import {
     DropdownMenu,
     DropdownMenuCheckboxItem,
-    DropdownMenuContent,
+    DropdownMenuContent, DropdownMenuLabel, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu.tsx";
 import {ArrowBigLeft, CalendarIcon, CirclePlus, FilterIcon} from "lucide-react";
@@ -20,6 +20,15 @@ import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover.t
 import {cn} from "@/lib/utils.ts";
 import {Calendar} from "@/components/ui/calendar.tsx";
 import {format} from "date-fns";
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue
+} from "@/components/ui/select.tsx";
 
 export function TransactionForm({type}: { type: "create" | "update" }) {
     const {id} = useParams();
@@ -27,6 +36,7 @@ export function TransactionForm({type}: { type: "create" | "update" }) {
     const navigate = useNavigate();
     const [categories, setCategories] = useState([]);
     const [date, setDate] = useState<Date>()
+    const [selectType, setSelectType] = React.useState("Income")
 
     const [transaction, setTransaction] = useState<TransactionDto>({
         id: "",
@@ -37,6 +47,7 @@ export function TransactionForm({type}: { type: "create" | "update" }) {
         amount: 0,
         date: ""
     });
+    const [selectCategory, setSelectCategory] = React.useState(transaction.category)
 
     useEffect(() => {
         async function fetchCategories() {
@@ -54,7 +65,7 @@ export function TransactionForm({type}: { type: "create" | "update" }) {
     useEffect(() => {
         async function fetchTransaction() {
             if (!token || !id) return;
-            
+
 
             const trans = await transactionsApiConnector.getTransaction(token, id)
             setTransaction(trans);
@@ -77,6 +88,15 @@ export function TransactionForm({type}: { type: "create" | "update" }) {
         setTransaction(newTransaction);
     }, [date])
 
+    useEffect(() => {
+        const newTransaction = {...transaction, type: selectType};
+        setTransaction(newTransaction);
+    }, [selectType])
+
+    useEffect(() => {
+        const newTransaction = {...transaction, categoryId: selectCategory};
+        setTransaction(newTransaction);
+    }, [selectCategory])
 
     const action = type === "create" ? "Create" : "Update";
 
@@ -119,28 +139,46 @@ export function TransactionForm({type}: { type: "create" | "update" }) {
                                     onChange={handleChange}
                                 />
                             </div>
-                            <div className="grid gap-2">
-                                <Label htmlFor="categoryId">CategoryId</Label>
-                                <Input
-                                    id="categoryId"
-                                    name="categoryId"
-                                    type="text"
-                                    required
-                                    value={transaction.categoryId}
-                                    onChange={handleChange}
-                                />
-                            </div>
-                            <div className="grid gap-2">
-                                <Label htmlFor="type">Type</Label>
-                                <Input
-                                    id="type"
-                                    name="type"
-                                    type="text"
-                                    required
-                                    value={transaction.type}
-                                    onChange={handleChange}
-                                />
-                            </div>
+                            {/*<div className="grid gap-2">*/}
+                            {/*    <Label htmlFor="categoryId">CategoryId</Label>*/}
+                            {/*    <Input*/}
+                            {/*        id="categoryId"*/}
+                            {/*        name="categoryId"*/}
+                            {/*        type="text"*/}
+                            {/*        required*/}
+                            {/*        value={transaction.categoryId}*/}
+                            {/*        onChange={handleChange}*/}
+                            {/*    />*/}
+                            {/*</div>*/}
+                            <Label htmlFor="type">Type</Label>
+                            <Select onValueChange={setSelectType} value={selectType} name="type">
+                                <SelectTrigger name={"type"} className="w-[180px]">
+                                    <SelectValue placeholder="Select type"/>
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectGroup>
+                                        <SelectItem value="Income">Income</SelectItem>
+                                        <SelectItem value="Expense">Expense</SelectItem>
+                                    </SelectGroup>
+                                </SelectContent>
+                            </Select>
+
+                            <Label htmlFor="category">Type</Label>
+                            <Select onValueChange={setSelectCategory} value={selectCategory} name="category">
+                                <SelectTrigger name={"category"} className="w-[180px]">
+                                    <SelectValue placeholder="Select category"/>
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectGroup>
+                                        {categories && categories.map((category) => (
+                                            <SelectItem key={category.id}
+                                                        value={category.id}>{category.name}</SelectItem>
+                                        ))}
+                                    </SelectGroup>
+                                </SelectContent>
+                            </Select>
+
+
                             <Popover>
                                 <PopoverTrigger asChild>
                                     <Button

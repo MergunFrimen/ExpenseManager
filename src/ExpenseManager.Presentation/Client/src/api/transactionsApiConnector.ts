@@ -20,11 +20,10 @@ export const transactionsApiConnector = {
     updateTransaction: async (token: string, transaction: TransactionDto) => {
         try {
             const response: AxiosResponse<TransactionDto> =
-                await axios.put(`/api/transactions`, {
+                await axios.put(`/api/transactions`, transaction, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     },
-                    data: transaction
                 });
             return response.data;
         } catch (error) {
