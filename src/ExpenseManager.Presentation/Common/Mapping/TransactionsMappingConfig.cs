@@ -12,10 +12,15 @@ public class TransactionsMappingConfig : IRegister
 {
     public void Register(TypeAdapterConfig config)
     {
-        config.NewConfig<Guid, ListTransactionsQuery>()
-            .Map(dest => dest.UserId, src => src);
+        config.NewConfig<TransactionResult, TransactionResponse>()
+            .Map(dest => dest.Category, src => src.Category)
+            .Map(dest => dest, src => src.Transaction);
 
         config.NewConfig<(CreateTransactionRequest Request, Guid UserId), CreateTransactionCommand>()
+            .Map(dest => dest.UserId, src => src.UserId)
+            .Map(dest => dest, src => src.Request);
+
+        config.NewConfig<(UpdateTransactionRequest Request, Guid UserId), UpdateTransactionCommand>()
             .Map(dest => dest.UserId, src => src.UserId)
             .Map(dest => dest, src => src.Request);
 
@@ -23,12 +28,8 @@ public class TransactionsMappingConfig : IRegister
             .Map(dest => dest.UserId, src => src.UserId)
             .Map(dest => dest, src => src.Request);
 
-        config
-            .NewConfig<(UpdateTransactionRequest Request, Guid UserId), UpdateTransactionCommand>()
-            .Map(dest => dest.UserId, src => src.UserId)
+        config.NewConfig<(ListTransactionsRequest Request, Guid UserId), ListTransactionsQuery>()
+            .Map(dest => dest.UserId, src => src)
             .Map(dest => dest, src => src.Request);
-
-        config.NewConfig<TransactionResult, TransactionResponse>()
-            .Map(dest => dest, src => src.Transaction);
     }
 }

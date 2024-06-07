@@ -36,7 +36,7 @@ public sealed class TransactionConfigurations : IEntityTypeConfiguration<Transac
         transactionsBuilder
             .Property(s => s.Description);
         transactionsBuilder
-            .Property(s => s.Price);
+            .Property(s => s.Amount);
         transactionsBuilder
             .Property(s => s.Date);
     }

@@ -3,4 +3,4 @@ using ExpenseManager.Application.Transactions.Common;
 
 namespace ExpenseManager.Application.Transactions.Queries;
 
-public record ListTransactionsQuery(Guid UserId) : IQuery<List<TransactionResult>>;
+public sealed record ListTransactionsQuery(Guid UserId) : IQuery<List<TransactionResult>>;

@@ -12,19 +12,6 @@ namespace ExpenseManager.Presentation.Controllers;
 [Route("/transactions")]
 public class TransactionController(ISender mediatr, IMapper mapper) : ApiController
 {
-    [HttpGet]
-    public async Task<IActionResult> GetAll()
-    {
-        var userId = GetUserId();
-        var query = mapper.Map<ListTransactionsQuery>(userId);
-        var getTransactionsResult = await mediatr.Send(query);
-
-        return getTransactionsResult.Match(
-            value => Ok(mapper.Map<List<TransactionResponse>>(value)),
-            Problem
-        );
-    }
-
     [HttpPost]
     public async Task<IActionResult> Create(CreateTransactionRequest request)
     {
@@ -60,6 +47,19 @@ public class TransactionController(ISender mediatr, IMapper mapper) : ApiControl
 
         return removeTransactionResult.Match(
             value => Ok(mapper.Map<TransactionResponse>(value)),
+            Problem
+        );
+    }
+    
+    [HttpGet]
+    public async Task<IActionResult> List(ListTransactionsRequest request)
+    {
+        var userId = GetUserId();
+        var query = mapper.Map<ListTransactionsQuery>((request, userId));
+        var getTransactionsResult = await mediatr.Send(query);
+
+        return getTransactionsResult.Match(
+            value => Ok(mapper.Map<List<TransactionResponse>>(value)),
             Problem
         );
     }

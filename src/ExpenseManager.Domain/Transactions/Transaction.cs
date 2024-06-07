@@ -11,7 +11,7 @@ public sealed class Transaction : Entity
         Guid userId,
         TransactionType type,
         string description,
-        decimal price,
+        decimal amount,
         DateTime date,
         Guid? categoryId
     ) : base(id)
@@ -19,7 +19,7 @@ public sealed class Transaction : Entity
         UserId = userId;
         Type = type;
         Description = description;
-        Price = price;
+        Amount = amount;
         Date = date;
         CategoryId = categoryId;
     }
@@ -32,14 +32,14 @@ public sealed class Transaction : Entity
     public Guid? CategoryId { get; private set; }
     public TransactionType Type { get; private set; }
     public string Description { get; private set; } = null!;
-    public decimal Price { get; private set; }
+    public decimal Amount { get; private set; }
     public DateTime Date { get; private set; }
 
     public static Transaction Create(
         Guid userId,
         TransactionType type,
         string description,
-        decimal price,
+        decimal amount,
         DateTime date,
         Guid? categoryId
     )
@@ -49,7 +49,7 @@ public sealed class Transaction : Entity
             userId,
             type,
             description,
-            price,
+            amount,
             date,
             categoryId
         );
