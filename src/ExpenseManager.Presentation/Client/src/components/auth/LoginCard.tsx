@@ -5,7 +5,7 @@ import {Label} from "@/components/ui/label"
 import {Link, useNavigate} from "react-router-dom";
 import {useAuth} from "@/components/auth/AuthProvider.tsx";
 import {useState} from "react";
-import {transactionsApiConnector} from "@/api/authApiConnector.ts";
+import {authApiConnector} from "@/api/authApiConnector.ts";
 
 export function LoginCard() {
     const navigate = useNavigate();
@@ -17,9 +17,9 @@ export function LoginCard() {
         if (email === undefined || password === undefined) {
             return;
         }
-        
+
         e.preventDefault();
-        const response = await transactionsApiConnector.login({
+        const response = await authApiConnector.login({
             email,
             password
         });

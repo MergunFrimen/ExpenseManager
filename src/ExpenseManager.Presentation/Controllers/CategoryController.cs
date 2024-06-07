@@ -2,6 +2,8 @@ using ExpenseManager.Application.Categories.Commands.CreateCategory;
 using ExpenseManager.Application.Categories.Commands.RemoveCategory;
 using ExpenseManager.Application.Categories.Commands.UpdateCategory;
 using ExpenseManager.Application.Categories.Queries;
+using ExpenseManager.Application.Categories.Queries.GetCategory;
+using ExpenseManager.Application.Categories.Queries.ListCategories;
 using ExpenseManager.Presentation.Contracts.Categories;
 using MapsterMapper;
 using MediatR;
@@ -60,6 +62,19 @@ public class CategoryController(ISender mediatr, IMapper mapper) : ApiController
 
         return result.Match(
             value => Ok(mapper.Map<List<CategoryResponse>>(value)),
+            Problem
+        );
+    }
+    
+    [HttpGet("{id}")]
+    public async Task<IActionResult> Get(Guid id)
+    {
+        var userId = GetUserId();
+        var query = new GetCategoryQuery(id, userId);
+        var result = await mediatr.Send(query);
+
+        return result.Match(
+            value => Ok(mapper.Map<CategoryResponse>(value)),
             Problem
         );
     }

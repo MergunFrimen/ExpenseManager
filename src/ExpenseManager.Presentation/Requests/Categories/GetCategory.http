@@ -1,0 +1,13 @@
+@host = http://localhost:5222
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiNGE3ZjE0NC0wMWYyLTQ1MzUtYjIxYS1hMGIxOWIzYmYxMjYiLCJnaXZlbl9uYW1lIjoiRG9taW5payIsImZhbWlseV9uYW1lIjoiVGljaHkiLCJqdGkiOiI4MGMzNDBkMS03YWMxLTRlZjEtOWM4MS1lNTM1NTE2ZDUyYWIiLCJpc3MiOiJFeHBlbnNlTWFuYWdlciIsImF1ZCI6IkV4cGVuc2VNYW5hZ2VyIiwiZXhwIjoxNzE4MTIzNjk0fQ.LxPjf-DffUOmRk0HH-ErNixWVQSIOg6y_Okr9sdBN9c
+
+### Get category
+
+@categoryId = 3506765c-9ff5-43e2-a83a-e1563a4b3dde
+
+GET {{host}}/categories/{{categoryId}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+}

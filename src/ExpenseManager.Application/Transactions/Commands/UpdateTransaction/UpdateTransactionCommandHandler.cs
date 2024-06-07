@@ -18,7 +18,7 @@ public class UpdateTransactionCommandHandler(
         var transaction = await transactionRepository.GetByIdAsync(command.Id, cancellationToken);
         if (transaction is null)
             return Errors.Transaction.TransactionNotFound;
-        
+
         if (transaction.UserId != command.UserId)
             return Errors.Transaction.Unauthorized;
 

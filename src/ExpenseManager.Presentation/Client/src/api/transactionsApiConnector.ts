@@ -6,7 +6,7 @@ export const transactionsApiConnector = {
     createTransaction: async (transaction: TransactionDto) => {
         try {
             const response: AxiosResponse<TransactionDto> =
-                await axios.post(`/api/transactions`, transaction);
+                await axios.post(`/api/transactions`, transaction)
             return response.data;
         } catch (error) {
             console.log('Error in createTransaction: ', error);
@@ -23,22 +23,30 @@ export const transactionsApiConnector = {
             throw error;
         }
     },
-    deleteTransaction: async (transaction: TransactionDto) => {
+    deleteTransaction: async (token: string, transaction: TransactionDto) => {
         try {
             const response: AxiosResponse<TransactionDto> =
-                await axios.delete(`/api/transactions`, {data: transaction});
+                await axios.delete(`/api/transactions`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    },
+                    data: transaction
+                });
             return response.data;
         } catch (error) {
             console.log('Error in deleteTransaction: ', error);
             throw error;
         }
     },
-    getTransactions: async () => {
+    getTransactions: async (token: string) => {
         try {
-
             const response: AxiosResponse<ListTransactionsResponse> =
-                await axios.get(`/api/transactions`);
-            return response.data.transactions;
+                await axios.get(`/api/transactions`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+            return response.data;
         } catch (error) {
             console.log('Error in getTransactions: ', error);
             throw error;

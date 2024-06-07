@@ -5,7 +5,6 @@ import Register from "@/routes/Register.tsx";
 import {ProtectedRoute} from "@/routes/ProtectedRoute.tsx";
 import Error from "@/routes/Error.tsx";
 import {useAuth} from "@/components/auth/AuthProvider.tsx";
-import App from "@/routes/App.tsx";
 import {Logout} from "@/routes/Logout.tsx";
 
 export function Routes() {
@@ -16,10 +15,7 @@ export function Routes() {
             path: "/",
             element: <Home/>,
             errorElement: <Error/>,
-        }
-    ];
-
-    const notAuthRoutes: RouteObject[] = [
+        },
         {
             path: "login",
             element: <Login/>,
@@ -30,19 +26,31 @@ export function Routes() {
         },
     ];
 
-    const authRoutes: RouteObject[] = [
+    const protectedRoutes: RouteObject[] = [
         {
-            path: "/",
+            path: "/app",
             element: <ProtectedRoute/>,
             errorElement: <Error/>,
             children: [
                 {
-                    path: "app",
-                    element: <App/>,
-                },
-                {
                     path: "logout",
                     element: <Logout/>,
+                },
+                {
+                    path: "createTransaction",
+                    element: <>createTransaction</>,
+                },
+                {
+                    path: "editTransaction",
+                    element: <>editTransaction</>,
+                },
+                {
+                    path: "createCategory",
+                    element: <>createCategory</>,
+                },
+                {
+                    path: "editCategory",
+                    element: <>editCategory</>,
                 }
             ],
         },
@@ -50,8 +58,7 @@ export function Routes() {
 
     const router = createBrowserRouter([
         ...publicRoutes,
-        ...(!token ? notAuthRoutes : []),
-        ...authRoutes,
+        ...protectedRoutes,
     ]);
 
     return <RouterProvider router={router}/>;

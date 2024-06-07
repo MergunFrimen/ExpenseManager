@@ -1,5 +1,5 @@
 import axios from "axios";
-import {createContext, ReactNode, useContext, useEffect, useState} from "react";
+import {createContext, ReactNode, useContext, useEffect, useMemo, useState} from "react";
 
 type AuthProviderProps = {
     children: ReactNode
@@ -8,7 +8,7 @@ type AuthProviderProps = {
 
 type AuthProviderState = {
     token: string | null,
-    setToken: (token?: string) => void
+    setToken: (token: string) => void
 }
 
 const initialState: AuthProviderState = {
@@ -29,24 +29,25 @@ export const AuthProvider = ({
 
     useEffect(() => {
         if (token) {
-            axios.defaults.headers.common["Authorization"] = `Bearer ${token}`
+            axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+            localStorage.setItem(storageKey, token);
         } else {
             delete axios.defaults.headers.common["Authorization"];
+            localStorage.removeItem(storageKey)
         }
     }, [token]);
 
-    const value = {
-        token,
-        setToken: (token?: string) => {
-            if (token) {
-                localStorage.setItem(storageKey, token)
-                _setToken(token)
-            } else {
-                localStorage.removeItem(storageKey)
-                _setToken(null)
-            }
-        },
-    }
+    const setToken = (newToken: string) => {
+        _setToken(newToken);
+    };
+
+    const value = useMemo(
+        () => ({
+            token,
+            setToken,
+        }),
+        [token]
+    );
 
     return (
         <AuthContext.Provider {...props} value={value}>

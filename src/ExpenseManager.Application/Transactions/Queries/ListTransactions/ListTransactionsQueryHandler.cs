@@ -4,15 +4,15 @@ using ExpenseManager.Application.Common.Interfaces.Persistence;
 using ExpenseManager.Application.Transactions.Common;
 using ExpenseManager.Domain.Common.Errors;
 
-namespace ExpenseManager.Application.Transactions.Queries;
+namespace ExpenseManager.Application.Transactions.Queries.ListTransactions;
 
 public class ListTransactionsQueryHandler(
     ITransactionRepository transactionRepository,
     ICategoryRepository categoryRepository)
     : IQueryHandler<ListTransactionsQuery, List<TransactionResult>>
+
 {
-    public async Task<ErrorOr<List<TransactionResult>>> Handle(ListTransactionsQuery query,
-        CancellationToken cancellationToken)
+    public async Task<ErrorOr<List<TransactionResult>>> Handle(ListTransactionsQuery query, CancellationToken cancellationToken)
     {
         var transactions = await transactionRepository.GetAllAsync(query.UserId, cancellationToken);
         List<TransactionResult> result = [];

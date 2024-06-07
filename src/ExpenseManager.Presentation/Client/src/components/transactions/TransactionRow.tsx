@@ -1,17 +1,8 @@
 import {TableCell, TableRow} from "@/components/ui/table.tsx";
 import {Badge} from "@/components/ui/badge.tsx";
 import {Button} from "@/components/ui/button"
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuGroup,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuShortcut,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import {EllipsisVerticalIcon, Pencil, Trash2} from "lucide-react"
+import {Pencil, Trash2} from "lucide-react"
+import {TransactionDto} from "@/models/transactions/TransactionDto.ts";
 import {
     Dialog,
     DialogContent,
@@ -20,100 +11,61 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger
-} from "@/components/ui/dialog.tsx";
-import {ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger} from "@/components/ui/context-menu.tsx";
-import {TransactionDto} from "@/components/models/TransactionDto.ts";
+} from "../ui/dialog";
+import {transactionsApiConnector} from "@/api/transactionsApiConnector.ts";
+import {useAuth} from "@/components/auth/AuthProvider.tsx";
 
 export function TransactionRow({transaction}: { transaction: TransactionDto }) {
+    const {token} = useAuth();
+    const {description, type, category, amount, date} = transaction;
+    const sign = type === "Income" ? "+" : "-";
+
     return (
         <TableRow className="items-center odd:bg-accent/20">
             <TableCell>
-                <div className="font-medium">Lunch</div>
+                <div className="font-medium">{description}</div>
             </TableCell>
-            <TableCell className="hidden sm:table-cell">Expense</TableCell>
+            <TableCell className="hidden sm:table-cell">{type}</TableCell>
             <TableCell className="hidden sm:table-cell">
                 <Badge className="text-xs" variant="outline">
-                    Food
+                    {category}
                 </Badge>
             </TableCell>
-            <TableCell className="hidden md:table-cell">2023-06-23</TableCell>
-            <TableCell className="hidden md:table-cell">-$10,000.00</TableCell>
+            <TableCell className="hidden md:table-cell">{date}</TableCell>
+            <TableCell className="hidden md:table-cell">{`${sign}\$${amount}`}</TableCell>
             <TableCell className="text-right">
-                {/*<DropdownMenuDemo/>*/}
+                <div className="flex flex-row gap-x-2 justify-end">
+                    <Button variant="outline" size="icon">
+                        <Pencil
+                            className="h-[1.2rem] w-[1.2rem]"/>
+                    </Button>
+                    <Dialog>
+                        <DialogTrigger asChild>
+                            <Button variant="destructive" size="icon">
+                                <Trash2
+                                    className="h-[1.2rem] w-[1.2rem]"/>
+                            </Button>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-[425px]">
+                            <DialogHeader>
+                                <DialogTitle>Confirm delete</DialogTitle>
+                                <DialogDescription>
+                                    Are you sure you want to delete this transaction? This action cannot be undone.
+                                </DialogDescription>
+                            </DialogHeader>
+                            <DialogFooter>
+                                <Button type="submit" variant="destructive"
+                                        onClick={async () => {
+                                            if (!token) return;
+                                            await transactionsApiConnector.deleteTransaction(token, transaction)
+                                            window.location.reload();
+                                        }}
+                                >Delete</Button>
+                            </DialogFooter>
+                        </DialogContent>
+                    </Dialog>
+                </div>
             </TableCell>
         </TableRow>
     );
-}
-
-export function DropdownMenuDemo() {
-    return (
-        <Dialog>
-            <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <Button variant="outline">
-                        <EllipsisVerticalIcon className="w-5 h-5 text-gray-500 self-center"/>
-                    </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56">
-                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                    <DropdownMenuSeparator/>
-                    <DropdownMenuGroup>
-                        <DialogTrigger asChild>
-                            <DropdownMenuItem>
-                                <Pencil className="mr-2 h-4 w-4"/>
-                                <span>Edit</span>
-                                <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-                            </DropdownMenuItem>
-                        </DialogTrigger>
-                        <DropdownMenuItem className="text-red-400">
-                            <Trash2 className="mr-2 h-4 w-4"/>
-                            <span>Delete</span>
-                            <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-                        </DropdownMenuItem>
-                    </DropdownMenuGroup>
-                </DropdownMenuContent>
-            </DropdownMenu>
-            <DialogContent>
-                <DialogHeader>
-                    <DialogTitle>Are you absolutely sure?</DialogTitle>
-                    <DialogDescription>
-                        This action cannot be undone. Are you sure you want to permanently
-                        delete this file from our servers?
-                    </DialogDescription>
-                </DialogHeader>
-                <DialogFooter>
-                    <Button type="submit">Confirm</Button>
-                </DialogFooter>
-            </DialogContent>
-        </Dialog>
-    )
-}
-
-export function DeleteAction() {
-    return <Dialog>
-        <ContextMenu>
-            <ContextMenuTrigger>Right click</ContextMenuTrigger>
-            <ContextMenuContent>
-                <ContextMenuItem>Open</ContextMenuItem>
-                <ContextMenuItem>Download</ContextMenuItem>
-                <DialogTrigger asChild>
-                    <ContextMenuItem>
-                        <span>Delete</span>
-                    </ContextMenuItem>
-                </DialogTrigger>
-            </ContextMenuContent>
-        </ContextMenu>
-        <DialogContent>
-            <DialogHeader>
-                <DialogTitle>Are you absolutely sure?</DialogTitle>
-                <DialogDescription>
-                    This action cannot be undone. Are you sure you want to permanently
-                    delete this file from our servers?
-                </DialogDescription>
-            </DialogHeader>
-            <DialogFooter>
-                <Button type="submit">Confirm</Button>
-            </DialogFooter>
-        </DialogContent>
-    </Dialog>
 }

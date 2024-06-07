@@ -5,18 +5,7 @@ import {Label} from "@/components/ui/label"
 import {Link, useNavigate} from "react-router-dom";
 import {useAuth} from "@/components/auth/AuthProvider.tsx";
 import {useState} from "react";
-
-async function registerUser(credentials) {
-    const response = await fetch('/api/auth/register', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(credentials)
-    })
-    const data = await response.json();
-    return data.token;
-}
+import {authApiConnector} from "@/api/authApiConnector.ts";
 
 export function RegisterCard() {
     const navigate = useNavigate();
@@ -26,14 +15,19 @@ export function RegisterCard() {
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
 
-    async function handleSubmit(e) {
+    async function handleSubmit(e: any) {
+        if (email === undefined || password === undefined || firstName === undefined || lastName === undefined) {
+            return;
+        }
+
         e.preventDefault();
-        const token = await registerUser({
+        const response = await authApiConnector.register({
             email,
             password,
             firstName,
             lastName
         });
+        const token = response.token;
         setToken(token);
         navigate('/app');
     }

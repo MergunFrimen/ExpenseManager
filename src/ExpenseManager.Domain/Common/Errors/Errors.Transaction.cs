@@ -9,7 +9,7 @@ public static partial class Errors
         public static Error TransactionNotFound => Error.NotFound(
             "Transaction.TransactionNotFound",
             "Transaction not found.");
-        
+
         public static Error Unauthorized => Error.Unauthorized(
             "Transaction.Unauthorized",
             "Unauthorized.");

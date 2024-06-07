@@ -1,7 +1,8 @@
 using ExpenseManager.Application.Transactions.Commands.CreateTransaction;
 using ExpenseManager.Application.Transactions.Commands.RemoveTransaction;
 using ExpenseManager.Application.Transactions.Commands.UpdateTransaction;
-using ExpenseManager.Application.Transactions.Queries;
+using ExpenseManager.Application.Transactions.Queries.GetTransaction;
+using ExpenseManager.Application.Transactions.Queries.ListTransactions;
 using ExpenseManager.Presentation.Contracts.Transactions;
 using MapsterMapper;
 using MediatR;
@@ -60,6 +61,19 @@ public class TransactionController(ISender mediatr, IMapper mapper) : ApiControl
 
         return result.Match(
             value => Ok(mapper.Map<List<TransactionResponse>>(value)),
+            Problem
+        );
+    }
+    
+    [HttpGet("{id}")]
+    public async Task<IActionResult> Get(Guid id)
+    {
+        var userId = GetUserId();
+        var query = new GetTransactionQuery(id, userId);
+        var result = await mediatr.Send(query);
+
+        return result.Match(
+            value => Ok(mapper.Map<TransactionResponse>(value)),
             Problem
         );
     }

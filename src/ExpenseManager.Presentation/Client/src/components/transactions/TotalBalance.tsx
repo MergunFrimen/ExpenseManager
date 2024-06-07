@@ -1,18 +1,25 @@
 import {Card, CardDescription, CardHeader, CardTitle,} from "@/components/ui/card"
+import {TransactionDto} from "@/models/transactions/TransactionDto.ts";
 
-export function TotalBalance() {
+export function TotalBalance({transactions}: { transactions: TransactionDto[] }) {
+    const totalBalance = transactions.reduce(
+        (acc, transaction) => {
+            if (transaction.type === "Income") {
+                return acc + transaction.amount;
+            } else {
+                return acc - transaction.amount;
+            }
+        }
+        , 0);
+    const sign = totalBalance >= 0 ? "+" : "-";
+    const absTotalBalance = Math.abs(totalBalance);
+
     return (
-        <Card className="w-[300px] h-[120px]">
-            <CardHeader className="">
+        <Card className="w-fit">
+            <CardHeader className="px-8">
                 <CardDescription>Total balance</CardDescription>
-                <CardTitle className="text-4xl">$1,329</CardTitle>
+                <CardTitle className="text-4xl">{`${sign}\$${absTotalBalance}`}</CardTitle>
             </CardHeader>
-            {/*<CardContent>*/}
-            {/*    <div className="text-xs text-muted-foreground">+25% from last week</div>*/}
-            {/*</CardContent>*/}
-            {/*<CardFooter>*/}
-            {/*    <Progress value={25} aria-label="25% increase" />*/}
-            {/*</CardFooter>*/}
         </Card>
     )
 }

@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace ExpenseManager.Application.Categories.Queries;
+namespace ExpenseManager.Application.Categories.Queries.ListCategories;
 
 public class ListCategoriesQueryValidator : AbstractValidator<ListCategoriesQuery>
 {

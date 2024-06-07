@@ -16,7 +16,7 @@ public class RemoveTransactionCommandHandler(ITransactionRepository transactionR
 
         if (transaction is null)
             return Errors.Transaction.TransactionNotFound;
-        
+
         if (transaction.UserId != command.UserId)
             return Errors.Transaction.Unauthorized;
 

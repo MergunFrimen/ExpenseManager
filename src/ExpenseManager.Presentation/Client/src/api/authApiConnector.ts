@@ -3,7 +3,7 @@ import {RegisterRequest} from "@/models/auth/RegisterRequest.ts";
 import {AuthResponse} from "@/models/auth/AuthResponse.ts";
 import {LoginRequest} from "@/models/auth/LoginRequest.ts";
 
-export const transactionsApiConnector = {
+export const authApiConnector = {
     register: async (request: RegisterRequest) => {
         try {
             const response: AxiosResponse<AuthResponse> =
