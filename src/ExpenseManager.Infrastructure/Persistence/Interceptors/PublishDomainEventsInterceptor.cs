@@ -9,7 +9,7 @@ public class PublishDomainEventsInterceptor(IPublisher mediatr) : SaveChangesInt
 {
     public override InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)
     {
-        throw new NotImplementedException();
+        throw new Exception("This method should not be called.");
     }
 
     public override async ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData,
