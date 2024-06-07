@@ -7,7 +7,6 @@ using ExpenseManager.Domain.Common.Errors;
 namespace ExpenseManager.Application.Categories.Queries.GetCategory;
 
 public class GetCategoryQueryHandler(
-    ITransactionRepository transactionRepository,
     ICategoryRepository categoryRepository)
     : IQueryHandler<GetCategoryQuery, CategoryResult>
 {
