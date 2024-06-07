@@ -1,9 +1,9 @@
 namespace ExpenseManager.Presentation.Contracts.Transactions;
 
-public record CreateTransactionRequest(
+public sealed record CreateTransactionRequest(
     string Type,
-    string Category,
+    string CategoryId,
     string Description,
-    decimal Price,
+    decimal Amount,
     string Date
 );

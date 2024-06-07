@@ -1,10 +1,10 @@
 namespace ExpenseManager.Presentation.Contracts.Transactions;
 
-public record UpdateTransactionRequest(
-    string TransactionId,
+public sealed record UpdateTransactionRequest(
+    string Id,
     string Type,
-    string Category,
+    string CategoryId,
     string Description,
-    decimal Price,
+    decimal Amount,
     string Date
 );

@@ -1,5 +1,5 @@
 namespace ExpenseManager.Presentation.Contracts.Transactions;
 
-public record RemoveTransactionRequest(
-    Guid TransactionId
+public sealed record RemoveTransactionRequest(
+    string Id
 );

@@ -33,11 +33,11 @@ POST /transactions
   "categoryId": "00000000-0000-0000-0000-000000000000",
   "category": "Food",
   "description": "Today's lunch",
-  "price": 100.00,
+  "amount": 100.00,
   "date": "2021-01-01T00:00:00Z"
 }
 ```
-
+se
 ### Update Transaction
 
 #### Update Transaction Request
@@ -70,7 +70,7 @@ PUT /transactions
   "categoryId": "00000000-0000-0000-0000-000000000000",
   "category": "Food",
   "description": "Today's lunch",
-  "price": 100.00,
+  "amount": 100.00,
   "date": "2021-01-01T00:00:00Z"
 }
 ```
@@ -128,7 +128,7 @@ GET /transactions
       "categoryId": "00000000-0000-0000-0000-000000000000",
       "category": "Food",
       "description": "Today's lunch",
-      "price": 100.00,
+      "amount": 100.00,
       "date": "2021-01-01T00:00:00Z"
     },
     {
@@ -137,7 +137,7 @@ GET /transactions
       "categoryId": "00000000-0000-0000-0000-000000000000",
       "category": "Food",
       "description": "Today's lunch",
-      "price": 100.00,
+      "amount": 100.00,
       "date": "2021-01-01T00:00:00Z"
     }
   ]

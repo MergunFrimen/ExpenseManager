@@ -45,7 +45,7 @@ POST /auth/login
 
 ```json
 {
-  "email": "username",
+  "email": "email",
   "password": "password"
 }
 ```

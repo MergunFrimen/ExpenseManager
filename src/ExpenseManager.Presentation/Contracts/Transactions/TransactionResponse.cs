@@ -1,11 +1,11 @@
 namespace ExpenseManager.Presentation.Contracts.Transactions;
 
-public record TransactionResponse(
+public sealed record TransactionResponse(
     string Id,
-    string UserId,
     string Type,
-    string Description,
-    decimal Price,
+    string CategoryId,
     string Category,
-    DateTime Date
+    string Description,
+    decimal Amount,
+    string Date
 );
