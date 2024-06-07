@@ -1,7 +1,7 @@
 @host = http://localhost:5222
 @token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiNGE3ZjE0NC0wMWYyLTQ1MzUtYjIxYS1hMGIxOWIzYmYxMjYiLCJnaXZlbl9uYW1lIjoiRG9taW5payIsImZhbWlseV9uYW1lIjoiVGljaHkiLCJqdGkiOiI4MGMzNDBkMS03YWMxLTRlZjEtOWM4MS1lNTM1NTE2ZDUyYWIiLCJpc3MiOiJFeHBlbnNlTWFuYWdlciIsImF1ZCI6IkV4cGVuc2VNYW5hZ2VyIiwiZXhwIjoxNzE4MTIzNjk0fQ.LxPjf-DffUOmRk0HH-ErNixWVQSIOg6y_Okr9sdBN9c
 
-@categoryId = 7ccfb090-6616-4f45-8431-c792c459f6ba
+@categoryId = e43fafea-22e5-4e9a-9e15-1c8908222d73
 
 ### Remove category
 

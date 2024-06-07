@@ -5,19 +5,7 @@ import {Label} from "@/components/ui/label"
 import {Link, useNavigate} from "react-router-dom";
 import {useAuth} from "@/components/auth/AuthProvider.tsx";
 import {useState} from "react";
-
-async function loginUser(credentials) {
-    const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(credentials)
-    })
-    const data = await response.json();
-    return data.token;
-}
-
+import {transactionsApiConnector} from "@/api/authApiConnector.ts";
 
 export function LoginCard() {
     const navigate = useNavigate();
@@ -25,12 +13,17 @@ export function LoginCard() {
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
 
-    async function handleSubmit(e) {
+    async function handleSubmit(e: any) {
+        if (email === undefined || password === undefined) {
+            return;
+        }
+        
         e.preventDefault();
-        const token = await loginUser({
+        const response = await transactionsApiConnector.login({
             email,
             password
         });
+        const token = response.token;
         setToken(token);
         navigate('/app');
     }

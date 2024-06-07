@@ -2,15 +2,15 @@ import {Card, CardContent, CardHeader, CardTitle,} from "@/components/ui/card"
 import {Table, TableBody, TableHead, TableHeader, TableRow} from "@/components/ui/table";
 import {TransactionRow} from "@/components/transactions/TransactionRow.tsx";
 import {useEffect, useState} from "react";
-import {TransactionDto} from "@/components/models/TransactionDto.ts";
-import {apiConnector} from "@/api/apiConnector.ts";
+import {TransactionDto} from "@/models/transactions/TransactionDto.ts";
+import {transactionsApiConnector} from "@/api/transactionsApiConnector.ts";
 
 export default function TransactionTable() {
     const [transactions, setTransactions] = useState<TransactionDto[]>([])
 
     useEffect(() => {
         async function fetchTransactions() {
-            const transactions = await apiConnector.getTransactions("1");
+            const transactions = await transactionsApiConnector.getTransactions();
             setTransactions(transactions);
         }
 
