@@ -10,18 +10,6 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        // TODO: delete this
-        // services.AddMediatR(options =>
-        // {
-        //     options.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly);
-        //
-        //     // options.AddOpenBehavior(typeof(IPipelineBehavior<,>));
-        //     options.AddOpenBehavior(typeof(ValidationBehavior<,>));
-        // });
-        //
-        // services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-        // // services.AddValidatorsFromAssemblyContaining(typeof(DependencyInjection));
-
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
