@@ -14,11 +14,5 @@
         <PackageReference Include="ErrorOr" Version="2.0.1"/>
     </ItemGroup>
 
-    <ItemGroup>
-        <Folder Include="Categories\Events\"/>
-        <Folder Include="Transactions\Events\"/>
-        <Folder Include="Users\Events\"/>
-    </ItemGroup>
-
 
 </Project>

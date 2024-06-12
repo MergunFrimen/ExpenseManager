@@ -7,7 +7,7 @@ import {Check, LoaderCircle} from "lucide-react";
 import {z} from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form.tsx";
-import {Link, useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 
 const schema = z.object({
     email: z.string().email().max(150),
