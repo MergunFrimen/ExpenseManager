@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "BLdZbPri+KEnq9PCLKhaOVAd8c62N/ZwCyUD4yiM+yfdZrceAelsqcgXBvruR16xjLEe5sMRI3EmMsVWLOG8Yg==",
+  "dgSpecHash": "piYJ2iAbvjxacKxUHsAIqIR+4xStUn9uALshoUvjPsc665jgEFn0SCxz/1rT33iYSrewafosULaBprJEEMOA2w==",
   "success": true,
   "projectFilePath": "/home/mergun/ExpenseManager/src/ExpenseManager.Infrastructure/ExpenseManager.Infrastructure.csproj",
   "expectedPackageFiles": [
@@ -36,7 +36,7 @@
     "/home/mergun/.nuget/packages/npgsql/8.0.3/npgsql.8.0.3.nupkg.sha512",
     "/home/mergun/.nuget/packages/npgsql.entityframeworkcore.postgresql/8.0.4/npgsql.entityframeworkcore.postgresql.8.0.4.nupkg.sha512",
     "/home/mergun/.nuget/packages/system.identitymodel.tokens.jwt/7.6.0/system.identitymodel.tokens.jwt.7.6.0.nupkg.sha512",
-    "/home/mergun/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.5/microsoft.aspnetcore.app.ref.8.0.5.nupkg.sha512"
+    "/home/mergun/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.6/microsoft.aspnetcore.app.ref.8.0.6.nupkg.sha512"
   ],
   "logs": []
 }

@@ -1,4 +1,4 @@
-import {Link, useLocation, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {ModeToggle} from "@/components/theme/ModeToggle.tsx";
 import {
     DropdownMenu,
@@ -10,16 +10,16 @@ import {Button} from "@/components/ui/button.tsx";
 import {LogOutIcon, SettingsIcon} from "lucide-react";
 
 export function Header() {
-    const location = useLocation();
+    // const location = useLocation();
 
     return (
         <header className="container flex justify-between items-center py-4">
-            <Link to="/" className="text-xl self-start font-bold px-5">
-                Expense Manager
-            </Link>
+            {/*<Link to="/" className="text-xl self-start font-bold px-5">*/}
+            {/*    Expense Manager*/}
+            {/*</Link>*/}
             <div className="flex row gap-x-2">
                 <ModeToggle/>
-                {location.pathname == '/app' && <Settings/>}
+                {/*{location.pathname == '/app' && <Settings/>}*/}
             </div>
         </header>
     )

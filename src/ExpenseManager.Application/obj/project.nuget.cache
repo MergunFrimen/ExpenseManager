@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "jrTK+9REkR8BbYqaNDoOFtBdL+PFz6kkAHufxcSsuBj8vDORWuwwDzI5ZN95p0n5GAcGb7KjJJ0CFmG8535m4Q==",
+  "dgSpecHash": "WyN+JWg23p2qqDWp2Jic4bUtFU35mjE9nQ6cOdO0BZTdGB56VFLhMsyi3LMa+qdqXSPaVfQyrU/vwn9n6K8gsw==",
   "success": true,
   "projectFilePath": "/home/mergun/ExpenseManager/src/ExpenseManager.Application/ExpenseManager.Application.csproj",
   "expectedPackageFiles": [
@@ -17,7 +17,7 @@
     "/home/mergun/.nuget/packages/microsoft.extensions.options/8.0.0/microsoft.extensions.options.8.0.0.nupkg.sha512",
     "/home/mergun/.nuget/packages/microsoft.extensions.options.configurationextensions/8.0.0/microsoft.extensions.options.configurationextensions.8.0.0.nupkg.sha512",
     "/home/mergun/.nuget/packages/microsoft.extensions.primitives/8.0.0/microsoft.extensions.primitives.8.0.0.nupkg.sha512",
-    "/home/mergun/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.5/microsoft.aspnetcore.app.ref.8.0.5.nupkg.sha512"
+    "/home/mergun/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.6/microsoft.aspnetcore.app.ref.8.0.6.nupkg.sha512"
   ],
   "logs": []
 }
