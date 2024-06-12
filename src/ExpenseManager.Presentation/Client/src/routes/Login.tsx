@@ -7,6 +7,7 @@ import {Check, LoaderCircle} from "lucide-react";
 import {z} from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form.tsx";
+import {Link} from "react-router-dom";
 
 const schema = z.object({
     email: z.string().email().max(150),
@@ -119,11 +120,9 @@ export default function Login() {
                             </form>
                             <div className="mt-4 text-center text-sm">
                                 Don&apos;t have an account?{" "}
-                                {/*<Link to="/register" className="underline">*/}
-                                <span className="underline">
-                                Sign up
-                                </span>
-                                {/*</Link>*/}
+                                <Link to="/register" className="underline">
+                                    Sign up
+                                </Link>
                             </div>
                         </Form>
                     </CardContent>
