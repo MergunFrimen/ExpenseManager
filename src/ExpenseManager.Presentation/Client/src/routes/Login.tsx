@@ -1,17 +1,18 @@
 import BaseLayout from "@/layouts/BaseLayout.tsx";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card.tsx";
-import {Label} from "@/components/ui/label.tsx";
 import {Input} from "@/components/ui/input.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {SubmitHandler, useForm} from "react-hook-form";
-import {LoaderCircle} from "lucide-react";
+import {Check, LoaderCircle} from "lucide-react";
 import {z} from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
+import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form.tsx";
 
 const schema = z.object({
-    email: z.string().email(),
+    email: z.string().email().max(150),
     password: z.string().min(8),
 });
+
 type FormFields = z.infer<typeof schema>;
 
 export default function Login() {
@@ -21,14 +22,23 @@ export default function Login() {
     // if (token) {
     //     return <Navigate to="/app"/>;
     // }
-    //
-    const {
-        register,
-        setError, handleSubmit,
-        formState: {isSubmitting, errors}
-    } = useForm<FormFields>({
+    const form = useForm<FormFields>({
+        defaultValues: {
+            email: "",
+            password: "",
+        },
         resolver: zodResolver(schema),
     });
+    const {
+        control,
+        handleSubmit,
+        formState: {
+            errors,
+            isSubmitting,
+            isSubmitSuccessful
+        }
+    } = form;
+
 
     const onSubmit: SubmitHandler<FormFields> = async (data) => {
         try {
@@ -36,7 +46,7 @@ export default function Login() {
             throw new Error();
             console.log(data);
         } catch (error) {
-            setError("root", {
+            form.setError("root", {
                 message: "Invalid email or password",
             });
         }
@@ -53,61 +63,73 @@ export default function Login() {
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <form className="grid gap-4" onSubmit={handleSubmit(onSubmit)}>
-                            {errors.root && (
-                                <div className="text-red-500 text-sm">
-                                    {errors.root.message}
-                                </div>
-                            )}
-                            <div className="grid gap-2">
-                                <Label htmlFor="email">Email</Label>
-                                <Input
-                                    {...register("email")}
-                                    id="email"
-                                    type="email"
-                                    placeholder="example@email.com"
-                                />
-                                {errors.email && (
-                                    <div className="text-red-500 text-sm">
-                                        {errors.email.message}
+                        <Form {...form}>
+                            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                                {errors.root && (
+                                    <div className="text-sm font-medium text-destructive">
+                                        {errors.root.message}
                                     </div>
                                 )}
-                            </div>
-                            <div className="grid gap-2">
-                                <Label htmlFor="password">Password</Label>
-                                <Input
-                                    {...register("password")}
-                                    id="password"
-                                    type="password"
-                                    placeholder="Password"
+                                <FormField
+                                    control={control}
+                                    name="email"
+                                    render={({field}) => (
+                                        <FormItem>
+                                            <FormLabel>Email</FormLabel>
+                                            <FormControl>
+                                                <Input placeholder="example@email.com" {...field} />
+                                            </FormControl>
+                                            <FormMessage/>
+                                        </FormItem>
+                                    )}
                                 />
-                                {errors.password && (
-                                    <div className="text-red-500 text-sm">
-                                        {errors.password.message}
-                                    </div>
-                                )}
+                                <FormField
+                                    control={control}
+                                    name="password"
+                                    render={({field}) => (
+                                        <FormItem>
+                                            <FormLabel>Password</FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    className={"w-full"}
+                                                    placeholder="Password"
+                                                    type={"password"}
+                                                    {...field} />
+                                            </FormControl>
+                                            <FormMessage/>
+                                        </FormItem>
+                                    )}
+                                />
+                                {/*TODO: fix this monstrosity*/}
+                                <Button type="submit" className="w-full" disabled={isSubmitting || isSubmitSuccessful}>
+                                    {isSubmitting && (<div className={"flex flex-row"}>
+                                        <LoaderCircle className="animate-spin h-5 w-5 mr-3"/>
+                                        <span className="">Logging in</span>
+                                    </div>)}
 
+                                    {(!isSubmitting && !isSubmitSuccessful) &&
+                                        (<span className={""}>Login</span>)
+                                    }
+                                    {(!isSubmitting && isSubmitSuccessful) &&
+                                        (<div>
+                                            < Check className="h-5 w-5 mr-3"/>
+                                        </div>)
+                                    }
+                                </Button>
+                            </form>
+                            <div className="mt-4 text-center text-sm">
+                                Don&apos;t have an account?{" "}
+                                {/*<Link to="/register" className="underline">*/}
+                                <span className="underline">
+                                Sign up
+                                </span>
+                                {/*</Link>*/}
                             </div>
-                            <Button type="submit" className="w-full" disabled={isSubmitting}>
-                                {
-                                    isSubmitting
-                                        ? <>
-                                            Logging in
-                                            <LoaderCircle className="animate-spin h-5 w-5 ml-2"/>
-                                        </>
-                                        : "Login"
-                                }
-                            </Button>
-                        </form>
-                        {/*<div className="mt-4 text-center text-sm">*/}
-                        {/*    Don&apos;t have an account?{" "}*/}
-                        {/*    <Link to="/register" className="underline">*/}
-                        {/*        Sign up*/}
-                        {/*    </Link>*/}
-                        {/*</div>*/}
+                        </Form>
                     </CardContent>
                 </Card>
             </div>
         </BaseLayout>
-    );
+    )
+        ;
 }
