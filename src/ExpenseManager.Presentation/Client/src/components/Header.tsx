@@ -1,4 +1,4 @@
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {ModeToggle} from "@/components/theme/ModeToggle.tsx";
 import {
     DropdownMenu,
@@ -14,9 +14,9 @@ export function Header() {
 
     return (
         <header className="container flex justify-between items-center py-4">
-            {/*<Link to="/" className="text-xl self-start font-bold px-5">*/}
-            {/*    Expense Manager*/}
-            {/*</Link>*/}
+            <Link to="/" className="text-xl self-start font-bold px-5">
+                Expense Manager
+            </Link>
             <div className="flex row gap-x-2">
                 <ModeToggle/>
                 {/*{location.pathname == '/app' && <Settings/>}*/}
