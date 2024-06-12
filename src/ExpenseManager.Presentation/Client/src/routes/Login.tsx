@@ -7,7 +7,7 @@ import {Check, LoaderCircle} from "lucide-react";
 import {z} from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form.tsx";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 const schema = z.object({
     email: z.string().email().max(150),
@@ -23,6 +23,7 @@ export default function Login() {
     // if (token) {
     //     return <Navigate to="/app"/>;
     // }
+    // const navigate = useNavigate();
     const form = useForm<FormFields>({
         defaultValues: {
             email: "",
@@ -41,11 +42,11 @@ export default function Login() {
     } = form;
 
 
-    const onSubmit: SubmitHandler<FormFields> = async (data) => {
+    const onSubmit: SubmitHandler<FormFields> = async () => {
         try {
             await new Promise((resolve) => setTimeout(resolve, 1000));
-            throw new Error();
-            console.log(data);
+            // throw new Error();
+            // navigate("/my-route", { replace: true });
         } catch (error) {
             form.setError("root", {
                 message: "Invalid email or password",
