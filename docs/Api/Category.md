@@ -2,17 +2,77 @@
 
 ## Category
 
+### Query Categories
+
+#### Query Categories Request
+
+```http request
+GET /api/v1/users/{userId}/categories?name={name}
+```
+
+```json
+{
+}
+```
+
+#### Query Categories Response
+
+```http request
+200 OK
+```
+
+```json
+[
+]
+```
+
+### Get Category
+
+#### Get Category Request
+
+```http request
+GET /api/v1/users/{userId}/categories/{categoryId}
+```
+
+```json
+{
+}
+```
+
+#### Get Category Response
+
+##### Success
+
+```http request
+200 OK
+```
+
+```json
+{
+}
+```
+
+##### Not Found
+
+```http request
+404 Not Found
+```
+
+```json
+{
+}
+```
+
 ### Create Category
 
 #### Create Category Request
 
 ```http request
-POST /categories
+POST /api/v1/users/{userId}/categories
 ```
 
 ```json
 {
-  "name": "Food"
 }
 ```
 
@@ -24,8 +84,6 @@ POST /categories
 
 ```json
 {
-    "id": "00000000-0000-0000-0000-000000000000",
-    "name": "Food"
 }
 ```
 
@@ -34,17 +92,17 @@ POST /categories
 #### Update Category Request
 
 ```http request
-PUT /categories
+PUT /api/v1/users/{userId}/categories{categoryId}
 ```
 
 ```json
 {
-  "id": "00000000-0000-0000-0000-000000000000",
-  "name": "Food"
 }
 ```
 
 #### Update Category Response
+
+##### Success
 
 ```http request
 200 OK
@@ -52,8 +110,19 @@ PUT /categories
 
 ```json
 {
-    "id": "00000000-0000-0000-0000-000000000000",
-    "name": "Food"
+}
+```
+
+##### Not Found
+
+-the endpoint is valid but the resource itself does not exist
+
+```http request
+404 Not Found
+```
+
+```json
+{
 }
 ```
 
@@ -62,19 +131,20 @@ PUT /categories
 #### Delete Category Request
 
 ```http request
-DELETE /categories
+DELETE /api/v1/users/{userId}/categories{categoryId}
 ```
 
 ```json
 {
-  "id": "00000000-0000-0000-0000-000000000000"
 }
 ```
 
 #### Delete Category Response
 
+##### Success
+
 ```http request
-200 OK
+204 No Content
 ```
 
 ```json
@@ -82,36 +152,13 @@ DELETE /categories
 }
 ```
 
-### List Categories
-
-#### List Categories Request
+##### Not Found
 
 ```http request
-GET /categories
+404 Not Found
 ```
 
 ```json
 {
-}
-```
-
-#### List Categories Response
-
-```http request
-200 OK
-```
-
-```json
-{
-  "categories": [
-    {
-      "id": "00000000-0000-0000-0000-000000000000",
-      "name": "Food"
-    },
-    {
-      "id": "00000000-0000-0000-0000-000000000001",
-      "name": "Transport"
-    }
-  ]
 }
 ```

@@ -2,21 +2,77 @@
 
 ## Transaction
 
+### Query Transactions
+
+#### Query Transactions Request
+
+```http request
+GET /api/v1/users/{userId}/transactions?from={from}&to={to}&description={description}&categories={categories}
+```
+
+```json
+{
+}
+```
+
+#### Query Transactions Response
+
+```http request
+200 OK
+```
+
+```json
+[
+]
+```
+
+### Get Transaction
+
+#### Get Transaction Request
+
+```http request
+GET /api/v1/users/{userId}/transactions/{transactionId}
+```
+
+```json
+{
+}
+```
+
+#### Get Transaction Response
+
+##### Success
+
+```http request
+200 OK
+```
+
+```json
+{
+}
+```
+
+##### Not Found
+
+```http request
+404 Not Found
+```
+
+```json
+{
+}
+```
+
 ### Create Transaction
 
 #### Create Transaction Request
 
 ```http request
-POST /transactions
+POST /api/v1/users/{userId}/transactions
 ```
 
 ```json
 {
-  "type": "Expense",
-  "categoryId": "00000000-0000-0000-0000-000000000000",
-  "description": "Today's lunch",
-  "amount": 100.00,
-  "date": "2021-01-01T00:00:00Z"
 }
 ```
 
@@ -28,36 +84,25 @@ POST /transactions
 
 ```json
 {
-  "id": "00000000-0000-0000-0000-000000000000",
-  "type": "Expense",
-  "categoryId": "00000000-0000-0000-0000-000000000000",
-  "category": "Food",
-  "description": "Today's lunch",
-  "amount": 100.00,
-  "date": "2021-01-01T00:00:00Z"
 }
 ```
-se
+
 ### Update Transaction
 
 #### Update Transaction Request
 
 ```http request
-PUT /transactions
+PUT /api/v1/users/{userId}/transactions{transactionId}
 ```
 
 ```json
 {
-  "id": "00000000-0000-0000-0000-000000000000",
-  "type": "Expense",
-  "categoryId": "00000000-0000-0000-0000-000000000000",
-  "description": "Today's lunch",
-  "amount": 100.00,
-  "date": "2021-01-01T00:00:00Z"
 }
 ```
 
 #### Update Transaction Response
+
+##### Success
 
 ```http request
 200 OK
@@ -65,13 +110,17 @@ PUT /transactions
 
 ```json
 {
-  "id": "00000000-0000-0000-0000-000000000000",
-  "type": "Expense",
-  "categoryId": "00000000-0000-0000-0000-000000000000",
-  "category": "Food",
-  "description": "Today's lunch",
-  "amount": 100.00,
-  "date": "2021-01-01T00:00:00Z"
+}
+```
+
+##### Not Found
+
+```http request
+404 Not Found
+```
+
+```json
+{
 }
 ```
 
@@ -80,19 +129,20 @@ PUT /transactions
 #### Delete Transaction Request
 
 ```http request
-DELETE /transactions
+DELETE /api/v1/users/{userId}/transactions{transactionId}
 ```
 
 ```json
 {
-  "id": "00000000-0000-0000-0000-000000000000"
 }
 ```
 
 #### Delete Transaction Response
 
+##### Success
+
 ```http request
-200 OK
+204 No Content
 ```
 
 ```json
@@ -100,46 +150,13 @@ DELETE /transactions
 }
 ```
 
-### List Transactions
-
-#### List Transactions Request
+##### Not Found
 
 ```http request
-GET /transactions
+404 Not Found
 ```
 
 ```json
 {
-}
-```
-
-#### List Transactions Response
-
-```http request
-200 OK
-```
-
-```json
-{
-  "transactions": [
-    {
-      "id": "00000000-0000-0000-0000-000000000000",
-      "type": "Expense",
-      "categoryId": "00000000-0000-0000-0000-000000000000",
-      "category": "Food",
-      "description": "Today's lunch",
-      "amount": 100.00,
-      "date": "2021-01-01T00:00:00Z"
-    },
-    {
-      "id": "00000000-0000-0000-0000-000000000000",
-      "type": "Expense",
-      "categoryId": "00000000-0000-0000-0000-000000000000",
-      "category": "Food",
-      "description": "Today's lunch",
-      "amount": 100.00,
-      "date": "2021-01-01T00:00:00Z"
-    }
-  ]
 }
 ```

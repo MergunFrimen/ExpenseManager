@@ -7,7 +7,7 @@
 #### Register Request
 
 ```http request
-POST /auth/register
+POST /api/v1/users/register
 ```
 
 ```json
@@ -20,6 +20,8 @@ POST /auth/register
 ```
 
 #### Register Response
+
+##### Success
 
 ```http request
 201 Created
@@ -35,12 +37,23 @@ POST /auth/register
 }
 ```
 
+##### Email already exists
+
+```http request
+409 Conflict
+```
+
+```json
+{
+}
+```
+
 ### Login
 
 #### Login Request
 
 ```http request
-POST /auth/login
+POST /api/v1/users/login
 ```
 
 ```json
@@ -51,6 +64,8 @@ POST /auth/login
 ```
 
 #### Login Response
+
+##### Success
 
 ```http request
 200 OK
@@ -63,5 +78,16 @@ POST /auth/login
   "lastName": "Tichy",
   "email": "dominik@tichy.cz",
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.e..."
+}
+```
+
+##### Invalid email or password
+
+```http request
+401 Unauthorized
+```
+
+```json
+{
 }
 ```

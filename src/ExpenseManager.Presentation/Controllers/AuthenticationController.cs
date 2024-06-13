@@ -18,6 +18,10 @@ public class AuthenticationController(ISender mediatr, IMapper mapper) : ApiCont
     {
         var command = mapper.Map<RegisterCommand>(request);
         var authenticationResult = await mediatr.Send(command);
+        
+        if (authenticationResult.IsError && authenticationResult.FirstError == Errors.User.DuplicateEmail)
+            return Problem(statusCode: StatusCodes.Status409Conflict,
+                title: authenticationResult.FirstError.Description);
 
         return authenticationResult.Match(
             value => Ok(mapper.Map<AuthenticationResponse>(value)),
