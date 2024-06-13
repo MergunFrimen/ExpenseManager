@@ -16,16 +16,13 @@ public class RemoveCategoryCommandHandler(
     {
         var category = await categoryRepository.GetByIdAsync(command.Id, cancellationToken);
         if (category is null)
-            return Errors.Category.CategoryNotFound;
+            return Errors.Category.NotFound;
 
         if (category.UserId != command.UserId)
-            return Errors.Category.Unauthorized;
+            return Error.Unauthorized();
 
         var transactions = await transactionRepository.GetAllAsync(command.UserId, cancellationToken);
-
-        if (transactions.Any(t => t.CategoryId == command.Id))
-            return Errors.Category.CategoryUsedInTransactions;
-
+        
         await categoryRepository.RemoveAsync(command.Id, cancellationToken);
 
         return new CategoryResult(category);

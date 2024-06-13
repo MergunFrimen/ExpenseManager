@@ -1,3 +1,4 @@
+using Asp.Versioning;
 using ExpenseManager.Application.Authentication.Commands.Register;
 using ExpenseManager.Application.Authentication.Queries.Login;
 using ExpenseManager.Domain.Common.Errors;
@@ -10,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ExpenseManager.Presentation.Controllers;
 
 [AllowAnonymous]
-[Route("auth")]
+[Route("api/v{v:apiVersion}/auth")]
 public class AuthenticationController(ISender mediatr, IMapper mapper) : ApiController
 {
     [HttpPost("register")]

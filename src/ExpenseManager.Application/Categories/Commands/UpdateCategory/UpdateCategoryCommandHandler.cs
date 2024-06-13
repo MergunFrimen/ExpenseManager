@@ -16,15 +16,15 @@ public class UpdateCategoryCommandHandler(
     {
         var category = await categoryRepository.GetByIdAsync(command.Id, cancellationToken);
         if (category is null)
-            return Errors.Category.CategoryNotFound;
+            return Errors.Category.NotFound;
 
         if (category.UserId != command.UserId)
-            return Errors.Category.Unauthorized;
+            return Error.Unauthorized();
 
         var categories = await categoryRepository.GetAllAsync(command.UserId, cancellationToken);
 
         if (categories.Any(c => c.Name == command.Name))
-            return Errors.Category.CategoryAlreadyExists;
+            return Errors.Category.Duplicate;
 
         var updatedCategory = Category.Create(
             command.Id,

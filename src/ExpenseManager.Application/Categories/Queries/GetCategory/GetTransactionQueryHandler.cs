@@ -14,7 +14,7 @@ public class GetCategoryQueryHandler(
     {
         var category = await categoryRepository.GetByIdAsync(request.Id, cancellationToken);
         if (category is null)
-            return Errors.Category.CategoryNotFound;
+            return Errors.Category.NotFound;
 
         return new CategoryResult(category);
     }

@@ -1,5 +1,7 @@
+using ErrorOr;
 using ExpenseManager.Application.Common.Interfaces.Persistence;
 using ExpenseManager.Domain.Categories;
+using ExpenseManager.Domain.Common.Errors;
 using Microsoft.EntityFrameworkCore;
 
 namespace ExpenseManager.Infrastructure.Persistence.Repositories;
@@ -15,12 +17,11 @@ public class CategoryRepository(ExpenseManagerDbContext dbContext) : ICategoryRe
         return newCategory.Entity;
     }
 
-    public async Task<Category?> RemoveAsync(Guid id, CancellationToken cancellationToken)
+    public async Task<ErrorOr<Category>> RemoveAsync(Guid id, CancellationToken cancellationToken)
     {
-        var category = await dbContext.Categories.FirstOrDefaultAsync(c => c.Id == id, cancellationToken);
-
-        if (category is null) return null;
-
+        if (await dbContext.Categories.FindAsync(c => c.Id == id, cancellationToken) is not { } category)
+            return Errors.Category.NotFound;
+                
         dbContext.Categories.Remove(category);
 
         await dbContext.SaveChangesAsync(cancellationToken);
@@ -28,14 +29,14 @@ public class CategoryRepository(ExpenseManagerDbContext dbContext) : ICategoryRe
         return category;
     }
 
-    public async Task<Category?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+    public async Task<ErrorOr<Category>> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
         var category = await dbContext.Categories.FirstOrDefaultAsync(c => c.Id == id, cancellationToken);
 
         return category;
     }
 
-    public async Task<Category?> GetByNameAsync(string name, CancellationToken cancellationToken)
+    public async Task<ErrorOr<Category>> GetByNameAsync(string name, CancellationToken cancellationToken)
     {
         var category = await dbContext.Categories.FirstOrDefaultAsync(c => c.Name == name, cancellationToken);
 

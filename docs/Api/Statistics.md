@@ -7,11 +7,14 @@
 #### User Statistics Request
 
 ```http request
-GET /api/v1/users/{userId}/statistics?from={from}&to={to}
+POST /api/v1/users/{userId}/statistics
 ```
 
 ```json
 {
+  "from": "2021-01-01",
+  "to": "2021-12-31",
+  "groupBy": "day"
 }
 ```
 

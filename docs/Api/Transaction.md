@@ -5,13 +5,38 @@
 ### Query Transactions
 
 #### Query Transactions Request
+- pagination, filters, sorting
 
 ```http request
-GET /api/v1/users/{userId}/transactions?from={from}&to={to}&description={description}&categories={categories}
+POST /api/v1/users/{userId}/transactions/search
 ```
 
 ```json
 {
+  "pagination": {
+    "pageSize": 10,
+    "pageNumber": 1
+  },
+  "filters": {
+    "descriptionFilter": "work",
+    "dateRangeFilter": {
+      "startDate": "2023-12-31",
+      "endDate": "2024-06-30"
+    },
+    "tagFilter": [
+      "0e8b3b7b-0b3b-4b3b-8b3b-0b3b3b0b3b3b",
+      "0e8b3b7b-0b3b-4b3b-8b3b-0b3b3b0b3b3b",
+      "0e8b3b7b-0b3b-4b3b-8b3b-0b3b3b0b3b3b"
+    ],
+    "priceRangeFilter": {
+      "minPrice": 123,
+      "maxPrice": 1230
+    }
+  },
+  "sorting": {
+    "orderBy": "date",
+    "orderDirection": "ascending"
+  }
 }
 ```
 
@@ -23,6 +48,28 @@ GET /api/v1/users/{userId}/transactions?from={from}&to={to}&description={descrip
 
 ```json
 [
+  {
+    "id": "00000000-0000-0000-0000-000000000000",
+    "date": "2023-12-31",
+    "description": "work",
+    "price": 123,
+    "tags": [
+      "0e8b3b7b-0b3b-4b3b-8b3b-0b3b3b0b3b3b",
+      "0e8b3b7b-0b3b-4b3b-8b3b-0b3b3b0b3b3b",
+      "0e8b3b7b-0b3b-4b3b-8b3b-0b3b3b0b3b3b"
+    ]
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000000",
+    "date": "2023-12-31",
+    "description": "work",
+    "price": 123,
+    "tags": [
+      "0e8b3b7b-0b3b-4b3b-8b3b-0b3b3b0b3b3b",
+      "0e8b3b7b-0b3b-4b3b-8b3b-0b3b3b0b3b3b",
+      "0e8b3b7b-0b3b-4b3b-8b3b-0b3b3b0b3b3b"
+    ]
+  }
 ]
 ```
 
@@ -49,6 +96,21 @@ GET /api/v1/users/{userId}/transactions/{transactionId}
 
 ```json
 {
+  "id": "00000000-0000-0000-0000-000000000000",
+  "userId": "00000000-0000-0000-0000-000000000000",
+  "date": "2023-12-31",
+  "description": "work",
+  "price": 123,
+  "categoryIds": [
+    "00000000-0000-0000-0000-000000000000",
+    "00000000-0000-0000-0000-000000000000",
+    "00000000-0000-0000-0000-000000000000"
+  ],
+  "categories": [
+    "category1",
+    "category2",
+    "category3"
+  ]
 }
 ```
 

@@ -18,7 +18,7 @@ public class CreateTransactionCommandHandler(
         var category = await categoryRepository.GetByIdAsync(command.CategoryId, cancellationToken);
 
         if (category is null)
-            return Errors.Category.CategoryNotFound;
+            return Errors.Category.NotFound;
 
         var transaction = Transaction.Create(
             null,

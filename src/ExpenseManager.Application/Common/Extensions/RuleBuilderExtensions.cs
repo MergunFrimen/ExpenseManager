@@ -1,3 +1,4 @@
+using ExpenseManager.Domain.Categories;
 using ExpenseManager.Domain.Transactions.ValueObjects;
 using FluentValidation;
 
@@ -27,7 +28,8 @@ public static class RuleBuilderExtensions
     {
         var options = ruleBuilder
             .NotEmpty()
-            .MaximumLength(50).WithMessage("Category name must not exceed 50 characters");
+            .MaximumLength(Category.NameMaxLength)
+            .WithMessage($"Category name must not exceed {Category.NameMaxLength} characters");
     }
 
     public static void TransactionType<T>(this IRuleBuilder<T, TransactionType> ruleBuilder)

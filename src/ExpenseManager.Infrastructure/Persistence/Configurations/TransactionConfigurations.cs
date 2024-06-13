@@ -39,7 +39,7 @@ public sealed class TransactionConfigurations : IEntityTypeConfiguration<Transac
             .IsRequired();
         transactionsBuilder
             .Property(s => s.Description)
-            .HasMaxLength(150)
+            .HasMaxLength(Transaction.DescriptionMaxLength)
             .IsRequired();
         transactionsBuilder
             .Property(s => s.Amount)

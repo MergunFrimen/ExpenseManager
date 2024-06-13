@@ -7,11 +7,13 @@
 #### Export Transactions Request~~
 
 ```http request
-GET /api/v1/users/{userId}/transactions/export
+POST /api/v1/users/{userId}/transactions/export
 ```
 
 ```json
 {
+    "startDate": "2021-01-01",
+    "endDate": "2021-12-31"
 }
 ```
 

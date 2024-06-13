@@ -16,7 +16,7 @@ public class CreateCategoryCommandHandler(ICategoryRepository categoryRepository
         var category = await categoryRepository.GetByNameAsync(command.Name, cancellationToken);
 
         if (category is not null)
-            return Errors.Category.CategoryAlreadyExists;
+            return Errors.Category.Duplicate;
 
         var newCategory = Category.Create(null, command.UserId, command.Name);
 

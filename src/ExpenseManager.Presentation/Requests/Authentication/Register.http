@@ -2,7 +2,7 @@
 
 ### Register
 
-POST {{host}}/auth/register
+POST {{host}}/api/v1/auth/register
 Content-Type: application/json
 
 {

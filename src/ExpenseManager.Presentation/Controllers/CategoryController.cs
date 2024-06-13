@@ -3,6 +3,7 @@ using ExpenseManager.Application.Categories.Commands.RemoveCategory;
 using ExpenseManager.Application.Categories.Commands.UpdateCategory;
 using ExpenseManager.Application.Categories.Queries.GetCategory;
 using ExpenseManager.Application.Categories.Queries.ListCategories;
+using ExpenseManager.Domain.Common.Errors;
 using ExpenseManager.Presentation.Contracts.Categories;
 using MapsterMapper;
 using MediatR;
@@ -10,14 +11,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ExpenseManager.Presentation.Controllers;
 
-[Route("/categories")]
+[Route("api/v{v:apiVersion}/categories")]
 public class CategoryController(ISender mediatr, IMapper mapper) : ApiController
 {
     [HttpPost]
     public async Task<IActionResult> Create(CreateCategoryRequest request)
     {
         var userId = GetUserId();
-        var command = mapper.Map<CreateCategoryCommand>((request, userId));
+        if (userId.IsError && userId.FirstError == Errors.Authentication.InvalidCredentials)
+            return Problem(statusCode: StatusCodes.Status401Unauthorized,
+                title: userId.FirstError.Description);
+
+        var command = mapper.Map<CreateCategoryCommand>((request, userId.Value));
         var result = await mediatr.Send(command);
 
         return result.Match(
@@ -30,7 +35,11 @@ public class CategoryController(ISender mediatr, IMapper mapper) : ApiController
     public async Task<IActionResult> Update(UpdateCategoryRequest request)
     {
         var userId = GetUserId();
-        var command = mapper.Map<UpdateCategoryCommand>((request, userId));
+        if (userId.IsError && userId.FirstError == Errors.Authentication.InvalidCredentials)
+            return Problem(statusCode: StatusCodes.Status401Unauthorized,
+                title: userId.FirstError.Description);
+
+        var command = mapper.Map<UpdateCategoryCommand>((request, userId.Value));
         var result = await mediatr.Send(command);
 
         return result.Match(
@@ -43,7 +52,11 @@ public class CategoryController(ISender mediatr, IMapper mapper) : ApiController
     public async Task<IActionResult> Remove(RemoveCategoryRequest request)
     {
         var userId = GetUserId();
-        var command = mapper.Map<RemoveCategoryCommand>((request, userId));
+        if (userId.IsError && userId.FirstError == Errors.Authentication.InvalidCredentials)
+            return Problem(statusCode: StatusCodes.Status401Unauthorized,
+                title: userId.FirstError.Description);
+
+        var command = mapper.Map<RemoveCategoryCommand>((request, userId.Value));
         var result = await mediatr.Send(command);
 
         return result.Match(
@@ -56,7 +69,11 @@ public class CategoryController(ISender mediatr, IMapper mapper) : ApiController
     public async Task<IActionResult> List()
     {
         var userId = GetUserId();
-        var query = new ListCategoriesQuery(userId);
+        if (userId.IsError && userId.FirstError == Errors.Authentication.InvalidCredentials)
+            return Problem(statusCode: StatusCodes.Status401Unauthorized,
+                title: userId.FirstError.Description);
+
+        var query = new ListCategoriesQuery(userId.Value);
         var result = await mediatr.Send(query);
 
         return result.Match(
@@ -69,7 +86,11 @@ public class CategoryController(ISender mediatr, IMapper mapper) : ApiController
     public async Task<IActionResult> Get(Guid id)
     {
         var userId = GetUserId();
-        var query = new GetCategoryQuery(id, userId);
+        if (userId.IsError && userId.FirstError == Errors.Authentication.InvalidCredentials)
+            return Problem(statusCode: StatusCodes.Status401Unauthorized,
+                title: userId.FirstError.Description);
+
+        var query = new GetCategoryQuery(id, userId.Value);
         var result = await mediatr.Send(query);
 
         return result.Match(

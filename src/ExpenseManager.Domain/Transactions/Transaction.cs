@@ -33,6 +33,8 @@ public sealed class Transaction : Entity
     public string Description { get; private set; } = null!;
     public decimal Amount { get; private set; }
     public DateTime Date { get; private set; }
+    
+    public const int DescriptionMaxLength = 150;
 
     public static Transaction Create(
         Guid? id,

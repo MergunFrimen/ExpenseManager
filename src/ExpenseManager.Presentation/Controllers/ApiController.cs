@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using ErrorOr;
+using ExpenseManager.Domain.Common.Errors;
 using ExpenseManager.Presentation.Common.Http;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -9,13 +10,13 @@ namespace ExpenseManager.Presentation.Controllers;
 
 [Authorize]
 [ApiController]
-[Route("[controller]")]
+[Route("api/v{v:apiVersion}/[controller]")]
 public class ApiController : ControllerBase
 {
-    protected Guid GetUserId()
+    protected ErrorOr<Guid> GetUserId()
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        if (userId == null) throw new UnauthorizedAccessException();
+        if (userId == null) return Errors.Authentication.InvalidCredentials;
         return Guid.Parse(userId);
     }
 

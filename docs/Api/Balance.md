@@ -23,7 +23,7 @@ GET /api/v1/users/{userId}/balance
 
 ```json
 {
-  "userId": "string",
+  "userId": "00000000-0000-0000-0000-000000000000",
   "totalBalance": 123
 }
 ```
