@@ -28,8 +28,7 @@ public static class RuleBuilderExtensions
     {
         var options = ruleBuilder
             .NotEmpty()
-            .MaximumLength(Category.NameMaxLength)
-            .WithMessage($"Category name must not exceed {Category.NameMaxLength} characters");
+            .MaximumLength(Category.NameMaxLength);
     }
 
     public static void TransactionType<T>(this IRuleBuilder<T, TransactionType> ruleBuilder)

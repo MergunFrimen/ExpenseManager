@@ -9,6 +9,11 @@ namespace ExpenseManager.Infrastructure.Persistence.Repositories;
 
 public class CategoryRepository(ExpenseManagerDbContext dbContext) : ICategoryRepository
 {
+    public async Task<bool> ExistsAsync(Expression<Func<Category, bool>> predicate, CancellationToken cancellationToken)
+    {
+        return await dbContext.Categories.AnyAsync(predicate, cancellationToken);
+    }
+
     public async Task<ErrorOr<List<Category>>> GetAllAsync(Guid userId, CancellationToken cancellationToken)
     {
         return await dbContext.Categories

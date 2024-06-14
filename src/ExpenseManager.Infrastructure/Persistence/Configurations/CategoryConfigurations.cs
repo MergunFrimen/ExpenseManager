@@ -9,7 +9,7 @@ public sealed class CategoryConfigurations : IEntityTypeConfiguration<Category>
     public void Configure(EntityTypeBuilder<Category> builder)
     {
         ConfigureCategoryTable(builder);
-        // ConfigureTransactionTable(builder);
+        ConfigureTransactionTable(builder);
     }
 
     private void ConfigureCategoryTable(EntityTypeBuilder<Category> transactionsBuilder)

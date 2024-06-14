@@ -9,6 +9,11 @@ namespace ExpenseManager.Infrastructure.Persistence.Repositories;
 
 public class TransactionRepository(ExpenseManagerDbContext dbContext) : ITransactionRepository
 {
+    public async Task<bool> ExistsAsync(Expression<Func<Transaction, bool>> predicate, CancellationToken cancellationToken)
+    {
+        return await dbContext.Transactions.AnyAsync(predicate, cancellationToken);
+    }
+
     public async Task<ErrorOr<List<Transaction>>> GetAllAsync(Guid userId, CancellationToken cancellationToken)
     {
         return await dbContext.Transactions

@@ -1,12 +1,13 @@
 @host = http://localhost:5222
 @token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OGZlYTcwMi1iY2MzLTQzYzItYmNiOS0yYmE5YzIxYmVjYzAiLCJnaXZlbl9uYW1lIjoiRG9taW5payIsImZhbWlseV9uYW1lIjoiVGljaHkiLCJqdGkiOiIzMzcxZmNkMC05OWUwLTQzN2EtYTcwZi1mMjNmNWUwNzAyODkiLCJpc3MiOiJFeHBlbnNlTWFuYWdlciIsImF1ZCI6IkV4cGVuc2VNYW5hZ2VyIiwiZXhwIjoxNzE4NzYwODA0fQ.VOb0h2U5tffE46THPEICKUxZyKMq1JMfvZ-9jCP1oMQ
 
-### Create category
+### Search categories
 
-POST {{host}}/api/v1/categories
+@name = something
+
+GET {{host}}/api/v1/categories/search?name={{name}}
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "name": "Category 2adfa222ddd32"
 }
