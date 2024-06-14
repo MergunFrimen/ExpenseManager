@@ -22,4 +22,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\ExpenseManager.Infrastructure\ExpenseManager.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
