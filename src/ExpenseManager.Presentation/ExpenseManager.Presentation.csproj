@@ -26,9 +26,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Contracts\Balance\" />
-      <Folder Include="Contracts\Import\" />
-      <Folder Include="Contracts\Statistics\" />
+      <Folder Include="Requests\Export\" />
+      <Folder Include="Requests\Import\" />
     </ItemGroup>
 
 </Project>

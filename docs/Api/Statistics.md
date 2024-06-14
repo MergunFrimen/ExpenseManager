@@ -28,5 +28,8 @@ POST /api/v1/users/{userId}/statistics
 
 ```json
 {
+  "totalBalance": 123,
+  "totalExpense": 123,
+  "totalIncome": 123
 }
 ```

@@ -15,6 +15,19 @@ public class TransactionRepository(ExpenseManagerDbContext dbContext) : ITransac
         return transactions;
     }
 
+    public async Task<List<Transaction>> GetAllDateRangeAsync(Guid userId, DateTime? from, DateTime? to, CancellationToken cancellationToken)
+    {
+        from ??= DateTime.MinValue;
+        to ??= DateTime.MaxValue;
+        
+        var transactions = await dbContext.Transactions
+            .Where(transaction => transaction.UserId == userId)
+            .Where(transaction => transaction.Date >= from && transaction.Date <= to)
+            .ToListAsync(cancellationToken);
+        
+        return transactions;
+    }
+
     public async Task<Transaction> AddAsync(Transaction transaction, CancellationToken cancellationToken)
     {
         var newTransaction = await dbContext.Transactions.AddAsync(transaction, cancellationToken);

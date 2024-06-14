@@ -11,8 +11,8 @@ public sealed class Transaction : Entity
         TransactionType type,
         string description,
         decimal amount,
-        DateTime date,
-        Guid categoryId
+        DateTime? date,
+        List<Guid> categoryIds
     ) : base(id)
     {
         UserId = userId;
@@ -20,20 +20,20 @@ public sealed class Transaction : Entity
         Description = description;
         Amount = amount;
         Date = date;
-        CategoryId = categoryId;
+        CategoryIds = categoryIds;
     }
 
     private Transaction()
     {
     }
 
-    public Guid UserId { get; private set; }
-    public Guid CategoryId { get; private set; }
-    public TransactionType Type { get; private set; }
     public string Description { get; private set; } = null!;
     public decimal Amount { get; private set; }
-    public DateTime Date { get; private set; }
-    
+    public List<Guid> CategoryIds { get; private set; }
+    public Guid UserId { get; private set; }
+    public TransactionType Type { get; private set; }
+    public DateTime? Date { get; private set; }
+
     public const int DescriptionMaxLength = 150;
 
     public static Transaction Create(
@@ -42,8 +42,8 @@ public sealed class Transaction : Entity
         TransactionType type,
         string description,
         decimal amount,
-        DateTime date,
-        Guid categoryId
+        DateTime? date,
+        List<Guid>? categoryIds
     )
     {
         var transaction = new Transaction(
@@ -53,7 +53,7 @@ public sealed class Transaction : Entity
             description,
             amount,
             date,
-            categoryId
+            categoryIds ?? []
         );
 
         return transaction;
