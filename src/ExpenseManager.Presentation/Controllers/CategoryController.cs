@@ -31,15 +31,15 @@ public class CategoryController(ISender mediatr, IMapper mapper) : ApiController
         );
     }
 
-    [HttpPut]
-    public async Task<IActionResult> Update(UpdateCategoryRequest request)
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update(Guid id, UpdateCategoryRequest request)
     {
         var userId = GetUserId();
         if (userId.IsError && userId.FirstError == Errors.Authentication.InvalidCredentials)
             return Problem(statusCode: StatusCodes.Status401Unauthorized,
                 title: userId.FirstError.Description);
 
-        var command = mapper.Map<UpdateCategoryCommand>((request, userId.Value));
+        var command = mapper.Map<UpdateCategoryCommand>((request, id, userId.Value));
         var result = await mediatr.Send(command);
 
         return result.Match(
@@ -48,15 +48,15 @@ public class CategoryController(ISender mediatr, IMapper mapper) : ApiController
         );
     }
 
-    [HttpDelete]
-    public async Task<IActionResult> Remove(RemoveCategoryRequest request)
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Remove(Guid id)
     {
         var userId = GetUserId();
         if (userId.IsError && userId.FirstError == Errors.Authentication.InvalidCredentials)
             return Problem(statusCode: StatusCodes.Status401Unauthorized,
                 title: userId.FirstError.Description);
 
-        var command = mapper.Map<RemoveCategoryCommand>((request, userId.Value));
+        var command = new RemoveCategoryCommand(id, userId.Value);
         var result = await mediatr.Send(command);
 
         return result.Match(

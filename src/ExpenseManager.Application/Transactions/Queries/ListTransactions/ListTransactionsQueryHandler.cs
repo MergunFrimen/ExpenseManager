@@ -14,7 +14,7 @@ public class ListTransactionsQueryHandler(
     public async Task<ErrorOr<List<TransactionResult>>> Handle(ListTransactionsQuery query,
         CancellationToken cancellationToken)
     {
-        var transactions = await transactionRepository.GetAllAsync(query.UserId, cancellationToken);
+        var transactions = await transactionRepository.GetAllByUserIdAsync(query.UserId, cancellationToken);
 
         return transactions.Match(
             value => value.Select(transaction => new TransactionResult(transaction)).ToList(),

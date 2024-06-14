@@ -14,7 +14,7 @@ public class CategoryRepository(ExpenseManagerDbContext dbContext) : ICategoryRe
         return await dbContext.Categories.AnyAsync(predicate, cancellationToken);
     }
 
-    public async Task<ErrorOr<List<Category>>> GetAllAsync(Guid userId, CancellationToken cancellationToken)
+    public async Task<List<Category>> GetAllByUserIdAsync(Guid userId, CancellationToken cancellationToken)
     {
         return await dbContext.Categories
             .Where(category => category.UserId == userId)
@@ -29,13 +29,13 @@ public class CategoryRepository(ExpenseManagerDbContext dbContext) : ICategoryRe
         return category;
     }
 
-    public async Task<ErrorOr<List<Category>>> FindAsync(Expression<Func<Category, bool>> predicate,
+    public async Task<List<Category>> FindAsync(Expression<Func<Category, bool>> predicate,
         CancellationToken cancellationToken)
     {
         return await dbContext.Categories.Where(predicate).ToListAsync(cancellationToken);
     }
 
-    public async Task<ErrorOr<Category>> AddAsync(Category category, CancellationToken cancellationToken)
+    public async Task<Category> AddAsync(Category category, CancellationToken cancellationToken)
     {
         var newCategory = await dbContext.Categories.AddAsync(category, cancellationToken);
 
@@ -44,39 +44,31 @@ public class CategoryRepository(ExpenseManagerDbContext dbContext) : ICategoryRe
         return newCategory.Entity;
     }
 
-    public async Task<ErrorOr<Category>> UpdateAsync(Category category, CancellationToken cancellationToken)
+    public async Task<Category> UpdateAsync(Category category, CancellationToken cancellationToken)
     {
-        dbContext.Categories.Update(category);
+        var updatedCategory = dbContext.Categories.Update(category);
 
         await dbContext.SaveChangesAsync(cancellationToken);
 
-        return category;
+        return updatedCategory.Entity;
     }
 
-    public async Task<ErrorOr<Category>> RemoveAsync(Guid id, CancellationToken cancellationToken)
+    public async Task<Category> RemoveAsync(Category transaction, CancellationToken cancellationToken)
     {
-        var category = dbContext.Categories.FirstOrDefault(category => category.Id == id);
-        if (category is null)
-            return Errors.Category.NotFound;
-
-        dbContext.Categories.Remove(category);
+        dbContext.Categories.Remove(transaction);
 
         await dbContext.SaveChangesAsync(cancellationToken);
 
-        return category;
+        return transaction;
     }
 
-    public async Task<ErrorOr<List<Category>>> RemoveRangeAsync(List<Guid> id, CancellationToken cancellationToken)
+    public async Task<List<Category>> RemoveRangeAsync(List<Category> transactions,
+        CancellationToken cancellationToken)
     {
-        var categories = dbContext.Categories.Where(category => id.Contains(category.Id)).ToList();
-
-        await dbContext
-            .Categories
-            .Where(category => id.Contains(category.Id))
-            .ExecuteDeleteAsync(cancellationToken);
+        dbContext.Categories.RemoveRange(transactions);
 
         await dbContext.SaveChangesAsync(cancellationToken);
 
-        return categories;
+        return transactions;
     }
 }
