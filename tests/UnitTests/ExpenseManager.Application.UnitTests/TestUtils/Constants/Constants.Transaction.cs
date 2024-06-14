@@ -1,0 +1,15 @@
+using ExpenseManager.Domain.Transactions.ValueObjects;
+
+namespace ExpenseManager.Application.UnitTests.TestUtils.Constants;
+
+public static partial class Constants
+{
+    public static class Transaction
+    {
+        public static readonly Guid Id = new("CA761232-ED42-11CE-BACD-00AA0057B223");
+        public const string Description = "Test Description";
+        public const decimal Amount = 100;
+        public const TransactionType Type = TransactionType.Income;
+        public static readonly DateTime Date = new(2024, 6, 14);
+    }
+}
