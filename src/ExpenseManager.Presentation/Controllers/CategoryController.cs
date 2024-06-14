@@ -2,7 +2,7 @@ using ExpenseManager.Application.Categories.Commands.CreateCategory;
 using ExpenseManager.Application.Categories.Commands.RemoveCategory;
 using ExpenseManager.Application.Categories.Commands.UpdateCategory;
 using ExpenseManager.Application.Categories.Queries.GetCategory;
-using ExpenseManager.Application.Categories.Queries.ListCategories;
+using ExpenseManager.Application.Categories.Queries.SearchCategories;
 using ExpenseManager.Domain.Common.Errors;
 using ExpenseManager.Presentation.Contracts.Categories;
 using MapsterMapper;
@@ -65,15 +65,15 @@ public class CategoryController(ISender mediatr, IMapper mapper) : ApiController
         );
     }
 
-    [HttpGet]
-    public async Task<IActionResult> List()
+    [HttpGet("search/{name}")]
+    public async Task<IActionResult> Search(string name)
     {
         var userId = GetUserId();
         if (userId.IsError && userId.FirstError == Errors.Authentication.InvalidCredentials)
             return Problem(statusCode: StatusCodes.Status401Unauthorized,
                 title: userId.FirstError.Description);
 
-        var query = new ListCategoriesQuery(userId.Value);
+        var query = new SearchCategoriesQuery(userId.Value, name);
         var result = await mediatr.Send(query);
 
         return result.Match(

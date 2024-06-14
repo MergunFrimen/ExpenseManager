@@ -13,7 +13,7 @@ public class CreateCategoryCommandHandler(ICategoryRepository categoryRepository
     public async Task<ErrorOr<CategoryResult>> Handle(CreateCategoryCommand command,
         CancellationToken cancellationToken)
     {
-        var category = await categoryRepository.GetByNameAsync(command.Name, cancellationToken);
+        var category = await categoryRepository.SearchAsynch(command.Name, cancellationToken);
 
         if (category is not null)
             return Errors.Category.Duplicate;

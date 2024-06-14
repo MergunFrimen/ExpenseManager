@@ -23,7 +23,7 @@ POST /api/v1/users/{userId}/transactions/search
       "startDate": "2023-12-31",
       "endDate": "2024-06-30"
     },
-    "tagFilter": [
+    "categoryFilter": [
       "0e8b3b7b-0b3b-4b3b-8b3b-0b3b3b0b3b3b",
       "0e8b3b7b-0b3b-4b3b-8b3b-0b3b3b0b3b3b",
       "0e8b3b7b-0b3b-4b3b-8b3b-0b3b3b0b3b3b"

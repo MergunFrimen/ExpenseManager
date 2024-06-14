@@ -1,4 +1,5 @@
 using ErrorOr;
+using ExpenseManager.Application.Categories.Queries.SearchCategories;
 using ExpenseManager.Application.Common.Interfaces.Persistence;
 using ExpenseManager.Domain.Categories;
 using ExpenseManager.Domain.Common.Errors;
@@ -8,6 +9,16 @@ namespace ExpenseManager.Infrastructure.Persistence.Repositories;
 
 public class CategoryRepository(ExpenseManagerDbContext dbContext) : ICategoryRepository
 {
+    public async Task<ErrorOr<List<Category>>> SearchAsynch(SearchCategoriesQuery query, CancellationToken cancellationToken)
+    {
+        var categories = await dbContext.Categories
+            .Where(c => c.UserId == query.UserId)
+            .Where(c => c.Name.Contains(query.Name))
+            .ToListAsync(cancellationToken);
+
+        return categories;
+    }
+
     public async Task<Category> AddAsync(Category category, CancellationToken cancellationToken)
     {
         var newCategory = await dbContext.Categories.AddAsync(category, cancellationToken);
