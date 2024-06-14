@@ -1,9 +1,9 @@
 using ExpenseManager.Domain.Categories;
 using FluentValidation;
 
-namespace ExpenseManager.Application.Categories.Queries.SearchCategories;
+namespace ExpenseManager.Application.Categories.Queries.FindCategories;
 
-public class SearchCategoriesQueryValidator : AbstractValidator<SearchCategoriesQuery>
+public class SearchCategoriesQueryValidator : AbstractValidator<FindCategoriesQuery>
 {
     public SearchCategoriesQueryValidator()
     {

@@ -10,12 +10,13 @@ public class GetCategoryQueryHandler(
     ICategoryRepository categoryRepository)
     : IQueryHandler<GetCategoryQuery, CategoryResult>
 {
-    public async Task<ErrorOr<CategoryResult>> Handle(GetCategoryQuery request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<CategoryResult>> Handle(GetCategoryQuery query, CancellationToken cancellationToken)
     {
-        var category = await categoryRepository.GetByIdAsync(request.Id, cancellationToken);
-        if (category is null)
-            return Errors.Category.NotFound;
-
-        return new CategoryResult(category);
+        var category = await categoryRepository.GetByIdAsync(query.Id, cancellationToken);
+        
+        return category.Match(
+            onValue: value => new CategoryResult(value),
+            onError: ErrorOr<CategoryResult>.From
+        );
     }
 }

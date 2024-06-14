@@ -1,3 +1,4 @@
+using ExpenseManager.Domain.Categories;
 using ExpenseManager.Domain.Common.Models;
 using ExpenseManager.Domain.Transactions.ValueObjects;
 
@@ -12,7 +13,7 @@ public sealed class Transaction : Entity
         string description,
         decimal amount,
         DateTime? date,
-        List<Guid> categoryIds
+        List<Category> categories
     ) : base(id)
     {
         UserId = userId;
@@ -20,18 +21,18 @@ public sealed class Transaction : Entity
         Description = description;
         Amount = amount;
         Date = date;
-        CategoryIds = categoryIds;
+        Categories = categories;
     }
 
     private Transaction()
     {
     }
 
-    public string Description { get; private set; } = null!;
-    public decimal Amount { get; private set; }
-    public List<Guid> CategoryIds { get; private set; }
     public Guid UserId { get; private set; }
     public TransactionType Type { get; private set; }
+    public decimal Amount { get; private set; }
+    public string Description { get; private set; } = null!;
+    public List<Category> Categories { get; private set; }
     public DateTime? Date { get; private set; }
 
     public const int DescriptionMaxLength = 150;
@@ -43,7 +44,7 @@ public sealed class Transaction : Entity
         string description,
         decimal amount,
         DateTime? date,
-        List<Guid>? categoryIds
+        List<Category>? categoryIds
     )
     {
         var transaction = new Transaction(

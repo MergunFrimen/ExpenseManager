@@ -13,13 +13,10 @@ public class RemoveTransactionCommandHandler(ITransactionRepository transactionR
         CancellationToken cancellationToken)
     {
         var transaction = await transactionRepository.RemoveAsync(command.Id, cancellationToken);
-
-        if (transaction is null)
-            return Errors.Transaction.TransactionNotFound;
-
-        if (transaction.UserId != command.UserId)
-            return Errors.Transaction.Unauthorized;
-
-        return new TransactionResult(transaction, "");
+        
+        return transaction.Match(
+            onValue: value => new TransactionResult(value),
+            onError: ErrorOr<TransactionResult>.From
+        );
     }
 }

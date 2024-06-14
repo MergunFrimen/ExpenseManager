@@ -6,17 +6,12 @@ public static partial class Errors
 {
     public static class Category
     {
-        public static Error NotFound => Error.NotFound(
+        public static Error NotFound(string category = "") => Error.NotFound(
             "Category.CategoryNotFound",
-            "Category not found.");
+            $"Category not found: {category}.");
 
         public static Error Duplicate => Error.Conflict(
             "Category.Duplicate",
             "Category with name already exists.");
-
-        // TODO: remove this
-        public static Error CategoryUsedInTransactions => Error.Conflict(
-            "Category.CategoryUsedInTransactions",
-            "Category is used in transactions.");
     }
 }

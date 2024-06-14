@@ -1,4 +1,5 @@
 using ExpenseManager.Application.Statistics.Queries.GetBalance;
+using ExpenseManager.Application.Statistics.Queries.GetCharts;
 using ExpenseManager.Domain.Common.Errors;
 using ExpenseManager.Presentation.Contracts.Statistics;
 using MapsterMapper;
@@ -28,8 +29,19 @@ public class StatisticsController(ISender mediatr, IMapper mapper) : ApiControll
     }
 
     [HttpGet("charts")]
-    public async Task<IActionResult> GetCharts()
+    public async Task<IActionResult> GetCharts(string from, string to)
     {
-        return Ok(new ChartsResponse());
+        var userId = GetUserId();
+        if (userId.IsError && userId.FirstError == Errors.Authentication.InvalidCredentials)
+            return Problem(statusCode: StatusCodes.Status401Unauthorized,
+                title: userId.FirstError.Description);
+        
+        var query = mapper.Map<GetChartsQuery>((userId.Value, from, to));
+        var result = await mediatr.Send(query);
+
+        return result.Match(
+            value => Ok(mapper.Map<ChartsResponse>(value)),
+            Problem
+        );
     }
 }

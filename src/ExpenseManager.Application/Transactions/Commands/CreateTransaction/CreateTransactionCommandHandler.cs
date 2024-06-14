@@ -15,11 +15,6 @@ public class CreateTransactionCommandHandler(
     public async Task<ErrorOr<TransactionResult>> Handle(CreateTransactionCommand command,
         CancellationToken cancellationToken)
     {
-        var category = await categoryRepository.GetByIdAsync(command.CategoryId, cancellationToken);
-
-        if (category is null)
-            return Errors.Category.NotFound;
-
         var transaction = Transaction.Create(
             null,
             command.UserId,
@@ -27,11 +22,11 @@ public class CreateTransactionCommandHandler(
             command.Description,
             command.Amount,
             command.Date,
-            command.CategoryId
+            []
         );
 
         await transactionRepository.AddAsync(transaction, cancellationToken);
 
-        return new TransactionResult(transaction, category.Name);
+        return new TransactionResult(transaction);
     }
 }

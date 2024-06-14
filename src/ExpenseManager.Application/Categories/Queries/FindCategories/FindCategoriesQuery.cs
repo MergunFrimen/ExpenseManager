@@ -1,9 +1,9 @@
 using ExpenseManager.Application.Categories.Common;
 using ExpenseManager.Application.Common.Interfaces.Cqrs;
 
-namespace ExpenseManager.Application.Categories.Queries.SearchCategories;
+namespace ExpenseManager.Application.Categories.Queries.FindCategories;
 
-public sealed record SearchCategoriesQuery(
+public sealed record FindCategoriesQuery(
     Guid UserId,
     string Name
 ) : IQuery<List<CategoryResult>>;

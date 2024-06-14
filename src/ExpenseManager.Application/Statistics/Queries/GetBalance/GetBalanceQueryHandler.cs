@@ -14,20 +14,19 @@ public class GetBalanceQueryHandler(
     public async Task<ErrorOr<BalanceResult>> Handle(GetBalanceQuery query, CancellationToken cancellationToken)
     {
         var transactions =
-            await transactionRepository.GetAllDateRangeAsync(query.UserId, query.From, query.To, cancellationToken);
-        
-        var balance = transactions
+            await transactionRepository.FindAsync(
+                transaction => transaction.UserId == query.UserId &&
+                               transaction.Date >= query.From &&
+                               transaction.Date <= query.To
+                , cancellationToken);
+
+        if (!transactions.IsError)
+            return ErrorOr<BalanceResult>.From(transactions.Errors);
+
+        var totalBalance = transactions.Value
             .Select(transaction => transaction.Amount)
             .Sum();
-        var totalExpenses = transactions
-            .Where(transaction => transaction.Amount < 0)
-            .Select(transaction => transaction.Amount)
-            .Sum();
-        var totalIncome = transactions
-            .Where(transaction => transaction.Amount > 0)
-            .Select(transaction => transaction.Amount)
-            .Sum();
-        
-        return new BalanceResult(balance, totalExpenses, totalIncome);
+
+        return new BalanceResult(totalBalance);
     }
 }

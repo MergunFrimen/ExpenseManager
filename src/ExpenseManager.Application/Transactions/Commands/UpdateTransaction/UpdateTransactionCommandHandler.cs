@@ -2,6 +2,7 @@ using ErrorOr;
 using ExpenseManager.Application.Common.Interfaces.Cqrs;
 using ExpenseManager.Application.Common.Interfaces.Persistence;
 using ExpenseManager.Application.Transactions.Common;
+using ExpenseManager.Domain.Categories;
 using ExpenseManager.Domain.Common.Errors;
 using ExpenseManager.Domain.Transactions;
 
@@ -16,16 +17,23 @@ public class UpdateTransactionCommandHandler(
         CancellationToken cancellationToken)
     {
         var transaction = await transactionRepository.GetByIdAsync(command.Id, cancellationToken);
-        if (transaction is null)
-            return Errors.Transaction.TransactionNotFound;
+        if (transaction.IsError)
+            return transaction.Errors;
 
-        if (transaction.UserId != command.UserId)
+        if (transaction.Value.UserId != command.UserId)
             return Errors.Transaction.Unauthorized;
 
-        var category = await categoryRepository.GetByIdAsync(command.CategoryId, cancellationToken);
-        if (category is null)
-            return Errors.Category.NotFound;
+        List<Category> categories = [];
+        
+        foreach (var categoryId in command.CategoryIds)
+        {
+            var category = await categoryRepository.GetByIdAsync(categoryId, cancellationToken);
+            if (category.IsError)
+                return category.Errors;
 
+            categories.Add(category.Value);
+        }
+        
         var newTransaction = Transaction.Create(
             command.Id,
             command.UserId,
@@ -33,12 +41,12 @@ public class UpdateTransactionCommandHandler(
             command.Description,
             command.Amount,
             command.Date,
-            command.CategoryId
+            categories
         );
 
         await transactionRepository.RemoveAsync(command.Id, cancellationToken);
         await transactionRepository.AddAsync(newTransaction, cancellationToken);
 
-        return new TransactionResult(newTransaction, category.Name);
+        return new TransactionResult(newTransaction);
     }
 }

@@ -7,8 +7,8 @@ namespace ExpenseManager.Application.Transactions.Commands.UpdateTransaction;
 public sealed record UpdateTransactionCommand(
     Guid UserId,
     Guid Id,
+    List<Guid> CategoryIds,
     TransactionType Type,
-    Guid CategoryId,
     string Description,
     decimal Amount,
     DateTime Date

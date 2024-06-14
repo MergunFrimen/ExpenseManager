@@ -12,7 +12,7 @@ public class TransactionsMappingConfig : IRegister
     public void Register(TypeAdapterConfig config)
     {
         config.NewConfig<TransactionResult, TransactionResponse>()
-            .Map(dest => dest.Category, src => src.Category)
+            .Map(dest => dest.CategoryNames, src => src.Transaction.Categories.Select(c => c.Name))
             .Map(dest => dest, src => src.Transaction);
 
         config.NewConfig<(CreateTransactionRequest Request, Guid UserId), CreateTransactionCommand>()

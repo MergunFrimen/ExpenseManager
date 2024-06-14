@@ -14,17 +14,11 @@ public class RemoveCategoryCommandHandler(
     public async Task<ErrorOr<CategoryResult>> Handle(RemoveCategoryCommand command,
         CancellationToken cancellationToken)
     {
-        var category = await categoryRepository.GetByIdAsync(command.Id, cancellationToken);
-        if (category is null)
-            return Errors.Category.NotFound;
+        var removedCategory = await categoryRepository.RemoveAsync(command.Id, cancellationToken);
 
-        if (category.UserId != command.UserId)
-            return Error.Unauthorized();
-
-        var transactions = await transactionRepository.GetAllAsync(command.UserId, cancellationToken);
-        
-        await categoryRepository.RemoveAsync(command.Id, cancellationToken);
-
-        return new CategoryResult(category);
+        return removedCategory.Match(
+            onValue: value => new CategoryResult(value),
+            onError: ErrorOr<CategoryResult>.From
+        );
     }
 }

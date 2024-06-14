@@ -29,7 +29,7 @@ public sealed class TransactionConfigurations : IEntityTypeConfiguration<Transac
             .HasConversion<Guid>()
             .IsRequired();
         transactionsBuilder
-            .Property(s => s.CategoryId)
+            .Property(s => s.Categories)
             .ValueGeneratedNever()
             .HasConversion<Guid>()
             .IsRequired();
@@ -45,10 +45,6 @@ public sealed class TransactionConfigurations : IEntityTypeConfiguration<Transac
             .Property(s => s.Amount)
             .IsRequired();
         transactionsBuilder
-            .Property(s => s.Date)
-            .HasConversion(
-                x => DateTime.SpecifyKind(x, DateTimeKind.Utc),
-                x => DateTime.SpecifyKind(x, DateTimeKind.Utc))
-            .IsRequired();
+            .Property(s => s.Date);
     }
 }

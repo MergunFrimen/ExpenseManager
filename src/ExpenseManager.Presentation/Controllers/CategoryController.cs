@@ -1,8 +1,8 @@
 using ExpenseManager.Application.Categories.Commands.CreateCategory;
 using ExpenseManager.Application.Categories.Commands.RemoveCategory;
 using ExpenseManager.Application.Categories.Commands.UpdateCategory;
+using ExpenseManager.Application.Categories.Queries.FindCategories;
 using ExpenseManager.Application.Categories.Queries.GetCategory;
-using ExpenseManager.Application.Categories.Queries.SearchCategories;
 using ExpenseManager.Domain.Common.Errors;
 using ExpenseManager.Presentation.Contracts.Categories;
 using MapsterMapper;
@@ -73,7 +73,7 @@ public class CategoryController(ISender mediatr, IMapper mapper) : ApiController
             return Problem(statusCode: StatusCodes.Status401Unauthorized,
                 title: userId.FirstError.Description);
 
-        var query = new SearchCategoriesQuery(userId.Value, name);
+        var query = new FindCategoriesQuery(userId.Value, name);
         var result = await mediatr.Send(query);
 
         return result.Match(

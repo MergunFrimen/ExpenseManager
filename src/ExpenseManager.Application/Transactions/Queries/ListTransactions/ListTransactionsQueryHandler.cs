@@ -16,18 +16,10 @@ public class ListTransactionsQueryHandler(
         CancellationToken cancellationToken)
     {
         var transactions = await transactionRepository.GetAllAsync(query.UserId, cancellationToken);
-        List<TransactionResult> result = [];
 
-        foreach (var transaction in transactions)
-        {
-            var category = await categoryRepository.GetByIdAsync(transaction.CategoryId, cancellationToken);
-
-            if (category is null)
-                return Errors.Category.NotFound;
-
-            result.Add(new TransactionResult(transaction, category!.Name));
-        }
-
-        return result;
+        return transactions.Match(
+            onValue: value => value.Select(transaction => new TransactionResult(transaction)).ToList(),
+            onError: ErrorOr<List<TransactionResult>>.From
+        );
     }
 }

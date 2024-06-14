@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using ErrorOr;
 using ExpenseManager.Application.Common.Interfaces.Persistence;
 using ExpenseManager.Domain.Common.Errors;
@@ -8,51 +9,69 @@ namespace ExpenseManager.Infrastructure.Persistence.Repositories;
 
 public class TransactionRepository(ExpenseManagerDbContext dbContext) : ITransactionRepository
 {
-    public async Task<List<Transaction>> GetAllAsync(Guid userId, CancellationToken cancellationToken)
+    public async Task<ErrorOr<List<Transaction>>> GetAllAsync(Guid userId, CancellationToken cancellationToken)
     {
-        var transactions = await dbContext.Transactions.Where(t => t.UserId == userId).ToListAsync(cancellationToken);
-        
-        return transactions;
-    }
-
-    public async Task<List<Transaction>> GetAllDateRangeAsync(Guid userId, DateTime? from, DateTime? to, CancellationToken cancellationToken)
-    {
-        from ??= DateTime.MinValue;
-        to ??= DateTime.MaxValue;
-        
-        var transactions = await dbContext.Transactions
+        return await dbContext.Transactions
             .Where(transaction => transaction.UserId == userId)
-            .Where(transaction => transaction.Date >= from && transaction.Date <= to)
             .ToListAsync(cancellationToken);
-        
-        return transactions;
     }
 
-    public async Task<Transaction> AddAsync(Transaction transaction, CancellationToken cancellationToken)
+    public async Task<ErrorOr<Transaction>> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+    {
+        if (await dbContext.Transactions.FirstOrDefaultAsync(c => c.Id == id, cancellationToken) is not { } transaction)
+            return Errors.Category.NotFound();
+
+        return transaction;
+    }
+
+    public async Task<ErrorOr<List<Transaction>>> FindAsync(Expression<Func<Transaction, bool>> predicate,
+        CancellationToken cancellationToken)
+    {
+        return await dbContext.Transactions.Where(predicate).ToListAsync(cancellationToken);
+    }
+
+    public async Task<ErrorOr<Transaction>> AddAsync(Transaction transaction, CancellationToken cancellationToken)
     {
         var newTransaction = await dbContext.Transactions.AddAsync(transaction, cancellationToken);
-        
+
         await dbContext.SaveChangesAsync(cancellationToken);
 
         return newTransaction.Entity;
     }
 
-    public async Task<ErrorOr<Transaction>> RemoveAsync(Guid id, CancellationToken cancellationToken)
+    public async Task<ErrorOr<Transaction>> UpdateAsync(Transaction transaction, CancellationToken cancellationToken)
     {
-        if (await dbContext.Transactions.FindAsync(id, cancellationToken) is not { } transaction)
-            return Errors.Transaction.TransactionNotFound;
-        
-        dbContext.Transactions.Remove(transaction);
+        dbContext.Transactions.Update(transaction);
+
         await dbContext.SaveChangesAsync(cancellationToken);
 
         return transaction;
     }
 
-    public async Task<ErrorOr<Transaction>> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+    public async Task<ErrorOr<Transaction>> RemoveAsync(Guid id, CancellationToken cancellationToken)
     {
-        if (await dbContext.Transactions.FindAsync(id, cancellationToken) is not { } transaction)
-            return Errors.Transaction.TransactionNotFound;
-        
+        var transaction = dbContext.Transactions.FirstOrDefault(transaction => transaction.Id == id);
+        if (transaction is null)
+            return Errors.Category.NotFound();
+
+        dbContext.Transactions.Remove(transaction);
+
+        await dbContext.SaveChangesAsync(cancellationToken);
+
         return transaction;
+    }
+
+    public async Task<ErrorOr<List<Transaction>>> RemoveRangeAsync(List<Guid> id, CancellationToken cancellationToken)
+    {
+        var categories = dbContext.Transactions.Where(transaction => id.Contains(transaction.Id)).ToList();
+
+        await dbContext
+            .Transactions
+            .Where(transaction => id.Contains(transaction.Id))
+            .ExecuteDeleteAsync(cancellationToken: cancellationToken);
+
+        await dbContext.SaveChangesAsync(cancellationToken);
+
+        return categories;
     }
 }

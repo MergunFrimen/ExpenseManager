@@ -1,6 +1,6 @@
 namespace ExpenseManager.Presentation.Contracts.Transactions;
 
-public sealed record QueryTransactionsRequest(
+public sealed record SearchTransactionsRequest(
     PaginationRequest PaginationRequest,
     FilterRequest FilterRequest,
     SortingRequest SortingRequest

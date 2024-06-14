@@ -6,8 +6,8 @@ namespace ExpenseManager.Application.Transactions.Commands.CreateTransaction;
 
 public sealed record CreateTransactionCommand(
     Guid UserId,
+    Guid[] CategoryIds,
     TransactionType Type,
-    Guid CategoryId,
     string Description,
     decimal Amount,
     DateTime Date

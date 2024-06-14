@@ -19,8 +19,8 @@ public sealed class Category : Entity
     }
 
     public Guid UserId { get; private set; }
-    public string Name { get; private set; } = null!;
-    
+    public string Name { get; private set; }
+
     public const int NameMaxLength = 50;
 
     public static Category Create(

@@ -14,23 +14,11 @@ public class GetTransactionQueryHandler(
     public async Task<ErrorOr<TransactionResult>> Handle(GetTransactionQuery query,
         CancellationToken cancellationToken)
     {
-        List<Error> errors = [];
-        
         var transaction = await transactionRepository.GetByIdAsync(query.Id, cancellationToken);
-        if (transaction.IsError)
-        {
-            errors.AddRange(transaction.Errors);
-            return errors;
-        }
 
-        var category = await categoryRepository.GetByIdAsync(transaction.Value.CategoryId, cancellationToken);
-        if (category.IsError)
-        {
-            errors.AddRange(category.Errors);
-            return errors;
-
-        }
-        
-        return new TransactionResult(transaction.Value, category.Value.Name);
+        return transaction.Match(
+            onValue: value => new TransactionResult(value),
+            onError: ErrorOr<TransactionResult>.From
+        );
     }
 }
