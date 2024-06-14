@@ -17,8 +17,8 @@ public class UpdateCategoryCommandHandler(
         var updatedCategory = await categoryRepository.UpdateAsync(category, cancellationToken);
 
         return updatedCategory.Match(
-            onValue: value => new CategoryResult(value),
-            onError: ErrorOr<CategoryResult>.From
+            value => new CategoryResult(value),
+            ErrorOr<CategoryResult>.From
         );
     }
 }

@@ -1,4 +1,3 @@
-using ExpenseManager.Application.Statistics.Queries.GetBalance;
 using FluentValidation;
 
 namespace ExpenseManager.Application.Statistics.Queries.GetCharts;

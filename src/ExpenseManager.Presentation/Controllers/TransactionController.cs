@@ -21,7 +21,7 @@ public class TransactionController(ISender mediatr, IMapper mapper) : ApiControl
         if (userId.IsError && userId.FirstError == Errors.Authentication.InvalidCredentials)
             return Problem(statusCode: StatusCodes.Status401Unauthorized,
                 title: userId.FirstError.Description);
-        
+
         var command = mapper.Map<CreateTransactionCommand>((request, userId.Value));
         var result = await mediatr.Send(command);
 
@@ -38,7 +38,7 @@ public class TransactionController(ISender mediatr, IMapper mapper) : ApiControl
         if (userId.IsError && userId.FirstError == Errors.Authentication.InvalidCredentials)
             return Problem(statusCode: StatusCodes.Status401Unauthorized,
                 title: userId.FirstError.Description);
-        
+
         var command = mapper.Map<UpdateTransactionCommand>((request, userId.Value));
         var result = await mediatr.Send(command);
 
@@ -55,7 +55,7 @@ public class TransactionController(ISender mediatr, IMapper mapper) : ApiControl
         if (userId.IsError && userId.FirstError == Errors.Authentication.InvalidCredentials)
             return Problem(statusCode: StatusCodes.Status401Unauthorized,
                 title: userId.FirstError.Description);
-        
+
         var command = mapper.Map<RemoveTransactionCommand>((request, userId.Value));
         var result = await mediatr.Send(command);
 
@@ -72,7 +72,7 @@ public class TransactionController(ISender mediatr, IMapper mapper) : ApiControl
         if (userId.IsError && userId.FirstError == Errors.Authentication.InvalidCredentials)
             return Problem(statusCode: StatusCodes.Status401Unauthorized,
                 title: userId.FirstError.Description);
-        
+
         var query = new ListTransactionsQuery(userId.Value);
         var result = await mediatr.Send(query);
 
@@ -89,7 +89,7 @@ public class TransactionController(ISender mediatr, IMapper mapper) : ApiControl
         if (userId.IsError && userId.FirstError == Errors.Authentication.InvalidCredentials)
             return Problem(statusCode: StatusCodes.Status401Unauthorized,
                 title: userId.FirstError.Description);
-        
+
         var query = new GetTransactionQuery(id, userId.Value);
         var result = await mediatr.Send(query);
 

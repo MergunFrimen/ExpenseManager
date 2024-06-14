@@ -19,7 +19,7 @@ public class CategoryRepository(ExpenseManagerDbContext dbContext) : ICategoryRe
     public async Task<ErrorOr<Category>> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
         if (await dbContext.Categories.FirstOrDefaultAsync(c => c.Id == id, cancellationToken) is not { } category)
-            return Errors.Category.NotFound();
+            return Errors.Category.NotFound;
 
         return category;
     }
@@ -52,7 +52,7 @@ public class CategoryRepository(ExpenseManagerDbContext dbContext) : ICategoryRe
     {
         var category = dbContext.Categories.FirstOrDefault(category => category.Id == id);
         if (category is null)
-            return Errors.Category.NotFound();
+            return Errors.Category.NotFound;
 
         dbContext.Categories.Remove(category);
 
@@ -68,7 +68,7 @@ public class CategoryRepository(ExpenseManagerDbContext dbContext) : ICategoryRe
         await dbContext
             .Categories
             .Where(category => id.Contains(category.Id))
-            .ExecuteDeleteAsync(cancellationToken: cancellationToken);
+            .ExecuteDeleteAsync(cancellationToken);
 
         await dbContext.SaveChangesAsync(cancellationToken);
 

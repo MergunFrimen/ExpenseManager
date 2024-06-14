@@ -7,4 +7,4 @@ public sealed record GetBalanceQuery(
     Guid UserId,
     DateTime? From,
     DateTime? To
-    ) : IQuery<BalanceResult>;
+) : IQuery<BalanceResult>;

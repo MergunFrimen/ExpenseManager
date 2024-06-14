@@ -35,7 +35,7 @@ public class StatisticsController(ISender mediatr, IMapper mapper) : ApiControll
         if (userId.IsError && userId.FirstError == Errors.Authentication.InvalidCredentials)
             return Problem(statusCode: StatusCodes.Status401Unauthorized,
                 title: userId.FirstError.Description);
-        
+
         var query = mapper.Map<GetChartsQuery>((userId.Value, from, to));
         var result = await mediatr.Send(query);
 

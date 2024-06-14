@@ -22,6 +22,27 @@ namespace ExpenseManager.Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("CategoryTransaction", b =>
+                {
+                    b.Property<Guid>("CategoriesId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CategoriesUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("TransactionsId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("TransactionsUserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("CategoriesId", "CategoriesUserId", "TransactionsId", "TransactionsUserId");
+
+                    b.HasIndex("TransactionsId", "TransactionsUserId");
+
+                    b.ToTable("TransactionCategory", (string)null);
+                });
+
             modelBuilder.Entity("ExpenseManager.Domain.Categories.Category", b =>
                 {
                     b.Property<Guid>("Id")
@@ -51,10 +72,7 @@ namespace ExpenseManager.Infrastructure.Migrations
                     b.Property<decimal>("Amount")
                         .HasColumnType("numeric");
 
-                    b.Property<Guid>("CategoryId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("Date")
+                    b.Property<DateTime?>("Date")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
@@ -97,6 +115,21 @@ namespace ExpenseManager.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users", (string)null);
+                });
+
+            modelBuilder.Entity("CategoryTransaction", b =>
+                {
+                    b.HasOne("ExpenseManager.Domain.Categories.Category", null)
+                        .WithMany()
+                        .HasForeignKey("CategoriesId", "CategoriesUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ExpenseManager.Domain.Transactions.Transaction", null)
+                        .WithMany()
+                        .HasForeignKey("TransactionsId", "TransactionsUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

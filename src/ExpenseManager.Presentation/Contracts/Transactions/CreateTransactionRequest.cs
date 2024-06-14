@@ -4,6 +4,10 @@ public sealed record CreateTransactionRequest(
     string Description,
     decimal Amount,
     string Type,
-    string[] CategoryIds,
-    string Date
+    List<CategoryRequest> Categories
+);
+
+public sealed record CategoryRequest(
+    Guid Id,
+    string Name
 );

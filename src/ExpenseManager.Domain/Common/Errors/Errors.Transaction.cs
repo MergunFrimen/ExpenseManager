@@ -6,7 +6,7 @@ public static partial class Errors
 {
     public static class Transaction
     {
-        public static Error TransactionNotFound => Error.NotFound(
+        public static Error NotFound => Error.NotFound(
             "Transaction.TransactionNotFound",
             "Transaction not found.");
 

@@ -64,7 +64,7 @@ export function TransactionForm() {
 
                         <Popover open={open} onOpenChange={() => {
                             setOpen(!open)
-                            
+
                         }}>
                             <PopoverTrigger asChild>
                                 <Button
@@ -76,16 +76,18 @@ export function TransactionForm() {
                                     {value
                                         ? categories.find((category) => category.value === value)?.label
                                         : "Select category..."}
-                                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50"/>
                                 </Button>
                             </PopoverTrigger>
                             <PopoverContent className="p-0">
                                 <Command>
-                                    <CommandInput placeholder="Search category..." value={written} onValueChange={setWritten} />
+                                    <CommandInput placeholder="Search category..." value={written}
+                                                  onValueChange={setWritten}/>
                                     <CommandList>
                                         <CommandEmpty>
-                                            <Button type="button" variant="ghost" className="flex flex-row gap-x-2 px-2 w-full justify-center items-center">
-                                                <PlusIcon className="h-4 w-4" />
+                                            <Button type="button" variant="ghost"
+                                                    className="flex flex-row gap-x-2 px-2 w-full justify-center items-center">
+                                                <PlusIcon className="h-4 w-4"/>
                                                 <span className="">Create "{written}" category</span>
                                             </Button>
                                         </CommandEmpty>

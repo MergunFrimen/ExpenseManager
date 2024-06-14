@@ -17,7 +17,7 @@ public static class DependencyInjection
                 new UrlSegmentApiVersionReader(),
                 new HeaderApiVersionReader("X-Api-Version"));
         });
-            
+
         // swagger
         //     .AddApiExplorer(options =>
         // {

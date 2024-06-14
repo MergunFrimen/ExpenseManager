@@ -4,6 +4,10 @@ namespace ExpenseManager.Domain.Users;
 
 public sealed class User : Entity
 {
+    public const int FirstNameMaxLength = 50;
+    public const int LastNameMaxLength = 50;
+    public const int EmailMaxLength = 150;
+
     private User(
         Guid id,
         string firstName,
@@ -27,10 +31,6 @@ public sealed class User : Entity
     public string LastName { get; private set; } = null!;
     public string Email { get; private set; } = null!;
     public string Password { get; private set; } = null!;
-    
-    public const int FirstNameMaxLength = 50;
-    public const int LastNameMaxLength = 50;
-    public const int EmailMaxLength = 150;
 
     public static User Create(
         string firstName,

@@ -2,7 +2,6 @@ using ErrorOr;
 using ExpenseManager.Application.Common.Interfaces.Cqrs;
 using ExpenseManager.Application.Common.Interfaces.Persistence;
 using ExpenseManager.Application.Transactions.Common;
-using ExpenseManager.Domain.Common.Errors;
 
 namespace ExpenseManager.Application.Transactions.Queries.ListTransactions;
 
@@ -18,8 +17,8 @@ public class ListTransactionsQueryHandler(
         var transactions = await transactionRepository.GetAllAsync(query.UserId, cancellationToken);
 
         return transactions.Match(
-            onValue: value => value.Select(transaction => new TransactionResult(transaction)).ToList(),
-            onError: ErrorOr<List<TransactionResult>>.From
+            value => value.Select(transaction => new TransactionResult(transaction)).ToList(),
+            ErrorOr<List<TransactionResult>>.From
         );
     }
 }

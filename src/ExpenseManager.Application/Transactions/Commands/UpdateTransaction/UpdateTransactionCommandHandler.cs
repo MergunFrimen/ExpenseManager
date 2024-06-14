@@ -24,7 +24,7 @@ public class UpdateTransactionCommandHandler(
             return Errors.Transaction.Unauthorized;
 
         List<Category> categories = [];
-        
+
         foreach (var categoryId in command.CategoryIds)
         {
             var category = await categoryRepository.GetByIdAsync(categoryId, cancellationToken);
@@ -33,7 +33,7 @@ public class UpdateTransactionCommandHandler(
 
             categories.Add(category.Value);
         }
-        
+
         var newTransaction = Transaction.Create(
             command.Id,
             command.UserId,

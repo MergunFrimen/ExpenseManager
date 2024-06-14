@@ -6,6 +6,8 @@ namespace ExpenseManager.Domain.Transactions;
 
 public sealed class Transaction : Entity
 {
+    public const int DescriptionMaxLength = 150;
+
     private Transaction(
         Guid id,
         Guid userId,
@@ -32,10 +34,8 @@ public sealed class Transaction : Entity
     public TransactionType Type { get; private set; }
     public decimal Amount { get; private set; }
     public string Description { get; private set; } = null!;
-    public List<Category> Categories { get; private set; }
     public DateTime? Date { get; private set; }
-
-    public const int DescriptionMaxLength = 150;
+    public List<Category> Categories { get; private set; }
 
     public static Transaction Create(
         Guid? id,

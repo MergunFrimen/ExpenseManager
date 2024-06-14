@@ -10,7 +10,7 @@ public static class DependencyInjection
     public static IServiceCollection AddPresentation(this IServiceCollection services)
     {
         services.AddApi();
-        
+
         services.AddSingleton<ProblemDetailsFactory, ExpenseManagerProblemDetailsFactory>();
         services.AddMappings();
         services.AddCors(options =>

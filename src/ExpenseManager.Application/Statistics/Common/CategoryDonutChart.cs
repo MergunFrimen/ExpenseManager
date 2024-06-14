@@ -19,6 +19,7 @@ public sealed record ExpenseCategoryTotal(
     string Category,
     decimal Total
 );
+
 public sealed record IncomeCategoryTotal(
     string Category,
     decimal Total

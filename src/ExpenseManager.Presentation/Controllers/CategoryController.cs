@@ -26,8 +26,8 @@ public class CategoryController(ISender mediatr, IMapper mapper) : ApiController
         var result = await mediatr.Send(command);
 
         return result.Match(
-            value => Ok(mapper.Map<CategoryResponse>(value)),
-            Problem
+            onValue: value => Ok(mapper.Map<CategoryResponse>(value)),
+            onError: Problem
         );
     }
 
@@ -43,8 +43,8 @@ public class CategoryController(ISender mediatr, IMapper mapper) : ApiController
         var result = await mediatr.Send(command);
 
         return result.Match(
-            value => Ok(mapper.Map<CategoryResponse>(value)),
-            Problem
+            onValue: value => Ok(mapper.Map<CategoryResponse>(value)),
+            onError: Problem
         );
     }
 
@@ -60,8 +60,8 @@ public class CategoryController(ISender mediatr, IMapper mapper) : ApiController
         var result = await mediatr.Send(command);
 
         return result.Match(
-            value => Ok(mapper.Map<CategoryResponse>(value)),
-            Problem
+            onValue: value => Ok(mapper.Map<CategoryResponse>(value)),
+            onError: Problem
         );
     }
 
@@ -77,8 +77,8 @@ public class CategoryController(ISender mediatr, IMapper mapper) : ApiController
         var result = await mediatr.Send(query);
 
         return result.Match(
-            value => Ok(mapper.Map<List<CategoryResponse>>(value)),
-            Problem
+            onValue: value => Ok(mapper.Map<List<CategoryResponse>>(value)),
+            onError: Problem
         );
     }
 
@@ -94,8 +94,8 @@ public class CategoryController(ISender mediatr, IMapper mapper) : ApiController
         var result = await mediatr.Send(query);
 
         return result.Match(
-            value => Ok(mapper.Map<CategoryResponse>(value)),
-            Problem
+            onValue: value => Ok(mapper.Map<CategoryResponse>(value)),
+            onError: Problem
         );
     }
 }

@@ -9,42 +9,44 @@ public sealed class TransactionConfigurations : IEntityTypeConfiguration<Transac
     public void Configure(EntityTypeBuilder<Transaction> builder)
     {
         ConfigureTransactionTable(builder);
+        ConfigureCategoryTable(builder);
     }
 
-    private void ConfigureTransactionTable(EntityTypeBuilder<Transaction> transactionsBuilder)
+    private void ConfigureTransactionTable(EntityTypeBuilder<Transaction> builder)
     {
-        transactionsBuilder
-            .ToTable("Transactions");
-        transactionsBuilder
-            .HasKey("Id", "UserId");
-
-        transactionsBuilder
-            .Property(s => s.Id)
+        builder.ToTable("Transactions");
+        
+        builder.HasKey("Id", "UserId");
+        
+        builder.Property(s => s.Id)
             .ValueGeneratedNever()
             .HasConversion<Guid>()
             .IsRequired();
-        transactionsBuilder
-            .Property(s => s.UserId)
+        
+        builder.Property(s => s.UserId)
             .ValueGeneratedNever()
             .HasConversion<Guid>()
             .IsRequired();
-        transactionsBuilder
-            .Property(s => s.Categories)
-            .ValueGeneratedNever()
-            .HasConversion<Guid>()
-            .IsRequired();
-        transactionsBuilder
-            .Property(s => s.Type)
+        
+        builder.Property(s => s.Type)
             .HasConversion<int>()
             .IsRequired();
-        transactionsBuilder
-            .Property(s => s.Description)
+        
+        builder.Property(s => s.Description)
             .HasMaxLength(Transaction.DescriptionMaxLength)
             .IsRequired();
-        transactionsBuilder
-            .Property(s => s.Amount)
+        
+        builder.Property(s => s.Amount)
             .IsRequired();
-        transactionsBuilder
-            .Property(s => s.Date);
+        
+        builder.Property(s => s.Date);
+    }
+
+    private void ConfigureCategoryTable(EntityTypeBuilder<Transaction> builder)
+    {
+        builder
+            .HasMany(transaction => transaction.Categories)
+            .WithMany(category => category.Transactions)
+            .UsingEntity(typeBuilder => typeBuilder.ToTable("TransactionCategory"));
     }
 }

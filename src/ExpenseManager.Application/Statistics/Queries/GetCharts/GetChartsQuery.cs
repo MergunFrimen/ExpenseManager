@@ -7,4 +7,4 @@ public sealed record GetChartsQuery(
     Guid UserId,
     DateTime? From,
     DateTime? To
-    ) : IQuery<ChartsResult>;
+) : IQuery<ChartsResult>;

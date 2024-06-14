@@ -16,10 +16,10 @@ public class DataTransferController(ISender mediatr, IMapper mapper) : ApiContro
         if (userId.IsError && userId.FirstError == Errors.Authentication.InvalidCredentials)
             return Problem(statusCode: StatusCodes.Status401Unauthorized,
                 title: userId.FirstError.Description);
-        
+
         throw new NotImplementedException();
     }
-    
+
     [HttpPost("import")]
     public async Task<IActionResult> Import(ImportRequest request)
     {

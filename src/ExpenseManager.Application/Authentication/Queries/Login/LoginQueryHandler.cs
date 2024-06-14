@@ -15,11 +15,13 @@ public class LoginQueryHandler(
 {
     public async Task<ErrorOr<AuthenticationResult>> Handle(LoginQuery query, CancellationToken cancellationToken)
     {
-        var user = await userRepository.GetByEmailAsync(query.Email, cancellationToken);
+        var users = await userRepository.FindAsync(u => u.Email == query.Email, cancellationToken);
 
         // don't leak information about whether the user exists
-        if (user is null)
+        if (users.Value.Count == 0)
             return Errors.Authentication.InvalidCredentials;
+
+        var user = users.Value.First();
 
         if (!passwordHasher.Verify(query.Password, user.Password))
             return Errors.Authentication.InvalidCredentials;

@@ -3,7 +3,6 @@ using ExpenseManager.Application.Categories.Common;
 using ExpenseManager.Application.Common.Interfaces.Cqrs;
 using ExpenseManager.Application.Common.Interfaces.Persistence;
 using ExpenseManager.Domain.Categories;
-using ExpenseManager.Domain.Common.Errors;
 
 namespace ExpenseManager.Application.Categories.Commands.CreateCategory;
 

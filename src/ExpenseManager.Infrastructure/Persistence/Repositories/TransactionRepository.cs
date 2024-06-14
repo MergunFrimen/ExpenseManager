@@ -19,7 +19,7 @@ public class TransactionRepository(ExpenseManagerDbContext dbContext) : ITransac
     public async Task<ErrorOr<Transaction>> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
         if (await dbContext.Transactions.FirstOrDefaultAsync(c => c.Id == id, cancellationToken) is not { } transaction)
-            return Errors.Category.NotFound();
+            return Errors.Transaction.NotFound;
 
         return transaction;
     }
@@ -52,7 +52,7 @@ public class TransactionRepository(ExpenseManagerDbContext dbContext) : ITransac
     {
         var transaction = dbContext.Transactions.FirstOrDefault(transaction => transaction.Id == id);
         if (transaction is null)
-            return Errors.Category.NotFound();
+            return Errors.Transaction.NotFound;
 
         dbContext.Transactions.Remove(transaction);
 
@@ -63,15 +63,15 @@ public class TransactionRepository(ExpenseManagerDbContext dbContext) : ITransac
 
     public async Task<ErrorOr<List<Transaction>>> RemoveRangeAsync(List<Guid> id, CancellationToken cancellationToken)
     {
-        var categories = dbContext.Transactions.Where(transaction => id.Contains(transaction.Id)).ToList();
+        var transactions = dbContext.Transactions.Where(transaction => id.Contains(transaction.Id)).ToList();
 
         await dbContext
             .Transactions
             .Where(transaction => id.Contains(transaction.Id))
-            .ExecuteDeleteAsync(cancellationToken: cancellationToken);
+            .ExecuteDeleteAsync(cancellationToken);
 
         await dbContext.SaveChangesAsync(cancellationToken);
 
-        return categories;
+        return transactions;
     }
 }

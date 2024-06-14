@@ -15,8 +15,8 @@ public class FindCategoriesQueryHandler(ICategoryRepository categoryRepository)
             category => category.UserId == query.UserId && category.Name.Contains(query.Name), cancellationToken);
 
         return categories.Match(
-            onValue: value => value.Select(category => new CategoryResult(category)).ToList(),
-            onError: ErrorOr<List<CategoryResult>>.From
+            value => value.Select(category => new CategoryResult(category)).ToList(),
+            ErrorOr<List<CategoryResult>>.From
         );
     }
 }

@@ -1,4 +1,3 @@
-using Asp.Versioning;
 using ExpenseManager.Application.Authentication.Commands.Register;
 using ExpenseManager.Application.Authentication.Queries.Login;
 using ExpenseManager.Domain.Common.Errors;
@@ -19,14 +18,10 @@ public class AuthenticationController(ISender mediatr, IMapper mapper) : ApiCont
     {
         var command = mapper.Map<RegisterCommand>(request);
         var authenticationResult = await mediatr.Send(command);
-        
-        if (authenticationResult.IsError && authenticationResult.FirstError == Errors.User.DuplicateEmail)
-            return Problem(statusCode: StatusCodes.Status409Conflict,
-                title: authenticationResult.FirstError.Description);
 
         return authenticationResult.Match(
-            value => Ok(mapper.Map<AuthenticationResponse>(value)),
-            Problem
+            onValue: value => Ok(mapper.Map<AuthenticationResponse>(value)),
+            onError: Problem
         );
     }
 
@@ -35,10 +30,6 @@ public class AuthenticationController(ISender mediatr, IMapper mapper) : ApiCont
     {
         var query = mapper.Map<LoginQuery>(request);
         var authenticationResult = await mediatr.Send(query);
-
-        if (authenticationResult.IsError && authenticationResult.FirstError == Errors.Authentication.InvalidCredentials)
-            return Problem(statusCode: StatusCodes.Status401Unauthorized,
-                title: authenticationResult.FirstError.Description);
 
         return authenticationResult.Match(
             value => Ok(mapper.Map<AuthenticationResponse>(value)),

@@ -19,9 +19,9 @@ public class RegisterCommandHandler(
     public async Task<ErrorOr<AuthenticationResult>> Handle(RegisterCommand command,
         CancellationToken cancellationToken)
     {
-        var user = await userRepository.GetByEmailAsync(command.Email, cancellationToken);
+        var user = await userRepository.FindAsync(u => u.Email == command.Email, cancellationToken);
 
-        if (user is not null)
+        if (user.Value.Count > 0)
             return Errors.User.DuplicateEmail;
 
         var hashedPassword = passwordHasher.Hash(command.Password);

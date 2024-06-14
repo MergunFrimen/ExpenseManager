@@ -1,4 +1,3 @@
-using ExpenseManager.Application.Common.Interfaces.Services;
 using ExpenseManager.Infrastructure.Authentication;
 using ExpenseManager.Infrastructure.Persistence;
 using ExpenseManager.Infrastructure.Services;
@@ -14,9 +13,8 @@ public static class DependencyInjection
     {
         services
             .AddAuth(configurationManager)
-            .AddPersistence(configurationManager);
-
-        services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
+            .AddPersistence(configurationManager)
+            .AddServices(configurationManager);
 
         return services;
     }

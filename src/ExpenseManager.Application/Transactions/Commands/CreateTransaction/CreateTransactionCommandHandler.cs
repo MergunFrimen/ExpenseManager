@@ -2,7 +2,6 @@ using ErrorOr;
 using ExpenseManager.Application.Common.Interfaces.Cqrs;
 using ExpenseManager.Application.Common.Interfaces.Persistence;
 using ExpenseManager.Application.Transactions.Common;
-using ExpenseManager.Domain.Common.Errors;
 using ExpenseManager.Domain.Transactions;
 
 namespace ExpenseManager.Application.Transactions.Commands.CreateTransaction;

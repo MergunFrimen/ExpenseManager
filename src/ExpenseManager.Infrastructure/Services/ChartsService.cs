@@ -2,7 +2,6 @@ using ErrorOr;
 using ExpenseManager.Application.Common.Interfaces.Services;
 using ExpenseManager.Application.Statistics.Common;
 using ExpenseManager.Infrastructure.Persistence;
-using Microsoft.EntityFrameworkCore;
 
 namespace ExpenseManager.Infrastructure.Services;
 

@@ -9,6 +9,7 @@ public sealed class CategoryConfigurations : IEntityTypeConfiguration<Category>
     public void Configure(EntityTypeBuilder<Category> builder)
     {
         ConfigureCategoryTable(builder);
+        // ConfigureTransactionTable(builder);
     }
 
     private void ConfigureCategoryTable(EntityTypeBuilder<Category> transactionsBuilder)
@@ -32,5 +33,13 @@ public sealed class CategoryConfigurations : IEntityTypeConfiguration<Category>
             .Property(s => s.Name)
             .HasMaxLength(50)
             .IsRequired();
+    }
+    
+    private void ConfigureTransactionTable(EntityTypeBuilder<Category> builder)
+    {
+        builder
+            .HasMany(category => category.Transactions)
+            .WithMany(transaction => transaction.Categories)
+            .UsingEntity(typeBuilder => typeBuilder.ToTable("TransactionCategory"));
     }
 }
