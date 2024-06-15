@@ -2,7 +2,7 @@ using ExpenseManager.Application.Transactions.Commands.CreateTransaction;
 using ExpenseManager.Application.Transactions.Commands.RemoveTransactions;
 using ExpenseManager.Application.Transactions.Commands.UpdateTransaction;
 using ExpenseManager.Application.Transactions.Queries.GetTransaction;
-using ExpenseManager.Application.Transactions.Queries.ListTransactions;
+using ExpenseManager.Application.Transactions.Queries.SearchTransactions;
 using ExpenseManager.Domain.Common.Errors;
 using ExpenseManager.Presentation.Contracts.Transactions;
 using MapsterMapper;
@@ -64,24 +64,7 @@ public class TransactionController(ISender mediatr, IMapper mapper) : ApiControl
             Problem
         );
     }
-    //
-    // [HttpGet]
-    // public async Task<IActionResult> List()
-    // {
-    //     var userId = GetUserId();
-    //     if (userId.IsError && userId.FirstError == Errors.Authentication.InvalidCredentials)
-    //         return Problem(statusCode: StatusCodes.Status401Unauthorized,
-    //             title: userId.FirstError.Description);
-    //
-    //     var query = new ListTransactionsQuery(userId.Value);
-    //     var result = await mediatr.Send(query);
-    //
-    //     return result.Match(
-    //         value => Ok(mapper.Map<List<TransactionResponse>>(value)),
-    //         Problem
-    //     );
-    // }
-    //
+
     [HttpGet("{id}")]
     public async Task<IActionResult> Get(Guid id)
     {
@@ -96,6 +79,23 @@ public class TransactionController(ISender mediatr, IMapper mapper) : ApiControl
         return result.Match(
             value => Ok(mapper.Map<TransactionResponse>(value)),
             Problem
+        );
+    }
+    
+    [HttpGet]
+    public async Task<IActionResult> Search(SearchTransactionsRequest request)
+    {
+        var userId = GetUserId();
+        if (userId.IsError && userId.FirstError == Errors.Authentication.InvalidCredentials)
+            return Problem(statusCode: StatusCodes.Status401Unauthorized,
+                title: userId.FirstError.Description);
+    
+        var query = mapper.Map<SearchTransactionsQuery>((request, userId.Value));
+        var result = await mediatr.Send(query);
+    
+        return result.Match(
+            onValue: value => Ok(mapper.Map<List<TransactionResponse>>(value)),
+            onError: Problem
         );
     }
 }
