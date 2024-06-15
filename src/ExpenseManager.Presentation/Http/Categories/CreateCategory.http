@@ -8,5 +8,5 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "name": "TEST"
+  "name": "TEST 123"
 }

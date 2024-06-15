@@ -26,7 +26,7 @@ public class TransactionController(ISender mediatr, IMapper mapper) : ApiControl
         var result = await mediatr.Send(command);
 
         return result.Match(
-            value => Ok(mapper.Map<TransactionResponse>(value)),
+            value => Created($"api/v1/categories/{value.Transaction.Id}", mapper.Map<TransactionResponse>(value)),
             Problem
         );
     }

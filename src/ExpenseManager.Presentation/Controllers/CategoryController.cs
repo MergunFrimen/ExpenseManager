@@ -24,7 +24,7 @@ public class CategoryController(ISender mediatr, IMapper mapper) : ApiController
         var result = await mediatr.Send(command);
 
         return result.Match(
-            value => Ok(mapper.Map<CategoryResponse>(value)),
+            value => Created($"api/v1/categories/{value.Category.Id}", mapper.Map<CategoryResponse>(value)),
             Problem
         );
     }
