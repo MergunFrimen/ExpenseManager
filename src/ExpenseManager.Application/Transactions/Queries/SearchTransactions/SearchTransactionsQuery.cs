@@ -13,10 +13,16 @@ public sealed record FilterRequest(
     string? Description,
     TransactionType? TransactionType,
     Guid[]? CategoryIds,
-    DateRange? DateRange
+    DateRange? DateRange,
+    PriceRange? PriceRange
 );
 
 public sealed record DateRange(
-    ulong? StartDate,
-    ulong? EndDate
+    ulong? From,
+    ulong? To
+);
+
+public sealed record PriceRange(
+    decimal? From,
+    decimal? To
 );

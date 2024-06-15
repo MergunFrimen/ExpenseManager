@@ -36,13 +36,21 @@ public class SearchTransactionsQueryHandler(ITransactionRepository transactionRe
 
         if (query.Filters.DateRange is not null)
         {
-            var startDate = query.Filters.DateRange.StartDate ?? 0;
-            var endDate = query.Filters.DateRange.EndDate ?? ulong.MaxValue;
+            var from = query.Filters.DateRange.From ?? ulong.MinValue;
+            var to = query.Filters.DateRange.To ?? ulong.MaxValue;
             result = result
-                .Where(transaction => transaction.Date >= startDate && transaction.Date <= endDate)
+                .Where(transaction => from <= transaction.Date && transaction.Date <= to)
                 .ToList();
         }
 
+        if (query.Filters.PriceRange is not null)
+        {
+            var from = query.Filters.PriceRange.From ?? decimal.MinValue;
+            var to = query.Filters.PriceRange.To ?? decimal.MaxValue;
+            result = result
+                .Where(transaction => from <= transaction.Amount && transaction.Amount <= to)
+                .ToList();
+        }
 
         return result.Select(transaction => new TransactionResult(transaction)).ToList();
     }

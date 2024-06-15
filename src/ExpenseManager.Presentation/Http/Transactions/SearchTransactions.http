@@ -12,12 +12,13 @@ Authorization: Bearer {{token}}
 
 {
   "filters": {
-    "description": "{{description}}",
-    "transactionType": "Income",
-    "categoryIds": [
-        "{{categoryId1}}"
-    ],
+    "priceRange": {
+      "to": 50
+    },
     "dateRange": {
-    }
+      "from": 50
+    },
+    "transactionType": "Income",
+    "categories": []
   }
 }
