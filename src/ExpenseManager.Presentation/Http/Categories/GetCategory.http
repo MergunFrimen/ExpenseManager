@@ -1,9 +1,9 @@
 @host = http://localhost:5222
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OGZlYTcwMi1iY2MzLTQzYzItYmNiOS0yYmE5YzIxYmVjYzAiLCJnaXZlbl9uYW1lIjoiRG9taW5payIsImZhbWlseV9uYW1lIjoiVGljaHkiLCJqdGkiOiIzMzcxZmNkMC05OWUwLTQzN2EtYTcwZi1mMjNmNWUwNzAyODkiLCJpc3MiOiJFeHBlbnNlTWFuYWdlciIsImF1ZCI6IkV4cGVuc2VNYW5hZ2VyIiwiZXhwIjoxNzE4NzYwODA0fQ.VOb0h2U5tffE46THPEICKUxZyKMq1JMfvZ-9jCP1oMQ
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkYzQwMDk4Mi0yZTk1LTQ5MWQtOGIzOC1hNzE4ZjZhMzRlYTIiLCJnaXZlbl9uYW1lIjoiRG9taW5payIsImZhbWlseV9uYW1lIjoiVGljaHkiLCJqdGkiOiIxZTlhZGRiZC0yZGMwLTQyZWUtYmZmNC1mZWNjNmE5OTRjZWUiLCJpc3MiOiJFeHBlbnNlTWFuYWdlciIsImF1ZCI6IkV4cGVuc2VNYW5hZ2VyIiwiZXhwIjoxNzE4ODIxOTcwfQ.OHSWALXZ0bm2gHxf9PUg4aYAdgxAaI4PtjZobsX2hHM
 
-### Get category
+###
 
-@id = 3e0d7dbd-3b21-4d8e-9ba5-a70c8f87d310
+@id = 29a9a971-1f7b-4de6-9be4-5651facf4c06
 
 GET {{host}}/api/v1/categories/{{id}}
 Content-Type: application/json

@@ -1,6 +1,7 @@
 using ExpenseManager.Application.Categories.Commands.CreateCategory;
 using ExpenseManager.Application.Categories.Commands.RemoveCategories;
 using ExpenseManager.Application.Categories.Commands.UpdateCategory;
+using ExpenseManager.Application.Categories.Queries.GetCategory;
 using ExpenseManager.Domain.Common.Errors;
 using ExpenseManager.Presentation.Contracts.Categories;
 using MapsterMapper;
@@ -79,21 +80,21 @@ public class CategoryController(ISender mediatr, IMapper mapper) : ApiController
     //         onError: Problem
     //     );
     // }
-    //
-    // [HttpGet("{id}")]
-    // public async Task<IActionResult> Get(Guid id)
-    // {
-    //     var userId = GetUserId();
-    //     if (userId.IsError && userId.FirstError == Errors.Authentication.InvalidCredentials)
-    //         return Problem(statusCode: StatusCodes.Status401Unauthorized,
-    //             title: userId.FirstError.Description);
-    //
-    //     var query = new GetCategoryQuery(id, userId.Value);
-    //     var result = await mediatr.Send(query);
-    //
-    //     return result.Match(
-    //         onValue: value => Ok(mapper.Map<CategoryResponse>(value)),
-    //         onError: Problem
-    //     );
-    // }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> Get(Guid id)
+    {
+        var userId = GetUserId();
+        if (userId.IsError && userId.FirstError == Errors.Authentication.InvalidCredentials)
+            return Problem(statusCode: StatusCodes.Status401Unauthorized,
+                title: userId.FirstError.Description);
+    
+        var query = new GetCategoryQuery(id, userId.Value);
+        var result = await mediatr.Send(query);
+    
+        return result.Match(
+            onValue: value => Ok(mapper.Map<CategoryResponse>(value)),
+            onError: Problem
+        );
+    }
 }
