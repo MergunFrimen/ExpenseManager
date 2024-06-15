@@ -13,6 +13,6 @@ public class CreateTransactionCommandValidator : AbstractValidator<CreateTransac
         RuleFor(x => x.Amount).MoneyAmount();
         RuleFor(x => x.Type).TransactionType();
         RuleFor(x => x.Date).NotEmpty();
-        RuleFor(x => x.CategoryIds).NotEmpty();
+        RuleFor(x => x.CategoryIds).NotNull();
     }
 }

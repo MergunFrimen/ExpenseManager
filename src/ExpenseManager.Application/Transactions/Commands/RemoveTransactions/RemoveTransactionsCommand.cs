@@ -5,5 +5,6 @@ namespace ExpenseManager.Application.Transactions.Commands.RemoveTransactions;
 
 public sealed record RemoveTransactionsCommand(
     Guid UserId,
+    
     List<Guid> TransactionIds
 ) : ICommand<List<TransactionResult>>;

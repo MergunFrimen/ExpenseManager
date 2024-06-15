@@ -37,7 +37,7 @@ public sealed class Transaction : Entity
     // public TransactionType Type { get; private set; }
     // public DateTime? Date { get; private set; }
     public User User { get; private set; }
-    public List<Category> Categories { get; private set; }
+    public List<Category> Categories { get; private set; } = [];
 
     public static Transaction Create(
         Guid? id,

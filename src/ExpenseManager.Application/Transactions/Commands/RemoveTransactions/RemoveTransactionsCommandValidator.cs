@@ -6,7 +6,7 @@ public class RemoveTransactionsCommandValidator : AbstractValidator<RemoveTransa
 {
     public RemoveTransactionsCommandValidator()
     {
-        RuleFor(x => x.TransactionIds).NotEmpty();
         RuleFor(x => x.UserId).NotEmpty();
+        RuleFor(x => x.TransactionIds).NotNull();
     }
 }

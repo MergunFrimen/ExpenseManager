@@ -24,10 +24,10 @@ public class TransactionsMappingConfig : IRegister
             .Map(dest => dest.Id, src => src.Id)
             .Map(dest => dest.UserId, src => src.UserId)
             .Map(dest => dest, src => src.Request);
-        //
-        // config.NewConfig<(RemoveTransactionsRequest Request, Guid UserId), RemoveTransactionsCommand>()
-        //     .Map(dest => dest.UserId, src => src.UserId)
-        //     .Map(dest => dest, src => src.Request);
+
+        config.NewConfig<(RemoveTransactionsRequest Request, Guid UserId), RemoveTransactionsCommand>()
+            .Map(dest => dest.UserId, src => src.UserId)
+            .Map(dest => dest, src => src.Request);
     }
 }
 

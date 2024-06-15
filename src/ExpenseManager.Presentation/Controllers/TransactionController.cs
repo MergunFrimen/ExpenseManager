@@ -47,23 +47,23 @@ public class TransactionController(ISender mediatr, IMapper mapper) : ApiControl
             Problem
         );
     }
-    //
-    // [HttpDelete]
-    // public async Task<IActionResult> Remove(RemoveTransactionsRequest request)
-    // {
-    //     var userId = GetUserId();
-    //     if (userId.IsError && userId.FirstError == Errors.Authentication.InvalidCredentials)
-    //         return Problem(statusCode: StatusCodes.Status401Unauthorized,
-    //             title: userId.FirstError.Description);
-    //
-    //     var command = mapper.Map<RemoveTransactionsCommand>((request, userId.Value));
-    //     var result = await mediatr.Send(command);
-    //
-    //     return result.Match(
-    //         value => Ok(mapper.Map<TransactionResponse>(value)),
-    //         Problem
-    //     );
-    // }
+
+    [HttpDelete]
+    public async Task<IActionResult> Remove(RemoveTransactionsRequest request)
+    {
+        var userId = GetUserId();
+        if (userId.IsError && userId.FirstError == Errors.Authentication.InvalidCredentials)
+            return Problem(statusCode: StatusCodes.Status401Unauthorized,
+                title: userId.FirstError.Description);
+    
+        var command = mapper.Map<RemoveTransactionsCommand>((request, userId.Value));
+        var result = await mediatr.Send(command);
+    
+        return result.Match(
+            value => Ok(mapper.Map<List<TransactionResponse>>(value)),
+            Problem
+        );
+    }
     //
     // [HttpGet]
     // public async Task<IActionResult> List()
