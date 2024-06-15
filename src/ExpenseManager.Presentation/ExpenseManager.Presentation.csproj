@@ -26,7 +26,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Http\Export\"/>
+        <Folder Include="Contracts\DataTransfer\" />
         <Folder Include="Http\Import\"/>
     </ItemGroup>
 
