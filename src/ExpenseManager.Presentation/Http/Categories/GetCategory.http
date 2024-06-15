@@ -3,7 +3,7 @@
 
 ###
 
-@id = 29a9a971-1f7b-4de6-9be4-5651facf4c06
+@id = 20028217-eb12-4df1-a6bd-e975bbab6304
 
 GET {{host}}/api/v1/categories/{{id}}
 Content-Type: application/json

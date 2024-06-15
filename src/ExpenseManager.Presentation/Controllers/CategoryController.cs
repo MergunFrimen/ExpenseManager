@@ -2,6 +2,7 @@ using ExpenseManager.Application.Categories.Commands.CreateCategory;
 using ExpenseManager.Application.Categories.Commands.RemoveCategories;
 using ExpenseManager.Application.Categories.Commands.UpdateCategory;
 using ExpenseManager.Application.Categories.Queries.GetCategory;
+using ExpenseManager.Application.Categories.Queries.SearchCategories;
 using ExpenseManager.Domain.Common.Errors;
 using ExpenseManager.Presentation.Contracts.Categories;
 using MapsterMapper;
@@ -64,23 +65,6 @@ public class CategoryController(ISender mediatr, IMapper mapper) : ApiController
         );
     }
     
-    // [HttpGet("search")]
-    // public async Task<IActionResult> Search(string name)
-    // {
-    //     var userId = GetUserId();
-    //     if (userId.IsError && userId.FirstError == Errors.Authentication.InvalidCredentials)
-    //         return Problem(statusCode: StatusCodes.Status401Unauthorized,
-    //             title: userId.FirstError.Description);
-    //
-    //     var query = new SearchCategoriesQuery(userId.Value, name);
-    //     var result = await mediatr.Send(query);
-    //
-    //     return result.Match(
-    //         onValue: value => Ok(mapper.Map<List<CategoryResponse>>(value)),
-    //         onError: Problem
-    //     );
-    // }
-
     [HttpGet("{id}")]
     public async Task<IActionResult> Get(Guid id)
     {
@@ -94,6 +78,23 @@ public class CategoryController(ISender mediatr, IMapper mapper) : ApiController
     
         return result.Match(
             onValue: value => Ok(mapper.Map<CategoryResponse>(value)),
+            onError: Problem
+        );
+    }
+    
+    [HttpGet]
+    public async Task<IActionResult> Search(SearchCategoriesRequest request)
+    {
+        var userId = GetUserId();
+        if (userId.IsError && userId.FirstError == Errors.Authentication.InvalidCredentials)
+            return Problem(statusCode: StatusCodes.Status401Unauthorized,
+                title: userId.FirstError.Description);
+    
+        var query = mapper.Map<SearchCategoriesQuery>((request, userId.Value));
+        var result = await mediatr.Send(query);
+    
+        return result.Match(
+            onValue: value => Ok(mapper.Map<List<CategoryResponse>>(value)),
             onError: Problem
         );
     }

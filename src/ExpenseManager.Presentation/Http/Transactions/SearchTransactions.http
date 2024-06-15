@@ -3,7 +3,7 @@
 
 ### List transactions
 
-GET {{host}}/transactions
+GET {{host}}/api/v1/transactions
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
