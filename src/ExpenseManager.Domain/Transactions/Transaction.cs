@@ -13,16 +13,16 @@ public sealed class Transaction : Entity
         string description,
         decimal amount,
         // TransactionType type,
-        // DateTime? date,
         User user,
+        DateTimeOffset? date,
         List<Category> categories
     ) : base(id)
     {
         Description = description;
         Amount = amount;
         // Type = type;
-        // Date = date;
         User = user;
+        Date = date;
         Categories = categories;
     }
 
@@ -35,7 +35,7 @@ public sealed class Transaction : Entity
     public string Description { get; private set; } = null!;
 
     // public TransactionType Type { get; private set; }
-    // public DateTime? Date { get; private set; }
+    public DateTimeOffset? Date { get; private set; }
     public User User { get; private set; }
     public List<Category> Categories { get; private set; } = [];
 
@@ -44,8 +44,8 @@ public sealed class Transaction : Entity
         string description,
         decimal amount,
         // TransactionType type,
-        // DateTime? date,
         User user,
+        DateTimeOffset? date = null,
         List<Category>? category = null
     )
     {
@@ -54,8 +54,8 @@ public sealed class Transaction : Entity
             description,
             amount,
             // type,
-            // date,
             user,
+            date,
             category ?? []
         );
 

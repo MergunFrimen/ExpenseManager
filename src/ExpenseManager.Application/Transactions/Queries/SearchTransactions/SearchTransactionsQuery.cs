@@ -7,11 +7,16 @@ namespace ExpenseManager.Application.Transactions.Queries.SearchTransactions;
 
 public sealed record SearchTransactionsQuery(
     Guid UserId,
-    
     FilterRequest Filters
 ) : IQuery<List<TransactionResult>>;
 
 public sealed record FilterRequest(
     string? Description,
-    Guid[]? CategoryIds
+    Guid[]? CategoryIds,
+    DateRange? DateRange
+);
+
+public sealed record DateRange(
+    DateTime? StartDate,
+    DateTime? EndDate
 );

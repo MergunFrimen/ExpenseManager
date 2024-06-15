@@ -15,6 +15,10 @@ Authorization: Bearer {{token}}
     "description": "{{description}}",
     "categoryIds": [
         "{{categoryId1}}"
-    ]
+    ],
+    "dateRange": {
+      "startDate": "2021-04-01",
+      "endDate": "2021-04-30"
+  }
   }
 }

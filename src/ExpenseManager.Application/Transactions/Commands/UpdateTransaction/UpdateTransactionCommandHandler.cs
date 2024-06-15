@@ -43,6 +43,7 @@ public class UpdateTransactionCommandHandler(
             command.Description,
             command.Amount,
             user.Value,
+            command.Date,
             categories.Value
         );
         

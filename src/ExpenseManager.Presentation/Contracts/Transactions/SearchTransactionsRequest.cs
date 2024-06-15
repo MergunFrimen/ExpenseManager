@@ -13,15 +13,16 @@ public sealed record SearchTransactionsRequest(
 //
 public sealed record FilterRequest(
     string? Description,
-    Guid[]? CategoryIds
-    // DateRangeFilterRequest? DateRangeFilterRequest,
+    Guid[]? CategoryIds,
+    DateRange? DateRange
     // PriceRangeFilterRequest? PriceRangeFilterRequest
 );
+
 //
-// public sealed record DateRangeFilterRequest(
-//     string? StartDate,
-//     string? EndDate
-// );
+public sealed record DateRange(
+    string? StartDate,
+    string? EndDate
+);
 //
 // public sealed record PriceRangeFilterRequest(
 //     decimal? MinPrice,

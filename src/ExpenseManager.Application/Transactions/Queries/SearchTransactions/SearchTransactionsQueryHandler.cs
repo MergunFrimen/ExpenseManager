@@ -35,6 +35,15 @@ public class SearchTransactionsQueryHandler(ITransactionRepository transactionRe
                 .ToList();
         }
 
+        if (query.Filters.DateRange is not null)
+        {
+            var startDate = query.Filters.DateRange.StartDate ?? DateTime.MinValue;
+            var endDate = query.Filters.DateRange.EndDate ?? DateTime.MaxValue;
+            result = result
+                .Where(transaction => transaction.Date >= startDate && transaction.Date <= endDate)
+                .ToList();
+        }
+
         return result.Select(transaction => new TransactionResult(transaction)).ToList();
     }
 }

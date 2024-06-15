@@ -10,6 +10,6 @@ public sealed record CreateTransactionCommand(
     string Description,
     decimal Amount,
     TransactionType Type,
-    DateTime Date,
+    DateTimeOffset? Date,
     Guid[] CategoryIds
 ) : ICommand<TransactionResult>;
