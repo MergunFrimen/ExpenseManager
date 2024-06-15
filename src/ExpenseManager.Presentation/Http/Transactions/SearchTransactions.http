@@ -4,11 +4,17 @@
 ###
 
 @description = test
+@categoryId1 = 20028217-eb12-4df1-a6bd-e975bbab6304
 
 GET {{host}}/api/v1/transactions
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "description": "{{description}}"
+  "filters": {
+    "description": "{{description}}",
+    "categoryIds": [
+        "{{categoryId1}}"
+    ]
+  }
 }

@@ -4,6 +4,8 @@ using ExpenseManager.Application.Categories.Queries.SearchCategories;
 using ExpenseManager.Application.Common.Interfaces.Cqrs;
 using ExpenseManager.Application.Common.Interfaces.Persistence;
 using ExpenseManager.Application.Transactions.Common;
+using ExpenseManager.Domain.Categories;
+using ExpenseManager.Domain.Transactions;
 
 namespace ExpenseManager.Application.Transactions.Queries.SearchTransactions;
 
@@ -13,15 +15,26 @@ public class SearchTransactionsQueryHandler(ITransactionRepository transactionRe
     public async Task<ErrorOr<List<TransactionResult>>> Handle(SearchTransactionsQuery query,
         CancellationToken cancellationToken)
     {
-        var transactions = await transactionRepository.FindAsync(
-            category =>
-                category.User.Id == query.UserId &&
-                category.Description.ToLower().Contains(query.Description.ToLower()),
-            cancellationToken);
+        var allTransactions = await transactionRepository.FindAsync(category => true, cancellationToken);
+        if (allTransactions.IsError)
+            return allTransactions.Errors;
 
-        return transactions.Match(
-            value => value.Select(transaction => new TransactionResult(transaction)).ToList(),
-            ErrorOr<List<TransactionResult>>.From
-        );
+        var result = allTransactions.Value;
+
+        if (query.Filters.Description is not null)
+            result = result
+                .Where(transaction => transaction.Description.ToLower().Contains(query.Filters.Description.ToLower()))
+                .ToList();
+
+        if (query.Filters.CategoryIds is not null)
+        {
+            result = result
+                .Where(transaction => transaction.Categories.Select(category => category.Id)
+                    .Intersect(query.Filters.CategoryIds)
+                    .Any())
+                .ToList();
+        }
+
+        return result.Select(transaction => new TransactionResult(transaction)).ToList();
     }
 }

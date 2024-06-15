@@ -7,5 +7,11 @@ namespace ExpenseManager.Application.Transactions.Queries.SearchTransactions;
 
 public sealed record SearchTransactionsQuery(
     Guid UserId,
-    string Description
+    
+    FilterRequest Filters
 ) : IQuery<List<TransactionResult>>;
+
+public sealed record FilterRequest(
+    string? Description,
+    Guid[]? CategoryIds
+);

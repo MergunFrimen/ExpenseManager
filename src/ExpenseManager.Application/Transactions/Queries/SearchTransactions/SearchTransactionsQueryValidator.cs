@@ -10,6 +10,7 @@ public class SearchCategoriesQueryValidator : AbstractValidator<SearchTransactio
     public SearchCategoriesQueryValidator()
     {
         RuleFor(x => x.UserId).NotEmpty();
-        RuleFor(x => x.Description).NotEmpty().MaximumLength(Transaction.DescriptionMaxLength);
+        RuleFor(x => x.Filters.Description).MaximumLength(Transaction.DescriptionMaxLength);
+        RuleFor(x => x.Filters.CategoryIds);
     }
 }

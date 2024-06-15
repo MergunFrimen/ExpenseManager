@@ -1,9 +1,8 @@
 namespace ExpenseManager.Presentation.Contracts.Transactions;
 
 public sealed record SearchTransactionsRequest(
-    string Description
     // PaginationRequest PaginationRequest,
-    // FilterRequest FilterRequest,
+    FilterRequest Filters
     // SortingRequest SortingRequest
 );
 
@@ -12,12 +11,12 @@ public sealed record SearchTransactionsRequest(
 //     int PageSize
 // );
 //
-// public sealed record FilterRequest(
-//     string? DescriptionFilter,
-//     string[]? CategoryFilter,
-//     DateRangeFilterRequest? DateRangeFilterRequest,
-//     PriceRangeFilterRequest? PriceRangeFilterRequest
-// );
+public sealed record FilterRequest(
+    string? Description,
+    Guid[]? CategoryIds
+    // DateRangeFilterRequest? DateRangeFilterRequest,
+    // PriceRangeFilterRequest? PriceRangeFilterRequest
+);
 //
 // public sealed record DateRangeFilterRequest(
 //     string? StartDate,
