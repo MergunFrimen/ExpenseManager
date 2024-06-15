@@ -17,6 +17,7 @@ public class TransactionRepository(ExpenseManagerDbContext dbContext) : ITransac
 
     public async Task<ErrorOr<Transaction>> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
+        // if (await dbContext.Transactions.Include(t => t.Categories).FirstOrDefaultAsync(c => c.Id == id, cancellationToken) is not { } transaction)
         if (await dbContext.Transactions.FirstOrDefaultAsync(c => c.Id == id, cancellationToken) is not { } transaction)
             return Errors.Transaction.NotFound;
 
@@ -26,7 +27,7 @@ public class TransactionRepository(ExpenseManagerDbContext dbContext) : ITransac
     public async Task<ErrorOr<List<Transaction>>> FindAsync(Expression<Func<Transaction, bool>> predicate,
         CancellationToken cancellationToken)
     {
-        return await dbContext.Transactions.Where(predicate).ToListAsync(cancellationToken);
+        return await dbContext.Transactions.Where(predicate).Include(t => t.Categories).ToListAsync(cancellationToken);
     }
 
     public async Task<ErrorOr<Transaction>> AddAsync(Transaction transaction, CancellationToken cancellationToken)
