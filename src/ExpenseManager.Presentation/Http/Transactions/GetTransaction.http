@@ -3,7 +3,7 @@
 
 ###
 
-@transactionId = db56c6b0-e4d2-4851-b51d-43f1bbffb00d
+@transactionId = fb3d7993-906d-4e94-b567-59ee8082f6e1
 
 GET {{host}}/api/v1/transactions/{{transactionId}}
 Content-Type: application/json
