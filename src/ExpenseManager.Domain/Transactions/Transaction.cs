@@ -1,5 +1,6 @@
 using ExpenseManager.Domain.Categories;
 using ExpenseManager.Domain.Common.Models;
+using ExpenseManager.Domain.Transactions.ValueObjects;
 using ExpenseManager.Domain.Users;
 
 namespace ExpenseManager.Domain.Transactions;
@@ -12,7 +13,7 @@ public sealed class Transaction : Entity
         Guid id,
         string description,
         decimal amount,
-        // TransactionType type,
+        TransactionType type,
         User user,
         ulong? date,
         List<Category> categories
@@ -20,7 +21,7 @@ public sealed class Transaction : Entity
     {
         Description = description;
         Amount = amount;
-        // Type = type;
+        Type = type;
         User = user;
         Date = date;
         Categories = categories;
@@ -34,7 +35,7 @@ public sealed class Transaction : Entity
 
     public string Description { get; private set; } = null!;
 
-    // public TransactionType Type { get; private set; }
+    public TransactionType Type { get; private set; }
     public ulong? Date { get; private set; }
     public User User { get; private set; }
     public List<Category> Categories { get; private set; } = [];
@@ -43,7 +44,7 @@ public sealed class Transaction : Entity
         Guid? id,
         string description,
         decimal amount,
-        // TransactionType type,
+        TransactionType type,
         User user,
         ulong? date = null,
         List<Category>? category = null
@@ -53,7 +54,7 @@ public sealed class Transaction : Entity
             id ?? Guid.NewGuid(),
             description,
             amount,
-            // type,
+            type,
             user,
             date,
             category ?? []

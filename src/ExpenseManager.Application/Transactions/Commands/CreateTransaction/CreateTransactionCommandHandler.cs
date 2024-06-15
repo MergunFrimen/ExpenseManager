@@ -2,10 +2,8 @@ using ErrorOr;
 using ExpenseManager.Application.Common.Interfaces.Cqrs;
 using ExpenseManager.Application.Common.Interfaces.Persistence;
 using ExpenseManager.Application.Transactions.Common;
-using ExpenseManager.Domain.Categories;
 using ExpenseManager.Domain.Common.Errors;
 using ExpenseManager.Domain.Transactions;
-using ExpenseManager.Domain.Users;
 
 namespace ExpenseManager.Application.Transactions.Commands.CreateTransaction;
 
@@ -22,7 +20,7 @@ public class CreateTransactionCommandHandler(
         var user = await userRepository.GetByIdAsync(command.UserId, cancellationToken);
         if (user.IsError)
             return user.Errors;
-        
+
         // Check if categories exist
         var categories = await categoryRepository.FindAsync(
             category => command.CategoryIds.Contains(category.Id), cancellationToken);
@@ -30,12 +28,13 @@ public class CreateTransactionCommandHandler(
             return categories.Errors;
         if (categories.Value.Count != command.CategoryIds.Length)
             return Errors.Category.NotFound;
-        
+
         // Create transaction
         var transaction = Transaction.Create(
             null,
             command.Description,
             command.Amount,
+            command.Type,
             user.Value,
             command.Date,
             categories.Value
@@ -49,4 +48,3 @@ public class CreateTransactionCommandHandler(
         return new TransactionResult(createdTransaction.Value);
     }
 }
-

@@ -30,7 +30,7 @@ public class TransactionController(ISender mediatr, IMapper mapper) : ApiControl
             Problem
         );
     }
-    
+
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(Guid id, UpdateTransactionRequest request)
     {
@@ -38,10 +38,10 @@ public class TransactionController(ISender mediatr, IMapper mapper) : ApiControl
         if (userId.IsError && userId.FirstError == Errors.Authentication.InvalidCredentials)
             return Problem(statusCode: StatusCodes.Status401Unauthorized,
                 title: userId.FirstError.Description);
-    
+
         var command = mapper.Map<UpdateTransactionCommand>((request, id, userId.Value));
         var result = await mediatr.Send(command);
-    
+
         return result.Match(
             value => Ok(mapper.Map<TransactionResponse>(value)),
             Problem
@@ -55,10 +55,10 @@ public class TransactionController(ISender mediatr, IMapper mapper) : ApiControl
         if (userId.IsError && userId.FirstError == Errors.Authentication.InvalidCredentials)
             return Problem(statusCode: StatusCodes.Status401Unauthorized,
                 title: userId.FirstError.Description);
-    
+
         var command = mapper.Map<RemoveTransactionsCommand>((request, userId.Value));
         var result = await mediatr.Send(command);
-    
+
         return result.Match(
             value => Ok(mapper.Map<List<TransactionResponse>>(value)),
             Problem
@@ -72,16 +72,16 @@ public class TransactionController(ISender mediatr, IMapper mapper) : ApiControl
         if (userId.IsError && userId.FirstError == Errors.Authentication.InvalidCredentials)
             return Problem(statusCode: StatusCodes.Status401Unauthorized,
                 title: userId.FirstError.Description);
-    
+
         var query = new GetTransactionQuery(id, userId.Value);
         var result = await mediatr.Send(query);
-    
+
         return result.Match(
             value => Ok(mapper.Map<TransactionResponse>(value)),
             Problem
         );
     }
-    
+
     [HttpGet]
     public async Task<IActionResult> Search(SearchTransactionsRequest request)
     {
@@ -89,14 +89,13 @@ public class TransactionController(ISender mediatr, IMapper mapper) : ApiControl
         if (userId.IsError && userId.FirstError == Errors.Authentication.InvalidCredentials)
             return Problem(statusCode: StatusCodes.Status401Unauthorized,
                 title: userId.FirstError.Description);
-    
+
         var query = mapper.Map<SearchTransactionsQuery>((request, userId.Value));
         var result = await mediatr.Send(query);
-    
+
         return result.Match(
-            onValue: value => Ok(mapper.Map<List<TransactionResponse>>(value)),
-            onError: Problem
+            value => Ok(mapper.Map<List<TransactionResponse>>(value)),
+            Problem
         );
     }
 }
-

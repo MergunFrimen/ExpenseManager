@@ -1,5 +1,4 @@
 using ExpenseManager.Application.Common.Extensions;
-using ExpenseManager.Domain.Categories;
 using FluentValidation;
 
 namespace ExpenseManager.Application.Categories.Queries.SearchCategories;

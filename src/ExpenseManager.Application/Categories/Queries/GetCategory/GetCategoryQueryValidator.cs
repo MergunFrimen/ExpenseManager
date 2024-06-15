@@ -10,4 +10,3 @@ public class GetCategoryQueryValidator : AbstractValidator<GetCategoryQuery>
         RuleFor(x => x.UserId).NotEmpty();
     }
 }
-

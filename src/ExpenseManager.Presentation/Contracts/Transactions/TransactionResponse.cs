@@ -6,7 +6,6 @@ public sealed record TransactionResponse(
     decimal Amount,
     string Type,
     ulong? Date,
-    
     string[] CategoryIds,
     string[] CategoryNames
 );

@@ -13,6 +13,7 @@ public sealed record SearchTransactionsRequest(
 //
 public sealed record FilterRequest(
     string? Description,
+    string? TransactionType,
     Guid[]? CategoryIds,
     DateRange? DateRange
     // PriceRangeFilterRequest? PriceRangeFilterRequest

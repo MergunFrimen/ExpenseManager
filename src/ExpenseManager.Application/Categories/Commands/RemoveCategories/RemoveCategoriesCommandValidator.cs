@@ -10,4 +10,3 @@ public class RemoveCategoriesCommandValidator : AbstractValidator<RemoveCategori
         RuleFor(x => x.CategoryIds).NotNull();
     }
 }
-

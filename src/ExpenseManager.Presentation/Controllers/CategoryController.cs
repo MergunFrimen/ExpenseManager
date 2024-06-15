@@ -38,16 +38,16 @@ public class CategoryController(ISender mediatr, IMapper mapper) : ApiController
         if (userId.IsError && userId.FirstError == Errors.Authentication.InvalidCredentials)
             return Problem(statusCode: StatusCodes.Status401Unauthorized,
                 title: userId.FirstError.Description);
-    
+
         var command = mapper.Map<UpdateCategoryCommand>((request, id, userId.Value));
         var result = await mediatr.Send(command);
-    
+
         return result.Match(
-            onValue: value => Ok(mapper.Map<CategoryResponse>(value)),
-            onError: Problem
+            value => Ok(mapper.Map<CategoryResponse>(value)),
+            Problem
         );
     }
-    
+
     [HttpDelete]
     public async Task<IActionResult> Remove(RemoveCategoriesRequest request)
     {
@@ -55,16 +55,16 @@ public class CategoryController(ISender mediatr, IMapper mapper) : ApiController
         if (userId.IsError && userId.FirstError == Errors.Authentication.InvalidCredentials)
             return Problem(statusCode: StatusCodes.Status401Unauthorized,
                 title: userId.FirstError.Description);
-    
+
         var command = mapper.Map<RemoveCategoriesCommand>((request, userId.Value));
         var result = await mediatr.Send(command);
-    
+
         return result.Match(
-            onValue: value => Ok(mapper.Map<List<CategoryResponse>>(value)),
-            onError: Problem
+            value => Ok(mapper.Map<List<CategoryResponse>>(value)),
+            Problem
         );
     }
-    
+
     [HttpGet("{id}")]
     public async Task<IActionResult> Get(Guid id)
     {
@@ -72,16 +72,16 @@ public class CategoryController(ISender mediatr, IMapper mapper) : ApiController
         if (userId.IsError && userId.FirstError == Errors.Authentication.InvalidCredentials)
             return Problem(statusCode: StatusCodes.Status401Unauthorized,
                 title: userId.FirstError.Description);
-    
+
         var query = new GetCategoryQuery(id, userId.Value);
         var result = await mediatr.Send(query);
-    
+
         return result.Match(
-            onValue: value => Ok(mapper.Map<CategoryResponse>(value)),
-            onError: Problem
+            value => Ok(mapper.Map<CategoryResponse>(value)),
+            Problem
         );
     }
-    
+
     [HttpGet]
     public async Task<IActionResult> Search(SearchCategoriesRequest request)
     {
@@ -89,13 +89,13 @@ public class CategoryController(ISender mediatr, IMapper mapper) : ApiController
         if (userId.IsError && userId.FirstError == Errors.Authentication.InvalidCredentials)
             return Problem(statusCode: StatusCodes.Status401Unauthorized,
                 title: userId.FirstError.Description);
-    
+
         var query = mapper.Map<SearchCategoriesQuery>((request, userId.Value));
         var result = await mediatr.Send(query);
-    
+
         return result.Match(
-            onValue: value => Ok(mapper.Map<List<CategoryResponse>>(value)),
-            onError: Problem
+            value => Ok(mapper.Map<List<CategoryResponse>>(value)),
+            Problem
         );
     }
 }

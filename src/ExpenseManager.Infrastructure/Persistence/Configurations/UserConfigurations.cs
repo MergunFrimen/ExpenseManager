@@ -15,7 +15,7 @@ public sealed class UserConfigurations : IEntityTypeConfiguration<User>
     {
         builder.ToTable("Users");
         builder.HasKey(user => user.Id);
-        
+
         builder.Property(user => user.Id)
             .ValueGeneratedNever()
             .IsRequired();

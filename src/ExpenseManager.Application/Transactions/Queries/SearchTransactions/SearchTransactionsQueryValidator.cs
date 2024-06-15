@@ -1,5 +1,3 @@
-using ExpenseManager.Application.Categories.Queries.SearchCategories;
-using ExpenseManager.Application.Common.Extensions;
 using ExpenseManager.Domain.Transactions;
 using FluentValidation;
 

@@ -7,4 +7,3 @@ public sealed record SearchCategoriesQuery(
     Guid UserId,
     string Name
 ) : IQuery<List<CategoryResult>>;
-

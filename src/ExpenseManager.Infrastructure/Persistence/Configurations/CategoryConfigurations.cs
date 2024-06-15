@@ -16,16 +16,16 @@ public sealed class CategoryConfigurations : IEntityTypeConfiguration<Category>
         builder.ToTable("Categories");
         builder.HasKey(category => new
         {
-            category.Id,
+            category.Id
         });
-        
+
         builder.Property(category => category.Id)
             .ValueGeneratedNever()
             .IsRequired();
         builder.Property(category => category.Name)
             .HasMaxLength(Category.NameMaxLength)
             .IsRequired();
-        
+
         // creates foreign key referencing User table
         builder
             .HasOne(x => x.User)

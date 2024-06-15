@@ -37,7 +37,7 @@ public class CategoryRepository(ExpenseManagerDbContext dbContext) : ICategoryRe
 
         return newCategory.Entity;
     }
-    
+
     public async Task<ErrorOr<Category>> RemoveAsync(Category transaction, CancellationToken cancellationToken)
     {
         dbContext.Categories.Remove(transaction);

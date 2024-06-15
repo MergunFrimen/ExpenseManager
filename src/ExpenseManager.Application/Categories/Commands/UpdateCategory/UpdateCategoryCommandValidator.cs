@@ -12,4 +12,3 @@ public class UpdateCategoryCommandValidator : AbstractValidator<UpdateCategoryCo
         RuleFor(x => x.Name).CategoryName();
     }
 }
-

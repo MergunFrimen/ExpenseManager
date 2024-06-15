@@ -7,4 +7,3 @@ public sealed record GetCategoryQuery(
     Guid Id,
     Guid UserId
 ) : IQuery<CategoryResult>;
-

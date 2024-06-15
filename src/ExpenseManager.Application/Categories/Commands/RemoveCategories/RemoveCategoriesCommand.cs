@@ -5,6 +5,5 @@ namespace ExpenseManager.Application.Categories.Commands.RemoveCategories;
 
 public sealed record RemoveCategoriesCommand(
     Guid UserId,
-    
     List<Guid> CategoryIds
 ) : ICommand<List<CategoryResult>>;

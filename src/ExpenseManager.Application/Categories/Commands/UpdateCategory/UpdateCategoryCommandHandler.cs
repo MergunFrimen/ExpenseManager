@@ -25,7 +25,7 @@ public class UpdateCategoryCommandHandler(
         var user = await userRepository.GetByIdAsync(command.UserId, cancellationToken);
         if (user.IsError)
             return user.Errors;
-        
+
         // Check if the category with the same name already exists
         var isDuplicate = await categoryRepository.ExistsAsync(
             c => c.Id != command.Id && c.User.Id == user.Value.Id && c.Name == command.Name,
@@ -34,18 +34,18 @@ public class UpdateCategoryCommandHandler(
             return isDuplicate.Errors;
         if (isDuplicate.Value)
             return Errors.Category.Duplicate;
-        
+
         // Update the transaction
         var newCategory = Category.Create(
             command.Id,
             command.Name,
             user.Value
         );
-        
+
         // Update the category
         var removeResult = await categoryRepository.RemoveAsync(category.Value, cancellationToken);
         var addResult = await categoryRepository.AddAsync(newCategory, cancellationToken);
-        
+
         return addResult.Match(
             value => new CategoryResult(value),
             ErrorOr<CategoryResult>.From

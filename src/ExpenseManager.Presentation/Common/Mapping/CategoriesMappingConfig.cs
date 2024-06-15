@@ -23,14 +23,13 @@ public class CategoriesMappingConfig : IRegister
             .Map(dest => dest.Id, src => src.Id)
             .Map(dest => dest.UserId, src => src.UserId)
             .Map(dest => dest, src => src.Request);
-        
+
         config.NewConfig<(RemoveCategoriesRequest Request, Guid UserId), RemoveCategoriesCommand>()
             .Map(dest => dest.UserId, src => src.UserId)
             .Map(dest => dest, src => src.Request);
-        
+
         config.NewConfig<(SearchCategoriesRequest Request, Guid UserId), SearchCategoriesQuery>()
             .Map(dest => dest.UserId, src => src.UserId)
             .Map(dest => dest, src => src.Request);
     }
 }
-

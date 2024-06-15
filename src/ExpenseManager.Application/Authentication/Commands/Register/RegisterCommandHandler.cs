@@ -36,7 +36,7 @@ public class RegisterCommandHandler(
             command.Email,
             hashedPassword
         );
-        
+
         // Add the user to the database
         var createdUser = await userRepository.AddAsync(newUser, cancellationToken);
         if (createdUser.IsError)
@@ -44,7 +44,7 @@ public class RegisterCommandHandler(
 
         // Generate a token for the user
         var token = tokenGenerator.GenerateToken(createdUser.Value);
-        
+
         // Create default categories for the user
         await CreateDefaultCategories(createdUser.Value, cancellationToken);
 
@@ -56,18 +56,14 @@ public class RegisterCommandHandler(
         List<Category> categories =
         [
             Category.Create(null, "Food", user),
-            Category.Create(null, "Transport", user),
+            Category.Create(null, "Transport", user)
             // Category.Create(null, "Entertainment", user),
             // Category.Create(null, "Health", user),
             // Category.Create(null, "Clothing", user),
             // Category.Create(null, "Rent", user),
             // Category.Create(null, "Other", user)
         ];
-        
-        foreach (var category in categories)
-        {
-            await categoryRepository.AddAsync(category, cancellationToken);
-        }
+
+        foreach (var category in categories) await categoryRepository.AddAsync(category, cancellationToken);
     }
 }
-

@@ -6,7 +6,6 @@ namespace ExpenseManager.Application.Transactions.Commands.CreateTransaction;
 
 public sealed record CreateTransactionCommand(
     Guid UserId,
-    
     string Description,
     decimal Amount,
     TransactionType Type,

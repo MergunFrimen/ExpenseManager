@@ -16,9 +16,9 @@ public sealed class TransactionConfigurations : IEntityTypeConfiguration<Transac
         builder.ToTable("Transactions");
         builder.HasKey(transaction => new
         {
-            transaction.Id,
+            transaction.Id
         });
-        
+
         builder.Property(transaction => transaction.Id)
             .ValueGeneratedNever()
             .IsRequired();
@@ -28,13 +28,13 @@ public sealed class TransactionConfigurations : IEntityTypeConfiguration<Transac
         builder.Property(transaction => transaction.Amount)
             .IsRequired();
         builder.Property(transaction => transaction.Date);
-        
+
         // creates foreign key referencing User table
         builder
             .HasOne(x => x.User)
             .WithMany()
             .IsRequired();
-        
+
         // creates TransactionCategory table for Many-to-Many relationship
         builder
             .HasMany(transaction => transaction.Categories)

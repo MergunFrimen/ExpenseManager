@@ -8,4 +8,3 @@ public sealed record UpdateCategoryCommand(
     Guid UserId,
     string Name
 ) : ICommand<CategoryResult>;
-

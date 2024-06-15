@@ -17,7 +17,8 @@ public class TransactionRepository(ExpenseManagerDbContext dbContext) : ITransac
 
     public async Task<ErrorOr<Transaction>> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
-        if (await dbContext.Transactions.Include(t => t.Categories).FirstOrDefaultAsync(c => c.Id == id, cancellationToken) is not { } transaction)
+        if (await dbContext.Transactions.Include(t => t.Categories)
+                .FirstOrDefaultAsync(c => c.Id == id, cancellationToken) is not { } transaction)
             return Errors.Transaction.NotFound;
 
         return transaction;
@@ -37,7 +38,7 @@ public class TransactionRepository(ExpenseManagerDbContext dbContext) : ITransac
 
         return newTransaction.Entity;
     }
-    
+
     public async Task<ErrorOr<Transaction>> RemoveAsync(Transaction transaction, CancellationToken cancellationToken)
     {
         dbContext.Transactions.Remove(transaction);
