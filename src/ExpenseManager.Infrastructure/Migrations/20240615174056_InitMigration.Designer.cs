@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ExpenseManager.Infrastructure.Migrations
 {
     [DbContext(typeof(ExpenseManagerDbContext))]
-    [Migration("20240615131522_InitMigration")]
+    [Migration("20240615174056_InitMigration")]
     partial class InitMigration
     {
         /// <inheritdoc />
@@ -67,6 +67,9 @@ namespace ExpenseManager.Infrastructure.Migrations
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("numeric");
+
+                    b.Property<decimal?>("Date")
+                        .HasColumnType("numeric(20,0)");
 
                     b.Property<string>("Description")
                         .IsRequired()

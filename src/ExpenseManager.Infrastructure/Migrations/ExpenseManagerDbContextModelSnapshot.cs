@@ -65,8 +65,8 @@ namespace ExpenseManager.Infrastructure.Migrations
                     b.Property<decimal>("Amount")
                         .HasColumnType("numeric");
 
-                    b.Property<DateTimeOffset?>("Date")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<decimal?>("Date")
+                        .HasColumnType("numeric(20,0)");
 
                     b.Property<string>("Description")
                         .IsRequired()

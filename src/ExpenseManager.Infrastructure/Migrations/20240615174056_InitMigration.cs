@@ -52,6 +52,7 @@ namespace ExpenseManager.Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Amount = table.Column<decimal>(type: "numeric", nullable: false),
                     Description = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
+                    Date = table.Column<decimal>(type: "numeric(20,0)", nullable: true),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>

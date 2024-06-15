@@ -11,6 +11,6 @@ public sealed record UpdateTransactionCommand(
     string Description,
     decimal Amount,
     TransactionType Type,
-    DateTimeOffset Date,
+    ulong? Date,
     List<Guid> CategoryIds
 ) : ICommand<TransactionResult>;

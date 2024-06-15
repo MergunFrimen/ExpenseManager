@@ -4,6 +4,6 @@ public sealed record CreateTransactionRequest(
     string Description,
     decimal Amount,
     string Type,
-    string? Date,
+    ulong? Date,
     string[] CategoryIds
 );

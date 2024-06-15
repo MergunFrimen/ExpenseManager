@@ -20,8 +20,8 @@ public sealed record FilterRequest(
 
 //
 public sealed record DateRange(
-    string? StartDate,
-    string? EndDate
+    ulong? StartDate,
+    ulong? EndDate
 );
 //
 // public sealed record PriceRangeFilterRequest(

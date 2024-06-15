@@ -37,8 +37,8 @@ public class SearchTransactionsQueryHandler(ITransactionRepository transactionRe
 
         if (query.Filters.DateRange is not null)
         {
-            var startDate = query.Filters.DateRange.StartDate ?? DateTime.MinValue;
-            var endDate = query.Filters.DateRange.EndDate ?? DateTime.MaxValue;
+            var startDate = query.Filters.DateRange.StartDate ?? 0;
+            var endDate = query.Filters.DateRange.EndDate ?? ulong.MaxValue;
             result = result
                 .Where(transaction => transaction.Date >= startDate && transaction.Date <= endDate)
                 .ToList();

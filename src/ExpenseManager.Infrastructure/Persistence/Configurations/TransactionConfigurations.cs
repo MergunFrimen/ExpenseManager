@@ -27,8 +27,7 @@ public sealed class TransactionConfigurations : IEntityTypeConfiguration<Transac
             .IsRequired();
         builder.Property(transaction => transaction.Amount)
             .IsRequired();
-        // builder.Property(transaction => transaction.Date)
-        //     .IsRequired();
+        builder.Property(transaction => transaction.Date);
         
         // creates foreign key referencing User table
         builder

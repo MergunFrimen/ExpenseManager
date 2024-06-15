@@ -17,6 +17,6 @@ public sealed record FilterRequest(
 );
 
 public sealed record DateRange(
-    DateTime? StartDate,
-    DateTime? EndDate
+    ulong? StartDate,
+    ulong? EndDate
 );

@@ -1,5 +1,5 @@
 @host = http://localhost:5222
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkYzQwMDk4Mi0yZTk1LTQ5MWQtOGIzOC1hNzE4ZjZhMzRlYTIiLCJnaXZlbl9uYW1lIjoiRG9taW5payIsImZhbWlseV9uYW1lIjoiVGljaHkiLCJqdGkiOiIxZTlhZGRiZC0yZGMwLTQyZWUtYmZmNC1mZWNjNmE5OTRjZWUiLCJpc3MiOiJFeHBlbnNlTWFuYWdlciIsImF1ZCI6IkV4cGVuc2VNYW5hZ2VyIiwiZXhwIjoxNzE4ODIxOTcwfQ.OHSWALXZ0bm2gHxf9PUg4aYAdgxAaI4PtjZobsX2hHM
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0NzlmMjkzZi1iY2Y3LTRmMDgtOThkOC1jNjk3Y2FkZTZkM2UiLCJnaXZlbl9uYW1lIjoiRG9taW5payIsImZhbWlseV9uYW1lIjoiVGljaHkiLCJqdGkiOiIyNmZhMzJjYy1jZmNhLTQxMWUtOGZlYS04OWVjZTFjNmI5YTAiLCJpc3MiOiJFeHBlbnNlTWFuYWdlciIsImF1ZCI6IkV4cGVuc2VNYW5hZ2VyIiwiZXhwIjoxNzE4ODMzMzc2fQ.7xUjPKQw-OXYfTkwZ2wGvONwciFUWq00TxbtIbAu_00
 
 ###
 
@@ -13,8 +13,7 @@ Authorization: Bearer {{token}}
   "description": "test",
   "amount": 50.00,
    "type": "Expense",
-  "date": "06/15/2024 16:57:45 +00:00",
+  "date": 1718471967,
   "categoryIds": [
-    "{{categoryId1}}"
   ]
 }
