@@ -3,7 +3,7 @@
 
 ###
 
-@categoryId1 = 20028217-eb12-4df1-a6bd-e975bbab6304
+@categoryId1 = e15f41e7-4dde-4450-8782-e2db880b4c95
 
 POST {{host}}/api/v1/transactions
 Content-Type: application/json
