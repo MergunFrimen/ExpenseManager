@@ -6,8 +6,7 @@ using ExpenseManager.Application.Transactions.Common;
 namespace ExpenseManager.Application.Transactions.Queries.GetTransaction;
 
 public class GetTransactionQueryHandler(
-    ITransactionRepository transactionRepository,
-    ICategoryRepository categoryRepository)
+    ITransactionRepository transactionRepository)
     : IQueryHandler<GetTransactionQuery, TransactionResult>
 {
     public async Task<ErrorOr<TransactionResult>> Handle(GetTransactionQuery query,

@@ -82,21 +82,21 @@ public class TransactionController(ISender mediatr, IMapper mapper) : ApiControl
     //     );
     // }
     //
-    // [HttpGet("{id}")]
-    // public async Task<IActionResult> Get(Guid id)
-    // {
-    //     var userId = GetUserId();
-    //     if (userId.IsError && userId.FirstError == Errors.Authentication.InvalidCredentials)
-    //         return Problem(statusCode: StatusCodes.Status401Unauthorized,
-    //             title: userId.FirstError.Description);
-    //
-    //     var query = new GetTransactionQuery(id, userId.Value);
-    //     var result = await mediatr.Send(query);
-    //
-    //     return result.Match(
-    //         value => Ok(mapper.Map<TransactionResponse>(value)),
-    //         Problem
-    //     );
-    // }
+    [HttpGet("{id}")]
+    public async Task<IActionResult> Get(Guid id)
+    {
+        var userId = GetUserId();
+        if (userId.IsError && userId.FirstError == Errors.Authentication.InvalidCredentials)
+            return Problem(statusCode: StatusCodes.Status401Unauthorized,
+                title: userId.FirstError.Description);
+    
+        var query = new GetTransactionQuery(id, userId.Value);
+        var result = await mediatr.Send(query);
+    
+        return result.Match(
+            value => Ok(mapper.Map<TransactionResponse>(value)),
+            Problem
+        );
+    }
 }
 

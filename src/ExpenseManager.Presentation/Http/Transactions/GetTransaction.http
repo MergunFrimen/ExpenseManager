@@ -1,11 +1,11 @@
 @host = http://localhost:5222
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiNGE3ZjE0NC0wMWYyLTQ1MzUtYjIxYS1hMGIxOWIzYmYxMjYiLCJnaXZlbl9uYW1lIjoiRG9taW5payIsImZhbWlseV9uYW1lIjoiVGljaHkiLCJqdGkiOiI4MGMzNDBkMS03YWMxLTRlZjEtOWM4MS1lNTM1NTE2ZDUyYWIiLCJpc3MiOiJFeHBlbnNlTWFuYWdlciIsImF1ZCI6IkV4cGVuc2VNYW5hZ2VyIiwiZXhwIjoxNzE4MTIzNjk0fQ.LxPjf-DffUOmRk0HH-ErNixWVQSIOg6y_Okr9sdBN9c
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkYzQwMDk4Mi0yZTk1LTQ5MWQtOGIzOC1hNzE4ZjZhMzRlYTIiLCJnaXZlbl9uYW1lIjoiRG9taW5payIsImZhbWlseV9uYW1lIjoiVGljaHkiLCJqdGkiOiIxZTlhZGRiZC0yZGMwLTQyZWUtYmZmNC1mZWNjNmE5OTRjZWUiLCJpc3MiOiJFeHBlbnNlTWFuYWdlciIsImF1ZCI6IkV4cGVuc2VNYW5hZ2VyIiwiZXhwIjoxNzE4ODIxOTcwfQ.OHSWALXZ0bm2gHxf9PUg4aYAdgxAaI4PtjZobsX2hHM
 
-### Get transaction
+###
 
-@transactionId = d55e922d-4254-4a9f-a875-1f914c8c1a39
+@transactionId = db56c6b0-e4d2-4851-b51d-43f1bbffb00d
 
-GET {{host}}/transactions/{{transactionId}}
+GET {{host}}/api/v1/transactions/{{transactionId}}
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
