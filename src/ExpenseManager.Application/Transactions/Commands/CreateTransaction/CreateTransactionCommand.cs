@@ -6,9 +6,10 @@ namespace ExpenseManager.Application.Transactions.Commands.CreateTransaction;
 
 public sealed record CreateTransactionCommand(
     Guid UserId,
-    Guid[] CategoryIds,
-    TransactionType Type,
+    
     string Description,
     decimal Amount,
-    DateTime Date
+    TransactionType Type,
+    DateTime Date,
+    Guid[] CategoryIds
 ) : ICommand<TransactionResult>;

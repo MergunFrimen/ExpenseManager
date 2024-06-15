@@ -1,5 +1,5 @@
 namespace ExpenseManager.Presentation.Contracts.Categories;
 
 public sealed record RemoveCategoriesRequest(
-    List<string> Ids
+    List<string> CategoryIds
 );

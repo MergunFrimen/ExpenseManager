@@ -1,46 +1,54 @@
-// using ErrorOr;
-// using ExpenseManager.Application.Categories.Common;
-// using ExpenseManager.Application.Common.Interfaces.Cqrs;
-// using ExpenseManager.Application.Common.Interfaces.Persistence;
-// using ExpenseManager.Domain.Categories;
-// using ExpenseManager.Domain.Common.Errors;
-//
-// namespace ExpenseManager.Application.Categories.Commands.UpdateCategory;
-//
-// public class UpdateCategoryCommandHandler(
-//     ICategoryRepository categoryRepository)
-//     : ICommandHandler<UpdateCategoryCommand, CategoryResult>
-// {
-//     public async Task<ErrorOr<CategoryResult>> Handle(UpdateCategoryCommand command,
-//         CancellationToken cancellationToken)
-//     {
-//         // Check if the category exists
-//         var exists = await categoryRepository.ExistsAsync(
-//             category => category.Id == command.Id && category.UserId == command.UserId,
-//             cancellationToken);
-//         
-//         if (exists.IsError)
-//             return exists.Errors;
-//         if (!exists.Value)
-//             return Errors.Category.NotFound;
-//         
-//         // Check if the category is a duplicate
-//         var duplicate = await categoryRepository.ExistsAsync(
-//             category => category.Id != command.Id && category.UserId == command.UserId && category.Name == command.Name,
-//             cancellationToken);
-//         
-//         if (duplicate.IsError)
-//             return duplicate.Errors;
-//         if (!duplicate.Value)
-//             return Errors.Category.Duplicate;
-//         
-//         var category = Category.Create(command.Id, command.UserId, command.Name);
-//         var updatedCategory = await categoryRepository.UpdateAsync(category, cancellationToken);
-//
-//         return updatedCategory.Match(
-//             value => new CategoryResult(value),
-//             ErrorOr<CategoryResult>.From
-//         );
-//     }
-// }
+using ErrorOr;
+using ExpenseManager.Application.Categories.Common;
+using ExpenseManager.Application.Common.Interfaces.Cqrs;
+using ExpenseManager.Application.Common.Interfaces.Persistence;
+using ExpenseManager.Domain.Categories;
+using ExpenseManager.Domain.Common.Errors;
 
+namespace ExpenseManager.Application.Categories.Commands.UpdateCategory;
+
+public class UpdateCategoryCommandHandler(
+    ICategoryRepository categoryRepository,
+    IUserRepository userRepository
+)
+    : ICommandHandler<UpdateCategoryCommand, CategoryResult>
+{
+    public async Task<ErrorOr<CategoryResult>> Handle(UpdateCategoryCommand command,
+        CancellationToken cancellationToken)
+    {
+        // Get the category
+        var category = await categoryRepository.GetByIdAsync(command.Id, cancellationToken);
+        if (category.IsError)
+            return category.Errors;
+
+        // Get the user
+        var user = await userRepository.GetByIdAsync(command.UserId, cancellationToken);
+        if (user.IsError)
+            return user.Errors;
+        
+        // Check if the category with the same name already exists
+        var isDuplicate = await categoryRepository.ExistsAsync(
+            c => c.Id != command.Id && c.User.Id == user.Value.Id && c.Name == command.Name,
+            cancellationToken);
+        if (isDuplicate.IsError)
+            return isDuplicate.Errors;
+        if (isDuplicate.Value)
+            return Errors.Category.Duplicate;
+        
+        // Update the transaction
+        var newCategory = Category.Create(
+            command.Id,
+            command.Name,
+            user.Value
+        );
+        
+        // Update the category
+        var removeResult = await categoryRepository.RemoveAsync(category.Value, cancellationToken);
+        var addResult = await categoryRepository.AddAsync(newCategory, cancellationToken);
+        
+        return addResult.Match(
+            value => new CategoryResult(value),
+            ErrorOr<CategoryResult>.From
+        );
+    }
+}

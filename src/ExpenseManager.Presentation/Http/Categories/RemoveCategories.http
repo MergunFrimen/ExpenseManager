@@ -3,17 +3,13 @@
 
 ###
 
-@categoryId1 = 29a9a971-1f7b-4de6-9be4-5651facf4c06
+@categoryId1 = 9e97d0d8-ba70-4c63-a9aa-7c887da4a34b
 
-POST {{host}}/api/v1/transactions
+DELETE {{host}}/api/v1/categories
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "description": "TEST",
-  "amount": 50.00,
-   "type": "Expense",
-  "date": "2024-06-07T15:02:43Z",
   "categoryIds": [
     "{{categoryId1}}"
   ]

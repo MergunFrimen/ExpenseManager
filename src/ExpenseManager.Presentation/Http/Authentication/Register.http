@@ -1,6 +1,6 @@
 @host = http://localhost:5222
 
-### Register
+###
 
 POST {{host}}/api/v1/auth/register
 Content-Type: application/json

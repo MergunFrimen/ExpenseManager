@@ -9,10 +9,10 @@ public class CreateTransactionCommandValidator : AbstractValidator<CreateTransac
     public CreateTransactionCommandValidator()
     {
         RuleFor(x => x.UserId).NotEmpty();
-        RuleFor(x => x.CategoryIds).NotEmpty();
-        RuleFor(x => x.Type).TransactionType();
         RuleFor(x => x.Description).NotEmpty().MaximumLength(Transaction.DescriptionMaxLength);
         RuleFor(x => x.Amount).MoneyAmount();
+        RuleFor(x => x.Type).TransactionType();
         RuleFor(x => x.Date).NotEmpty();
+        RuleFor(x => x.CategoryIds).NotEmpty();
     }
 }

@@ -26,8 +26,10 @@ public class RegisterCommandHandler(
         if (user.Value.Count != 0)
             return Errors.User.DuplicateEmail;
 
+        // Hash the password
         var hashedPassword = passwordHasher.Hash(command.Password);
 
+        // Create the user
         var newUser = User.Create(
             command.FirstName,
             command.LastName,
@@ -35,23 +37,37 @@ public class RegisterCommandHandler(
             hashedPassword
         );
         
+        // Add the user to the database
         var createdUser = await userRepository.AddAsync(newUser, cancellationToken);
         if (createdUser.IsError)
             return createdUser.Errors;
 
+        // Generate a token for the user
         var token = tokenGenerator.GenerateToken(createdUser.Value);
+        
+        // Create default categories for the user
+        await CreateDefaultCategories(createdUser.Value, cancellationToken);
 
         return new AuthenticationResult(createdUser.Value, token);
     }
 
-    // private List<Category> DefaultCategories(User user)
-    // {
-    //     return
-    //     [
-    //         Category.Create(null, "Salary", user),
-    //         Category.Create(null, "Food", user),
-    //         Category.Create(null, "Entertainment", user),
-    //     ];
-    // }
+    private async Task CreateDefaultCategories(User user, CancellationToken cancellationToken)
+    {
+        List<Category> categories =
+        [
+            Category.Create(null, "Food", user),
+            Category.Create(null, "Transport", user),
+            // Category.Create(null, "Entertainment", user),
+            // Category.Create(null, "Health", user),
+            // Category.Create(null, "Clothing", user),
+            // Category.Create(null, "Rent", user),
+            // Category.Create(null, "Other", user)
+        ];
+        
+        foreach (var category in categories)
+        {
+            await categoryRepository.AddAsync(category, cancellationToken);
+        }
+    }
 }
 

@@ -46,7 +46,7 @@ public sealed class Transaction : Entity
         // TransactionType type,
         // DateTime? date,
         User user,
-        List<Category>? categoryIds
+        List<Category>? category = null
     )
     {
         var transaction = new Transaction(
@@ -56,7 +56,7 @@ public sealed class Transaction : Entity
             // type,
             // date,
             user,
-            categoryIds ?? []
+            category ?? []
         );
 
         return transaction;

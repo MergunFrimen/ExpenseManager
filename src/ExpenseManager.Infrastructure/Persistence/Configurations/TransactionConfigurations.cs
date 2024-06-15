@@ -38,5 +38,6 @@ public sealed class TransactionConfigurations : IEntityTypeConfiguration<Transac
         builder
             .HasMany(transaction => transaction.Categories)
             .WithMany();
+        // .UsingEntity(j => j.ToTable("TransactionCategories"));
     }
 }

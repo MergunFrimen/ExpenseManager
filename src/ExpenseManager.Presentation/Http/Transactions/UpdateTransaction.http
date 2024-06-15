@@ -1,20 +1,26 @@
 @host = http://localhost:5222
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiNGE3ZjE0NC0wMWYyLTQ1MzUtYjIxYS1hMGIxOWIzYmYxMjYiLCJnaXZlbl9uYW1lIjoiRG9taW5payIsImZhbWlseV9uYW1lIjoiVGljaHkiLCJqdGkiOiI4MGMzNDBkMS03YWMxLTRlZjEtOWM4MS1lNTM1NTE2ZDUyYWIiLCJpc3MiOiJFeHBlbnNlTWFuYWdlciIsImF1ZCI6IkV4cGVuc2VNYW5hZ2VyIiwiZXhwIjoxNzE4MTIzNjk0fQ.LxPjf-DffUOmRk0HH-ErNixWVQSIOg6y_Okr9sdBN9c
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkYzQwMDk4Mi0yZTk1LTQ5MWQtOGIzOC1hNzE4ZjZhMzRlYTIiLCJnaXZlbl9uYW1lIjoiRG9taW5payIsImZhbWlseV9uYW1lIjoiVGljaHkiLCJqdGkiOiIxZTlhZGRiZC0yZGMwLTQyZWUtYmZmNC1mZWNjNmE5OTRjZWUiLCJpc3MiOiJFeHBlbnNlTWFuYWdlciIsImF1ZCI6IkV4cGVuc2VNYW5hZ2VyIiwiZXhwIjoxNzE4ODIxOTcwfQ.OHSWALXZ0bm2gHxf9PUg4aYAdgxAaI4PtjZobsX2hHM
 
-@transactionId = e25c869c-fab0-492a-bbea-0f6d4f8b2964
-@categoryId = 44f530b9-f426-455c-9bf1-658dd5f0048e
+###
 
-### Update transaction
+@transactionId = 7fac144f-d736-4c1a-9024-57e0f6d750fa
+@categoryId1 = 29a9a971-1f7b-4de6-9be4-5651facf4c06
+@categoryId2 = c6eddb25-4642-497b-8628-884336d38a0f
+@categoryId3 = 9e97d0d8-ba70-4c63-a9aa-7c887da4a34b
 
-PUT {{host}}/transactions
+PUT {{host}}/api/v1/transactions/{{transactionId}}
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "id": "{{transactionId}}",
-  "type": "Income",
-  "categoryId": "{{categoryId}}",
-  "description": "Something else",
-  "amount": 200.00,
-  "date": "2021-12-01T00:00:00Z"
+  "description": "TEST SUCCESS 2",
+  "amount": 321,
+   "type": "Income",
+  "date": "2024-06-07T15:02:43Z",
+  "categoryIds": [
+    "{{categoryId1}}",
+    "{{categoryId2}}",
+    "{{categoryId2}}",
+    "{{categoryId3}}"
+  ]
 }

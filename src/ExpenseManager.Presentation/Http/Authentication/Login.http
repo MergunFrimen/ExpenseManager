@@ -1,6 +1,6 @@
 @host = http://localhost:5222
 
-### Login
+###
 
 POST {{host}}/api/v1/auth/login
 Content-Type: application/json

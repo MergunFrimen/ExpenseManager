@@ -5,11 +5,12 @@ using ExpenseManager.Domain.Transactions.ValueObjects;
 namespace ExpenseManager.Application.Transactions.Commands.UpdateTransaction;
 
 public sealed record UpdateTransactionCommand(
-    Guid UserId,
     Guid Id,
-    List<Guid> CategoryIds,
-    TransactionType Type,
+    Guid UserId,
+    
     string Description,
     decimal Amount,
-    DateTime Date
+    TransactionType Type,
+    DateTime Date,
+    List<Guid> CategoryIds
 ) : ICommand<TransactionResult>;

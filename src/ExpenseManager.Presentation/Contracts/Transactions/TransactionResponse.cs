@@ -5,7 +5,8 @@ public sealed record TransactionResponse(
     string Description,
     decimal Amount,
     string Type,
-    string[] CategoryIds,
     string Date,
+    
+    string[] CategoryIds,
     string[] CategoryNames
 );

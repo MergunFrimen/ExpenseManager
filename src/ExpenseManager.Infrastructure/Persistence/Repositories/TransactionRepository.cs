@@ -37,16 +37,7 @@ public class TransactionRepository(ExpenseManagerDbContext dbContext) : ITransac
 
         return newTransaction.Entity;
     }
-
-    public async Task<ErrorOr<Transaction>> UpdateAsync(Transaction transaction, CancellationToken cancellationToken)
-    {
-        var updatedTransaction = dbContext.Transactions.Update(transaction);
-
-        await dbContext.SaveChangesAsync(cancellationToken);
-
-        return updatedTransaction.Entity;
-    }
-
+    
     public async Task<ErrorOr<Transaction>> RemoveAsync(Transaction transaction, CancellationToken cancellationToken)
     {
         dbContext.Transactions.Remove(transaction);

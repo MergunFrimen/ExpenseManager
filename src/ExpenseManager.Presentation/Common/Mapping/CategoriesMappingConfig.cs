@@ -1,4 +1,6 @@
 using ExpenseManager.Application.Categories.Commands.CreateCategory;
+using ExpenseManager.Application.Categories.Commands.RemoveCategories;
+using ExpenseManager.Application.Categories.Commands.UpdateCategory;
 using ExpenseManager.Application.Categories.Common;
 using ExpenseManager.Presentation.Contracts.Categories;
 using Mapster;
@@ -16,10 +18,14 @@ public class CategoriesMappingConfig : IRegister
             .Map(dest => dest.UserId, src => src.UserId)
             .Map(dest => dest, src => src.Request);
 
-        // config.NewConfig<(UpdateCategoryRequest Request, Guid Id, Guid UserId), UpdateCategoryCommand>()
-        //     .Map(dest => dest.Id, src => src.Id)
-        //     .Map(dest => dest.UserId, src => src.UserId)
-        //     .Map(dest => dest, src => src.Request);
+        config.NewConfig<(UpdateCategoryRequest Request, Guid Id, Guid UserId), UpdateCategoryCommand>()
+            .Map(dest => dest.Id, src => src.Id)
+            .Map(dest => dest.UserId, src => src.UserId)
+            .Map(dest => dest, src => src.Request);
+        
+        config.NewConfig<(RemoveCategoriesRequest Request, Guid UserId), RemoveCategoriesCommand>()
+            .Map(dest => dest.UserId, src => src.UserId)
+            .Map(dest => dest, src => src.Request);
     }
 }
 

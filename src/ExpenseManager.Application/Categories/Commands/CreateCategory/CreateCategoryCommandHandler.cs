@@ -13,6 +13,7 @@ public class CreateCategoryCommandHandler(ICategoryRepository categoryRepository
     public async Task<ErrorOr<CategoryResult>> Handle(CreateCategoryCommand command,
         CancellationToken cancellationToken)
     {
+        // Check if user exists
         var user = await userRepository.GetByIdAsync(command.UserId, cancellationToken);
         if (user.IsError)
             return user.Errors;
@@ -24,11 +25,13 @@ public class CreateCategoryCommandHandler(ICategoryRepository categoryRepository
         if (exists.Value)
             return Errors.Category.Duplicate;
 
+        // Create category
         var category = Category.Create(
             null,
             command.Name,
             user.Value);
 
+        // Add category to the database
         var createdCategory = await categoryRepository.AddAsync(category, cancellationToken);
         if (createdCategory.IsError)
             return createdCategory.Errors;
