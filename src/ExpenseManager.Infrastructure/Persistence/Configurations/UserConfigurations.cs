@@ -11,32 +11,24 @@ public sealed class UserConfigurations : IEntityTypeConfiguration<User>
         ConfigureUsersTable(builder);
     }
 
-    private void ConfigureUsersTable(EntityTypeBuilder<User> usersBuilder)
+    private void ConfigureUsersTable(EntityTypeBuilder<User> builder)
     {
-        usersBuilder
-            .ToTable("Users");
-        usersBuilder
-            .HasKey(u => u.Id);
-
-        usersBuilder
-            .Property(u => u.Id)
+        builder.ToTable("Users");
+        builder.HasKey(user => user.Id);
+        
+        builder.Property(user => user.Id)
             .ValueGeneratedNever()
-            .HasConversion<Guid>()
             .IsRequired();
-        usersBuilder
-            .Property(u => u.FirstName)
-            .HasMaxLength(50)
+        builder.Property(user => user.FirstName)
+            .HasMaxLength(User.FirstNameMaxLength)
             .IsRequired();
-        usersBuilder
-            .Property(u => u.LastName)
-            .HasMaxLength(50)
+        builder.Property(user => user.LastName)
+            .HasMaxLength(User.LastNameMaxLength)
             .IsRequired();
-        usersBuilder
-            .Property(u => u.Email)
-            .HasMaxLength(150)
+        builder.Property(user => user.Email)
+            .HasMaxLength(User.EmailMaxLength)
             .IsRequired();
-        usersBuilder
-            .Property(u => u.Password)
+        builder.Property(user => user.Password)
             .IsRequired();
     }
 }

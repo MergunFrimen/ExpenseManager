@@ -9,37 +9,25 @@ public sealed class CategoryConfigurations : IEntityTypeConfiguration<Category>
     public void Configure(EntityTypeBuilder<Category> builder)
     {
         ConfigureCategoryTable(builder);
-        ConfigureTransactionTable(builder);
     }
 
-    private void ConfigureCategoryTable(EntityTypeBuilder<Category> transactionsBuilder)
+    private void ConfigureCategoryTable(EntityTypeBuilder<Category> builder)
     {
-        transactionsBuilder
-            .ToTable("Categories");
-        transactionsBuilder
-            .HasKey("Id", "UserId");
-
-        transactionsBuilder
-            .Property(s => s.Id)
+        builder.ToTable("Categories");
+        builder.HasKey(category => new
+        {
+            category.Id,
+            category.UserId
+        });
+        
+        builder.Property(category => category.Id)
             .ValueGeneratedNever()
-            .HasConversion<Guid>()
             .IsRequired();
-        transactionsBuilder
-            .Property(s => s.UserId)
+        builder.Property(category => category.Name)
+            .HasMaxLength(Category.NameMaxLength)
+            .IsRequired();
+        builder.Property(category => category.UserId)
             .ValueGeneratedNever()
-            .HasConversion<Guid>()
             .IsRequired();
-        transactionsBuilder
-            .Property(s => s.Name)
-            .HasMaxLength(50)
-            .IsRequired();
-    }
-    
-    private void ConfigureTransactionTable(EntityTypeBuilder<Category> builder)
-    {
-        builder
-            .HasMany(category => category.Transactions)
-            .WithMany(transaction => transaction.Categories)
-            .UsingEntity(typeBuilder => typeBuilder.ToTable("TransactionCategory"));
     }
 }

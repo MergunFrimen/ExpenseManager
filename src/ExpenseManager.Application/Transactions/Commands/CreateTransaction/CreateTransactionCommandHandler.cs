@@ -2,30 +2,47 @@ using ErrorOr;
 using ExpenseManager.Application.Common.Interfaces.Cqrs;
 using ExpenseManager.Application.Common.Interfaces.Persistence;
 using ExpenseManager.Application.Transactions.Common;
+using ExpenseManager.Domain.Categories;
 using ExpenseManager.Domain.Transactions;
 
 namespace ExpenseManager.Application.Transactions.Commands.CreateTransaction;
 
 public class CreateTransactionCommandHandler(
     ITransactionRepository transactionRepository,
-    ICategoryRepository categoryRepository)
+    IUserRepository userRepository)
     : ICommandHandler<CreateTransactionCommand, TransactionResult>
 {
     public async Task<ErrorOr<TransactionResult>> Handle(CreateTransactionCommand command,
         CancellationToken cancellationToken)
     {
+        var user = await userRepository.GetByIdAsync(command.UserId, cancellationToken);
+        if (user.IsError)
+            return user.Errors;
+        
+        // check if the categories get created
         var transaction = Transaction.Create(
             null,
-            command.UserId,
-            command.Type,
             command.Description,
             command.Amount,
-            command.Date,
-            []
+            user.Value,
+            CreateDefaultCategories(user.Value.Id)
         );
-
-        await transactionRepository.AddAsync(transaction, cancellationToken);
-
-        return new TransactionResult(transaction);
+        
+        var createdTransaction = await transactionRepository.AddAsync(transaction, cancellationToken);
+        
+        if (createdTransaction.IsError)
+            return createdTransaction.Errors;
+        
+        return new TransactionResult(createdTransaction.Value);
+    }
+    
+    public static List<Category> CreateDefaultCategories(Guid userId)
+    {
+        return [
+            Category.Create(null, "Food", userId),
+            Category.Create(null, "Food", userId),
+            Category.Create(null, "Food", userId),
+        ];
     }
 }
+

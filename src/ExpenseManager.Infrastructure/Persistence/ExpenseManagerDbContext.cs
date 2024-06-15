@@ -39,7 +39,9 @@ public class ExpenseManagerDbContext(
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.AddInterceptors(eventsInterceptor);
-        optionsBuilder.EnableSensitiveDataLogging();
+        
+        // Enable sensitive data logging
+        // optionsBuilder.EnableSensitiveDataLogging();
 
         base.OnConfiguring(optionsBuilder);
     }

@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ExpenseManager.Infrastructure.Migrations
 {
     [DbContext(typeof(ExpenseManagerDbContext))]
-    [Migration("20240614212821_Testingoutsomething")]
-    partial class Testingoutsomething
+    [Migration("20240615124612_InitMigration")]
+    partial class InitMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,23 +27,20 @@ namespace ExpenseManager.Infrastructure.Migrations
 
             modelBuilder.Entity("CategoryTransaction", b =>
                 {
+                    b.Property<Guid>("TransactionId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid>("CategoriesId")
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("CategoriesUserId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("TransactionsId")
-                        .HasColumnType("uuid");
+                    b.HasKey("TransactionId", "CategoriesId", "CategoriesUserId");
 
-                    b.Property<Guid>("TransactionsUserId")
-                        .HasColumnType("uuid");
+                    b.HasIndex("CategoriesId", "CategoriesUserId");
 
-                    b.HasKey("CategoriesId", "CategoriesUserId", "TransactionsId", "TransactionsUserId");
-
-                    b.HasIndex("TransactionsId", "TransactionsUserId");
-
-                    b.ToTable("TransactionCategory", (string)null);
+                    b.ToTable("CategoryTransaction");
                 });
 
             modelBuilder.Entity("ExpenseManager.Domain.Categories.Category", b =>
@@ -69,24 +66,20 @@ namespace ExpenseManager.Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
                     b.Property<decimal>("Amount")
                         .HasColumnType("numeric");
-
-                    b.Property<DateTime?>("Date")
-                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("character varying(150)");
 
-                    b.Property<int>("Type")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
 
-                    b.HasKey("Id", "UserId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Transactions", (string)null);
                 });
@@ -122,17 +115,28 @@ namespace ExpenseManager.Infrastructure.Migrations
 
             modelBuilder.Entity("CategoryTransaction", b =>
                 {
+                    b.HasOne("ExpenseManager.Domain.Transactions.Transaction", null)
+                        .WithMany()
+                        .HasForeignKey("TransactionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("ExpenseManager.Domain.Categories.Category", null)
                         .WithMany()
                         .HasForeignKey("CategoriesId", "CategoriesUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
 
-                    b.HasOne("ExpenseManager.Domain.Transactions.Transaction", null)
+            modelBuilder.Entity("ExpenseManager.Domain.Transactions.Transaction", b =>
+                {
+                    b.HasOne("ExpenseManager.Domain.Users.User", "User")
                         .WithMany()
-                        .HasForeignKey("TransactionsId", "TransactionsUserId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

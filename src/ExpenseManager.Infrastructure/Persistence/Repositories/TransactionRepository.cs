@@ -9,17 +9,10 @@ namespace ExpenseManager.Infrastructure.Persistence.Repositories;
 
 public class TransactionRepository(ExpenseManagerDbContext dbContext) : ITransactionRepository
 {
-    public async Task<bool> ExistsAsync(Expression<Func<Transaction, bool>> predicate,
+    public async Task<ErrorOr<bool>> ExistsAsync(Expression<Func<Transaction, bool>> predicate,
         CancellationToken cancellationToken)
     {
         return await dbContext.Transactions.AnyAsync(predicate, cancellationToken);
-    }
-
-    public async Task<List<Transaction>> GetAllByUserIdAsync(Guid userId, CancellationToken cancellationToken)
-    {
-        return await dbContext.Transactions
-            .Where(transaction => transaction.UserId == userId)
-            .ToListAsync(cancellationToken);
     }
 
     public async Task<ErrorOr<Transaction>> GetByIdAsync(Guid id, CancellationToken cancellationToken)
@@ -30,13 +23,13 @@ public class TransactionRepository(ExpenseManagerDbContext dbContext) : ITransac
         return transaction;
     }
 
-    public async Task<List<Transaction>> FindAsync(Expression<Func<Transaction, bool>> predicate,
+    public async Task<ErrorOr<List<Transaction>>> FindAsync(Expression<Func<Transaction, bool>> predicate,
         CancellationToken cancellationToken)
     {
         return await dbContext.Transactions.Where(predicate).ToListAsync(cancellationToken);
     }
 
-    public async Task<Transaction> AddAsync(Transaction transaction, CancellationToken cancellationToken)
+    public async Task<ErrorOr<Transaction>> AddAsync(Transaction transaction, CancellationToken cancellationToken)
     {
         var newTransaction = await dbContext.Transactions.AddAsync(transaction, cancellationToken);
 
@@ -45,7 +38,7 @@ public class TransactionRepository(ExpenseManagerDbContext dbContext) : ITransac
         return newTransaction.Entity;
     }
 
-    public async Task<Transaction> UpdateAsync(Transaction transaction, CancellationToken cancellationToken)
+    public async Task<ErrorOr<Transaction>> UpdateAsync(Transaction transaction, CancellationToken cancellationToken)
     {
         var updatedTransaction = dbContext.Transactions.Update(transaction);
 
@@ -54,7 +47,7 @@ public class TransactionRepository(ExpenseManagerDbContext dbContext) : ITransac
         return updatedTransaction.Entity;
     }
 
-    public async Task<Transaction> RemoveAsync(Transaction transaction, CancellationToken cancellationToken)
+    public async Task<ErrorOr<Transaction>> RemoveAsync(Transaction transaction, CancellationToken cancellationToken)
     {
         dbContext.Transactions.Remove(transaction);
 
@@ -63,7 +56,7 @@ public class TransactionRepository(ExpenseManagerDbContext dbContext) : ITransac
         return transaction;
     }
 
-    public async Task<List<Transaction>> RemoveRangeAsync(List<Transaction> transactions,
+    public async Task<ErrorOr<List<Transaction>>> RemoveRangeAsync(List<Transaction> transactions,
         CancellationToken cancellationToken)
     {
         dbContext.Transactions.RemoveRange(transactions);

@@ -9,44 +9,34 @@ public sealed class TransactionConfigurations : IEntityTypeConfiguration<Transac
     public void Configure(EntityTypeBuilder<Transaction> builder)
     {
         ConfigureTransactionTable(builder);
-        ConfigureCategoryTable(builder);
     }
 
     private void ConfigureTransactionTable(EntityTypeBuilder<Transaction> builder)
     {
         builder.ToTable("Transactions");
+        builder.HasKey(transaction => new
+        {
+            transaction.Id,
+        });
         
-        builder.HasKey("Id", "UserId");
-        
-        builder.Property(s => s.Id)
+        builder.Property(transaction => transaction.Id)
             .ValueGeneratedNever()
-            .HasConversion<Guid>()
             .IsRequired();
-        
-        builder.Property(s => s.UserId)
-            .ValueGeneratedNever()
-            .HasConversion<Guid>()
-            .IsRequired();
-        
-        builder.Property(s => s.Type)
-            .HasConversion<int>()
-            .IsRequired();
-        
-        builder.Property(s => s.Description)
+        builder.Property(transaction => transaction.Description)
             .HasMaxLength(Transaction.DescriptionMaxLength)
             .IsRequired();
-        
-        builder.Property(s => s.Amount)
+        builder.Property(transaction => transaction.Amount)
             .IsRequired();
+        // builder.Property(transaction => transaction.UserId)
+        //     .ValueGeneratedNever()
+        //     .IsRequired();
         
-        builder.Property(s => s.Date);
-    }
-
-    private void ConfigureCategoryTable(EntityTypeBuilder<Transaction> builder)
-    {
+        builder
+            .HasOne(x => x.User)
+            .WithMany()
+            .IsRequired();
         builder
             .HasMany(transaction => transaction.Categories)
-            .WithMany(category => category.Transactions)
-            .UsingEntity(typeBuilder => typeBuilder.ToTable("TransactionCategory"));
+            .WithMany();
     }
 }

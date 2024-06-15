@@ -6,6 +6,6 @@ public sealed record TransactionResponse(
     decimal Amount,
     string Type,
     string[] CategoryIds,
-    string[] CategoryNames,
-    string Date
+    string Date,
+    string[] CategoryNames
 );

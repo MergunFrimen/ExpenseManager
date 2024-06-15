@@ -19,9 +19,11 @@ public class RegisterCommandHandler(
     public async Task<ErrorOr<AuthenticationResult>> Handle(RegisterCommand command,
         CancellationToken cancellationToken)
     {
+        // Check if a user with the same email already exists
         var user = await userRepository.FindAsync(u => u.Email == command.Email, cancellationToken);
-
-        if (user.Value.Count > 0)
+        if (user.IsError)
+            return user.Errors;
+        if (user.Value.Count != 0)
             return Errors.User.DuplicateEmail;
 
         var hashedPassword = passwordHasher.Hash(command.Password);
@@ -32,25 +34,24 @@ public class RegisterCommandHandler(
             command.Email,
             hashedPassword
         );
+        
+        var createdUser = await userRepository.AddAsync(newUser, cancellationToken);
+        if (createdUser.IsError)
+            return createdUser.Errors;
 
-        await userRepository.AddAsync(newUser, cancellationToken);
+        var token = tokenGenerator.GenerateToken(createdUser.Value);
 
-        await AddDefaultCategories(newUser, cancellationToken);
-
-        var token = tokenGenerator.GenerateToken(newUser);
-
-        return new AuthenticationResult(newUser, token);
+        return new AuthenticationResult(createdUser.Value, token);
     }
 
-    private async Task AddDefaultCategories(User user, CancellationToken cancellationToken)
-    {
-        var categories = new List<Category>
-        {
-            Category.Create(null, user.Id, "Salary"),
-            Category.Create(null, user.Id, "Food"),
-            Category.Create(null, user.Id, "Entertainment")
-        };
-
-        foreach (var category in categories) await categoryRepository.AddAsync(category, cancellationToken);
-    }
+    // private List<Category> DefaultCategories(User user)
+    // {
+    //     return
+    //     [
+    //         Category.Create(null, "Salary", user),
+    //         Category.Create(null, "Food", user),
+    //         Category.Create(null, "Entertainment", user),
+    //     ];
+    // }
 }
+

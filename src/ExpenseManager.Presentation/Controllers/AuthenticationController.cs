@@ -1,6 +1,5 @@
 using ExpenseManager.Application.Authentication.Commands.Register;
 using ExpenseManager.Application.Authentication.Queries.Login;
-using ExpenseManager.Domain.Common.Errors;
 using ExpenseManager.Presentation.Contracts.Authentication;
 using MapsterMapper;
 using MediatR;
@@ -20,8 +19,8 @@ public class AuthenticationController(ISender mediatr, IMapper mapper) : ApiCont
         var authenticationResult = await mediatr.Send(command);
 
         return authenticationResult.Match(
-            onValue: value => Ok(mapper.Map<AuthenticationResponse>(value)),
-            onError: Problem
+            value => Ok(mapper.Map<AuthenticationResponse>(value)),
+            Problem
         );
     }
 
