@@ -17,7 +17,6 @@ public sealed class CategoryConfigurations : IEntityTypeConfiguration<Category>
         builder.HasKey(category => new
         {
             category.Id,
-            category.UserId
         });
         
         builder.Property(category => category.Id)
@@ -26,8 +25,11 @@ public sealed class CategoryConfigurations : IEntityTypeConfiguration<Category>
         builder.Property(category => category.Name)
             .HasMaxLength(Category.NameMaxLength)
             .IsRequired();
-        builder.Property(category => category.UserId)
-            .ValueGeneratedNever()
+        
+        // creates foreign key referencing User table
+        builder
+            .HasOne(x => x.User)
+            .WithMany()
             .IsRequired();
     }
 }

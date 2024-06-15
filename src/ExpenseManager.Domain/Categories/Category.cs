@@ -1,4 +1,5 @@
 using ExpenseManager.Domain.Common.Models;
+using ExpenseManager.Domain.Users;
 
 namespace ExpenseManager.Domain.Categories;
 
@@ -9,11 +10,11 @@ public sealed class Category : Entity
     private Category(
         Guid id,
         string name,
-        Guid userId
+        User user
     ) : base(id)
     {
         Name = name;
-        UserId = userId;
+        User = user;
     }
 
     private Category()
@@ -21,18 +22,18 @@ public sealed class Category : Entity
     }
 
     public string Name { get; private set; }
-    public Guid UserId { get; private set; }
+    public User User { get; private set; }
 
     public static Category Create(
         Guid? id,
         string name,
-        Guid userId
+        User user
     )
     {
         var transaction = new Category(
             id ?? Guid.NewGuid(),
             name,
-            userId
+            user
         );
 
         return transaction;

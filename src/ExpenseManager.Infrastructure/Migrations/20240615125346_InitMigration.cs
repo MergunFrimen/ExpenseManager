@@ -12,19 +12,6 @@ namespace ExpenseManager.Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Categories",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Categories", x => new { x.Id, x.UserId });
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -37,6 +24,25 @@ namespace ExpenseManager.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Categories",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categories", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Categories_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -63,18 +69,17 @@ namespace ExpenseManager.Infrastructure.Migrations
                 name: "CategoryTransaction",
                 columns: table => new
                 {
-                    TransactionId = table.Column<Guid>(type: "uuid", nullable: false),
                     CategoriesId = table.Column<Guid>(type: "uuid", nullable: false),
-                    CategoriesUserId = table.Column<Guid>(type: "uuid", nullable: false)
+                    TransactionId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CategoryTransaction", x => new { x.TransactionId, x.CategoriesId, x.CategoriesUserId });
+                    table.PrimaryKey("PK_CategoryTransaction", x => new { x.CategoriesId, x.TransactionId });
                     table.ForeignKey(
-                        name: "FK_CategoryTransaction_Categories_CategoriesId_CategoriesUserId",
-                        columns: x => new { x.CategoriesId, x.CategoriesUserId },
+                        name: "FK_CategoryTransaction_Categories_CategoriesId",
+                        column: x => x.CategoriesId,
                         principalTable: "Categories",
-                        principalColumns: new[] { "Id", "UserId" },
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_CategoryTransaction_Transactions_TransactionId",
@@ -85,9 +90,14 @@ namespace ExpenseManager.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_CategoryTransaction_CategoriesId_CategoriesUserId",
+                name: "IX_Categories_UserId",
+                table: "Categories",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CategoryTransaction_TransactionId",
                 table: "CategoryTransaction",
-                columns: new[] { "CategoriesId", "CategoriesUserId" });
+                column: "TransactionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Transactions_UserId",

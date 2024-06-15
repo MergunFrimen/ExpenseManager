@@ -27,14 +27,14 @@ public sealed class TransactionConfigurations : IEntityTypeConfiguration<Transac
             .IsRequired();
         builder.Property(transaction => transaction.Amount)
             .IsRequired();
-        // builder.Property(transaction => transaction.UserId)
-        //     .ValueGeneratedNever()
-        //     .IsRequired();
         
+        // creates foreign key referencing User table
         builder
             .HasOne(x => x.User)
             .WithMany()
             .IsRequired();
+        
+        // creates TransactionCategory table for Many-to-Many relationship
         builder
             .HasMany(transaction => transaction.Categories)
             .WithMany();

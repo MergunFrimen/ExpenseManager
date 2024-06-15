@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ExpenseManager.Infrastructure.Migrations
 {
     [DbContext(typeof(ExpenseManagerDbContext))]
-    [Migration("20240615124612_InitMigration")]
+    [Migration("20240615125346_InitMigration")]
     partial class InitMigration
     {
         /// <inheritdoc />
@@ -27,18 +27,15 @@ namespace ExpenseManager.Infrastructure.Migrations
 
             modelBuilder.Entity("CategoryTransaction", b =>
                 {
-                    b.Property<Guid>("TransactionId")
-                        .HasColumnType("uuid");
-
                     b.Property<Guid>("CategoriesId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("CategoriesUserId")
+                    b.Property<Guid>("TransactionId")
                         .HasColumnType("uuid");
 
-                    b.HasKey("TransactionId", "CategoriesId", "CategoriesUserId");
+                    b.HasKey("CategoriesId", "TransactionId");
 
-                    b.HasIndex("CategoriesId", "CategoriesUserId");
+                    b.HasIndex("TransactionId");
 
                     b.ToTable("CategoryTransaction");
                 });
@@ -48,15 +45,17 @@ namespace ExpenseManager.Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
-                    b.HasKey("Id", "UserId");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Categories", (string)null);
                 });
@@ -115,17 +114,28 @@ namespace ExpenseManager.Infrastructure.Migrations
 
             modelBuilder.Entity("CategoryTransaction", b =>
                 {
+                    b.HasOne("ExpenseManager.Domain.Categories.Category", null)
+                        .WithMany()
+                        .HasForeignKey("CategoriesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("ExpenseManager.Domain.Transactions.Transaction", null)
                         .WithMany()
                         .HasForeignKey("TransactionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
 
-                    b.HasOne("ExpenseManager.Domain.Categories.Category", null)
+            modelBuilder.Entity("ExpenseManager.Domain.Categories.Category", b =>
+                {
+                    b.HasOne("ExpenseManager.Domain.Users.User", "User")
                         .WithMany()
-                        .HasForeignKey("CategoriesId", "CategoriesUserId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ExpenseManager.Domain.Transactions.Transaction", b =>

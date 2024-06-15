@@ -4,6 +4,7 @@ using ExpenseManager.Application.Common.Interfaces.Persistence;
 using ExpenseManager.Application.Transactions.Common;
 using ExpenseManager.Domain.Categories;
 using ExpenseManager.Domain.Transactions;
+using ExpenseManager.Domain.Users;
 
 namespace ExpenseManager.Application.Transactions.Commands.CreateTransaction;
 
@@ -25,23 +26,22 @@ public class CreateTransactionCommandHandler(
             command.Description,
             command.Amount,
             user.Value,
-            CreateDefaultCategories(user.Value.Id)
+            CreateDefaultCategories(user.Value)
         );
         
         var createdTransaction = await transactionRepository.AddAsync(transaction, cancellationToken);
-        
         if (createdTransaction.IsError)
             return createdTransaction.Errors;
         
         return new TransactionResult(createdTransaction.Value);
     }
-    
-    public static List<Category> CreateDefaultCategories(Guid userId)
+
+    private static List<Category> CreateDefaultCategories(User user)
     {
         return [
-            Category.Create(null, "Food", userId),
-            Category.Create(null, "Food", userId),
-            Category.Create(null, "Food", userId),
+            Category.Create(null, "Food", user),
+            Category.Create(null, "Food", user),
+            Category.Create(null, "Food", user),
         ];
     }
 }
