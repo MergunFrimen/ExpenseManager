@@ -6,7 +6,7 @@ public class ImportCommandValidator : AbstractValidator<ImportCommand>
 {
     public ImportCommandValidator()
     {
-        RuleFor(x => x.Transactions).NotEmpty();
-        RuleFor(x => x.Categories).NotEmpty();
+        RuleFor(x => x.Transactions).NotNull();
+        RuleFor(x => x.Categories).NotNull();
     }
 }

@@ -11,6 +11,7 @@ public static class DependencyInjection
     {
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
         services.AddScoped<IChartsService, ChartsService>();
+        services.AddScoped<IImportService, ImportService>();
 
         return services;
     }

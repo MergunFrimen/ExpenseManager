@@ -17,21 +17,12 @@ public class ImportController(ISender mediatr, IMapper mapper) : ApiController
         if (userId.IsError && userId.FirstError == Errors.Authentication.InvalidCredentials)
             return Problem(statusCode: StatusCodes.Status401Unauthorized,
                 title: userId.FirstError.Description);
-
-        // var options = new JsonSerializerOptions
-        // {
-        //     PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-        // };
-        //
-        // var data = JsonSerializer.Deserialize<ImportRequest>(fileText, options);
-        // if (data is null)
-        //     return Problem(statusCode: StatusCodes.Status400BadRequest, title: "Invalid JSON data");
-
+        
         var command = mapper.Map<ImportCommand>((request, userId.Value));
         var result = await mediatr.Send(command);
 
         return result.Match(
-            value => Ok(mapper.Map<ImportRequest>(value)),
+            value => Ok(mapper.Map<ImportResponse>(value)),
             Problem
         );
     }

@@ -6,6 +6,7 @@ namespace ExpenseManager.Application.Import.Commands;
 
 public record ImportCommand(
     Guid UserId,
+    
     List<TransactionDto> Transactions,
     List<CategoryDto> Categories
 ) : ICommand<ImportResult>;
