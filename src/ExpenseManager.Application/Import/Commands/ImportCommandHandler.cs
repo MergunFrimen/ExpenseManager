@@ -26,7 +26,11 @@ public class ImportCommandHandler(
         // Create categories and transactions
         foreach (var category in command.Categories)
         {
-            var categoryEntity = Category.Create(category.Id, category.Name, user.Value);
+            var categoryEntity = Category.Create(
+                category.Id,
+                category.Name,
+                user.Value
+            );
             var createdCategory = await categoryRepository.AddAsync(categoryEntity, cancellationToken);
             if (createdCategory.IsError)
                 return createdCategory.Errors;
