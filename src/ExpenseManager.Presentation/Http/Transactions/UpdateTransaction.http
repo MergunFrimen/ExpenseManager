@@ -12,7 +12,7 @@ Authorization: Bearer {{token}}
 {
   "description": "Work",
   "amount": 45000,
-   "type": "Income",
+  "type": "Income",
   "categoryIds": [
     "f52bce26-255d-4427-841b-e1d9a82206e9"
   ]

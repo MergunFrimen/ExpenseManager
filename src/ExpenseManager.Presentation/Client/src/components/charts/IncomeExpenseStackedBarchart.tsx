@@ -1,4 +1,16 @@
-import {Bar, BarChart, CartesianGrid, Legend, Rectangle, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis} from 'recharts';
+import {
+    Bar,
+    BarChart,
+    CartesianGrid,
+    Legend,
+    Rectangle,
+    ReferenceLine,
+    ResponsiveContainer,
+    Tooltip,
+    XAxis,
+    YAxis
+} from 'recharts';
+import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card.tsx";
 
 const data = [
     {
@@ -65,28 +77,36 @@ const data = [
 
 export default function IncomeExpenseStackedBarchart() {
     return (
-        <ResponsiveContainer width="100%" height="100%">
-            <BarChart
-                width={500}
-                height={300}
-                data={data}
-                stackOffset="sign"
-                margin={{
-                    top: 5,
-                    right: 30,
-                    left: 20,
-                    bottom: 5,
-                }}
-            >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <ReferenceLine y={0} stroke="#000" />
-                <Bar dataKey="income" fill="#8884d8" stackId="stack" activeBar={<Rectangle fill="pink" stroke="blue" />} />
-                <Bar dataKey="expense" fill="#82ca9d" stackId="stack" activeBar={<Rectangle fill="gold" stroke="purple" />} />
-            </BarChart>
-        </ResponsiveContainer>
+        <Card className="w-full sm:w-[824px] h-[400px]">
+            <CardHeader>
+                <CardTitle>Title</CardTitle>
+            </CardHeader>
+            <CardContent>
+                <ResponsiveContainer width="100%" height={300}>
+                    <BarChart
+                        data={data}
+                        stackOffset="sign"
+                        margin={{
+                            top: 5,
+                            right: 30,
+                            left: 20,
+                            bottom: 5,
+                        }}
+                    >
+                        <CartesianGrid strokeDasharray="3 3"/>
+                        <XAxis dataKey="name"/>
+                        <YAxis/>
+                        <Tooltip/>
+                        <Legend/>
+                        <ReferenceLine y={0} stroke="#000"/>
+                        <Bar dataKey="income" fill="#8884d8" stackId="stack"
+                             activeBar={<Rectangle fill="pink" stroke="blue"/>}/>
+                        <Bar dataKey="expense" fill="#82ca9d" stackId="stack"
+                             activeBar={<Rectangle fill="gold" stroke="purple"/>}/>
+                    </BarChart>
+                </ResponsiveContainer>
+            </CardContent>
+        </Card>
+
     )
 }

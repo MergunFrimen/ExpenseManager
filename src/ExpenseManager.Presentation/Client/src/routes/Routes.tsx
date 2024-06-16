@@ -5,8 +5,6 @@ import Register from "@/routes/Register.tsx";
 import {ProtectedRoute} from "@/routes/ProtectedRoute.tsx";
 import Error from "@/routes/Error.tsx";
 import {useAuth} from "@/components/auth/AuthProvider.tsx";
-import {Logout} from "@/routes/Logout.tsx";
-import {TransactionForm} from "@/components/transactions/TransactionForm.tsx";
 import Stats from "@/routes/Stats.tsx";
 
 export function Routes() {

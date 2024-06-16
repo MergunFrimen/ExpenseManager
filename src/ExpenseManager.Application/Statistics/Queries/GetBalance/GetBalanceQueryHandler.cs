@@ -18,7 +18,7 @@ public class GetBalanceQueryHandler(
         if (transactions.IsError)
             return transactions.Errors;
 
-=        var totalExpenses = transactions.Value
+        var totalExpenses = transactions.Value
             .Where(transaction => transaction.Type == TransactionType.Expense)
             .Select(transaction => transaction.Amount)
             .Sum();

@@ -9,7 +9,7 @@ export function CategoryDonutChart({type, data}: { type: 'expense' | 'income', d
     const title = type === 'expense' ? 'Expense Categories' : 'Income Categories'
 
     return (
-        <Card className="w-[400px] h-[400px]">
+        <Card className="w-full sm:w-[400px] h-[400px]">
             <CardHeader>
                 <CardTitle>{title}</CardTitle>
             </CardHeader>
@@ -24,8 +24,9 @@ export function CategoryDonutChart({type, data}: { type: 'expense' | 'income', d
                             label
                         >
                             {
-                                donutChartData.map((entry, index) => <Cell
-                                    fill={COLORS[(index % COLORS.length) + (Math.floor(index / COLORS.length))]}/>)
+                                donutChartData.map((_, index) =>
+                                    <Cell key={`cell-${index}`}
+                                          fill={COLORS[(index % COLORS.length) + (Math.floor(index / COLORS.length))]}/>)
                             }
                         </Pie>
                         <Legend/>

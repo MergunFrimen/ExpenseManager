@@ -33,11 +33,14 @@ export function Balance() {
     return (
         <div className={"grid grid-cols-2 grid-rows-3 w-[280px]"}>
             <span className={"scroll-m-20 text-xl font-semibold tracking-tight text-[]"}>Total balance:</span>
-            <span className={"scroll-m-20 text-xl font-semibold tracking-tight text-right text-[#0088FE]"}>{totalBalance} CZK</span>
+            <span
+                className={"scroll-m-20 text-xl font-semibold tracking-tight text-right text-[#0088FE]"}>{totalBalance} CZK</span>
             <span className={"scroll-m-20 text-xl font-semibold tracking-tight text-[]"}>Total income:</span>
-            <span className={"scroll-m-20 text-xl font-semibold tracking-tight text-right text-[#00C49F]"}>{totalIncome} CZK</span>
+            <span
+                className={"scroll-m-20 text-xl font-semibold tracking-tight text-right text-[#00C49F]"}>{totalIncome} CZK</span>
             <span className={"scroll-m-20 text-xl font-semibold tracking-tight text-[]"}>Total expenses:</span>
-            <span className={"scroll-m-20 text-xl font-semibold tracking-tight text-right text-[#F2545B]"}>{totalExpenses} CZK</span>
+            <span
+                className={"scroll-m-20 text-xl font-semibold tracking-tight text-right text-[#F2545B]"}>{totalExpenses} CZK</span>
         </div>
     )
 }

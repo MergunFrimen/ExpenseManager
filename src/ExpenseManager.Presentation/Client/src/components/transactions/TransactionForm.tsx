@@ -17,9 +17,9 @@ import {
 import {Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList} from "@/components/ui/command.tsx";
 import useSWR from 'swr'
 import {TransactionDto} from "@/models/transactions/TransactionDto.ts";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import {z} from "zod";
+import {useForm} from "react-hook-form";
+import {zodResolver} from "@hookform/resolvers/zod";
 
 const schema = z.object({
     description: z.string().max(150),
@@ -29,7 +29,7 @@ const schema = z.object({
     categoryIds: z.array(z.string())
 });
 
-async function postRequest(url: string, { arg }: { arg: TransactionDto }) {
+async function postRequest(url: string, {arg}: { arg: TransactionDto }) {
     return fetch(url, {
         method: 'POST',
         body: JSON.stringify(arg)
@@ -41,7 +41,7 @@ export function TransactionForm() {
         resolver: zodResolver(schema),
     })
 
-    const { data, trigger: createTransaction, isMutating: isCreating } = useSWR('/api/v1/transactions', postRequest)
+    const {data, trigger: createTransaction, isMutating: isCreating} = useSWR('/api/v1/transactions', postRequest)
 
     return (
         <BaseLayout>
@@ -163,8 +163,7 @@ export function TransactionForm() {
                                         "amount": 50.00,
                                         "type": "Expense",
                                         "date": 1718471967,
-                                        "categoryIds": [
-                                        ]
+                                        "categoryIds": []
                                     }
                                     const result = await createTransaction(transactionDto)
                                     console.log(result)

@@ -2,6 +2,7 @@ import BaseLayout from "@/layouts/BaseLayout.tsx";
 import {CategoryDonutChart} from "@/components/charts/CategoryDonutChart.tsx";
 import useSWR from "swr";
 import {Balance} from "@/components/charts/Balance.tsx";
+import IncomeExpenseStackedBarchart from "@/components/charts/IncomeExpenseStackedBarchart.tsx";
 
 const fetcher = (url: string) => fetch(url, {
     method: "GET",
@@ -36,8 +37,10 @@ export default function Stats() {
                     <div className={"flex justify-center gap-6 flex-row grow pt-10 flex-wrap"}>
                         <CategoryDonutChart type={"expense"} data={data}/>
                         <CategoryDonutChart type={"income"} data={data}/>
-                        {/*<IncomeExpenseStackedBarchart/>*/}
                     </div>
+                    {/*<div className={"w-full pt-6"}>*/}
+                    {/*    <IncomeExpenseStackedBarchart/>*/}
+                    {/*</div>*/}
                 </div>
             </div>
         </BaseLayout>

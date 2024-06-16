@@ -15,7 +15,7 @@ public class StatisticsMappingConfig : IRegister
 
         config.NewConfig<GetBalanceResult, GetBalanceResponse>()
             .Map(dest => dest, src => src);
-        
+
         config.NewConfig<ChartsResult, ChartsResponse>()
             .Map(dest => dest, src => src);
     }

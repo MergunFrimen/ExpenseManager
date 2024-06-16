@@ -1,4 +1,3 @@
-using ErrorOr;
 using ExpenseManager.Application.Common.Interfaces.Services;
 using ExpenseManager.Application.Statistics.Common;
 using ExpenseManager.Domain.Transactions.ValueObjects;
@@ -20,19 +19,11 @@ public class ChartsService(ExpenseManagerDbContext dbContext) : IChartsService
         var categories = new Dictionary<string, decimal>();
 
         foreach (var transaction in transactions)
-        {
-            foreach (var category in transaction.Categories)
-            {
-                if (categories.ContainsKey(category.Name))
-                {
-                    categories[category.Name] += transaction.Amount;
-                }
-                else
-                {
-                    categories.Add(category.Name, transaction.Amount);
-                }
-            }
-        }
+        foreach (var category in transaction.Categories)
+            if (categories.ContainsKey(category.Name))
+                categories[category.Name] += transaction.Amount;
+            else
+                categories.Add(category.Name, transaction.Amount);
 
         return categories.Select(category => new CategoryTotal(category.Key, category.Value)).ToList();
     }
