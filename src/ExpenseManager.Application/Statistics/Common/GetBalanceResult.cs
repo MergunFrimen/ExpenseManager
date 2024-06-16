@@ -1,5 +1,5 @@
 namespace ExpenseManager.Application.Statistics.Common;
 
-public sealed record BalanceResult(
+public sealed record GetBalanceResult(
     decimal TotalBalance
 );
