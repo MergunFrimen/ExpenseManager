@@ -8,11 +8,11 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "description": "Grade average stipendium",
-  "amount": 12000.00,
-  "type": "Income",
+  "description": "Movie with friends",
+  "amount": 200.00,
+  "type": "Expense",
   "date": 1718471967,
   "categoryIds": [
-    "731ef8ce-3f28-4e52-a8f1-23b6e483c186"
+    "d1df5ae3-233c-422b-a951-2e355be8af77"
   ]
 }
