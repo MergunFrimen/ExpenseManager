@@ -17,7 +17,7 @@ public class ImportCommandHandler(
     {
         var amountTransactionAdded = 0;
         var amountCategoryAdded = 0;
-        
+
         // Get user
         var user = await userRepository.GetByIdAsync(command.UserId, cancellationToken);
         if (user.IsError)
@@ -30,7 +30,7 @@ public class ImportCommandHandler(
             var createdCategory = await categoryRepository.AddAsync(categoryEntity, cancellationToken);
             if (createdCategory.IsError)
                 return createdCategory.Errors;
-            
+
             amountCategoryAdded++;
         }
 
@@ -55,7 +55,7 @@ public class ImportCommandHandler(
             var createdTransaction = await transactionRepository.AddAsync(transactionEntity, cancellationToken);
             if (createdTransaction.IsError)
                 return createdTransaction.Errors;
-            
+
             amountTransactionAdded++;
         }
 

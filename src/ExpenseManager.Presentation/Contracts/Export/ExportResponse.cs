@@ -1,5 +1,3 @@
-using ExpenseManager.Domain.Transactions;
-
 namespace ExpenseManager.Presentation.Contracts.Export;
 
 public sealed record ExportResponse(

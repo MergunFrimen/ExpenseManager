@@ -1,0 +1,96 @@
+@host = http://localhost:5222
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0NzlmMjkzZi1iY2Y3LTRmMDgtOThkOC1jNjk3Y2FkZTZkM2UiLCJnaXZlbl9uYW1lIjoiRG9taW5payIsImZhbWlseV9uYW1lIjoiVGljaHkiLCJqdGkiOiJjNWVjMWJiMi0wZTg1LTQxZDMtODI5Yy0zZTZkZGQ1MzBjM2IiLCJpc3MiOiJFeHBlbnNlTWFuYWdlciIsImF1ZCI6IkV4cGVuc2VNYW5hZ2VyIiwiZXhwIjoxNzE4ODQ0MzMzfQ.KX20Dz1q1ghopNcZT0_EeH1i35wl1-zuw9u5tv1r32s
+
+###
+
+POST {{host}}/api/v1/import
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "transactions": [
+    {
+      "id": "3323cb5c-2ea4-4ec7-8e78-7074dd66ba76",
+      "description": "TEST SUCCESS 2",
+      "amount": 321,
+      "type": "Income",
+      "date": "0",
+      "categories": [
+        {
+          "id": "d1df5ae3-233c-422b-a951-2e355be8af76",
+          "name": "Food"
+        }
+      ]
+    },
+    {
+      "id": "6b4df6cb-39b7-4fa0-bf85-0c22a8b52b97",
+      "description": "test",
+      "amount": 50.00,
+      "type": "Income",
+      "date": null,
+      "categories": []
+    },
+    {
+      "id": "709abe7a-b34a-4fdb-a901-47bbe9daa9c0",
+      "description": "test",
+      "amount": 50.00,
+      "type": "Income",
+      "date": "1718471967",
+      "categories": []
+    },
+    {
+      "id": "765fb894-02ae-4706-b779-5913532b3378",
+      "description": "test",
+      "amount": 50.00,
+      "type": "Expense",
+      "date": "1718471967",
+      "categories": []
+    },
+    {
+      "id": "78813d99-e563-455c-b2ab-b064094162c7",
+      "description": "test",
+      "amount": 50.00,
+      "type": "Income",
+      "date": "1718471967",
+      "categories": []
+    },
+    {
+      "id": "9a0e57d6-fa89-487a-87c2-4855e1bf030a",
+      "description": "test",
+      "amount": 50.00,
+      "type": "Income",
+      "date": null,
+      "categories": []
+    },
+    {
+      "id": "c227cbe4-7d91-4d56-8e41-491d88ec32e6",
+      "description": "test",
+      "amount": 50.00,
+      "type": "Income",
+      "date": "1718471967",
+      "categories": []
+    },
+    {
+      "id": "fda1a2be-b971-4e21-aaa0-27358d5b49ba",
+      "description": "test",
+      "amount": 50.00,
+      "type": "Income",
+      "date": "1718471967",
+      "categories": []
+    }
+  ],
+  "categories": [
+    {
+      "id": "d1df5ae3-233c-422b-a951-2e355be8af76",
+      "name": "Food"
+    },
+    {
+      "id": "940ca767-35f1-4daf-bf45-901f4a1364e7",
+      "name": "Transport"
+    },
+    {
+      "id": "e15f41e7-4dde-4450-8782-e2db880b4c95",
+      "name": "TEST 1234"
+    }
+  ]
+}

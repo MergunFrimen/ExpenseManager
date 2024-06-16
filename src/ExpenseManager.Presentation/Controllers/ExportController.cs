@@ -1,12 +1,5 @@
-using ExpenseManager.Application.Categories.Commands.CreateCategory;
-using ExpenseManager.Application.Categories.Commands.RemoveCategories;
-using ExpenseManager.Application.Categories.Commands.UpdateCategory;
-using ExpenseManager.Application.Categories.Queries.GetCategory;
-using ExpenseManager.Application.Categories.Queries.SearchCategories;
-using ExpenseManager.Application.Export.Common;
 using ExpenseManager.Application.Export.Queries;
 using ExpenseManager.Domain.Common.Errors;
-using ExpenseManager.Presentation.Contracts.Categories;
 using ExpenseManager.Presentation.Contracts.Export;
 using MapsterMapper;
 using MediatR;

@@ -12,7 +12,7 @@ Authorization: Bearer {{token}}
 {
   "description": "test",
   "amount": 50.00,
-   "type": "Expense",
+  "type": "Expense",
   "date": 1718471967,
   "categoryIds": [
   ]

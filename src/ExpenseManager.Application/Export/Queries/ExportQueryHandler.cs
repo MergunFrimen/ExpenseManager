@@ -2,10 +2,6 @@ using ErrorOr;
 using ExpenseManager.Application.Common.Interfaces.Cqrs;
 using ExpenseManager.Application.Common.Interfaces.Persistence;
 using ExpenseManager.Application.Export.Common;
-using ExpenseManager.Application.Transactions.Commands.CreateTransaction;
-using ExpenseManager.Application.Transactions.Common;
-using ExpenseManager.Domain.Common.Errors;
-using ExpenseManager.Domain.Transactions;
 
 namespace ExpenseManager.Application.Export.Queries;
 
@@ -28,7 +24,7 @@ public class ExportQueryHandler(
         if (transactions.IsError)
             return transactions.Errors;
 
-        
+
         // Get categories
         var categories = await categoryRepository.FindAsync(
             category => category.User.Id == query.UserId, cancellationToken);

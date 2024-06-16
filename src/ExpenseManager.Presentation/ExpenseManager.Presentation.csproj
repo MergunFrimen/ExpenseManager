@@ -25,9 +25,4 @@
         </PackageReference>
     </ItemGroup>
 
-    <ItemGroup>
-        <Folder Include="Contracts\DataTransfer\" />
-        <Folder Include="Http\Import\"/>
-    </ItemGroup>
-
 </Project>
