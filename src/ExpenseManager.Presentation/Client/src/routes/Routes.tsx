@@ -7,6 +7,7 @@ import Error from "@/routes/Error.tsx";
 import {useAuth} from "@/components/auth/AuthProvider.tsx";
 import {Logout} from "@/routes/Logout.tsx";
 import {TransactionForm} from "@/components/transactions/TransactionForm.tsx";
+import Stats from "@/routes/Stats.tsx";
 
 export function Routes() {
     const {token} = useAuth();
@@ -33,26 +34,30 @@ export function Routes() {
             element: <ProtectedRoute/>,
             errorElement: <Error/>,
             children: [
+                // {
+                //     path: "logout",
+                //     element: <Logout/>,
+                // },
                 {
-                    path: "logout",
-                    element: <Logout/>,
-                },
-                {
-                    path: "createTransaction",
-                    element: <TransactionForm type={"create"}/>,
-                },
-                {
-                    path: "updateTransaction/:id",
-                    element: <TransactionForm type={"update"}/>,
-                },
-                {
-                    path: "createCategory",
-                    element: <>createCategory</>,
-                },
-                {
-                    path: "updateCategory/:id",
-                    element: <>editCategory</>,
+                    path: "stats",
+                    element: <Stats/>,
                 }
+                // {
+                //     path: "createTransaction",
+                //     element: <TransactionForm/>,
+                // },
+                // {
+                //     path: "updateTransaction/:id",
+                //     element: <TransactionForm/>,
+                // },
+                // {
+                //     path: "createCategory",
+                //     element: <>createCategory</>,
+                // },
+                // {
+                //     path: "updateCategory/:id",
+                //     element: <>editCategory</>,
+                // }
             ],
         },
     ];

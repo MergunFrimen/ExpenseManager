@@ -6,14 +6,15 @@ export const ProtectedRoute = () => {
     const {token} = useAuth();
     const location = useLocation();
 
+    // TODO: reenable when done
     // If the user is not authenticated, redirect to the login page
-    if (!token) {
-        return <Navigate to="/login"/>;
-    }
-
-    if (location.pathname === '/app') {
-        return <Dashboard/>
-    }
+    // if (!token) {
+    //     return <Navigate to="/login"/>;
+    // }
+    //
+    // if (location.pathname === '/app') {
+    //     return <Dashboard/>
+    // }
 
     return <Outlet/>
 };

@@ -22,7 +22,7 @@ export default function Stats() {
 
     return (
         <BaseLayout>
-            <div className="flex flex-col items-center size-full space-y-6">
+            <div className="container flex flex-col items-center size-full space-y-6">
                 <div className={"flex flex-col items-center"}>
                     <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
                         Statistics
@@ -33,7 +33,7 @@ export default function Stats() {
                     <div className={"w-full pt-10"}>
                         <Balance/>
                     </div>
-                    <div className={"flex justify-center gap-6 flex-row grow pt-10"}>
+                    <div className={"flex justify-center gap-6 flex-row grow pt-10 flex-wrap"}>
                         <CategoryDonutChart type={"expense"} data={data}/>
                         <CategoryDonutChart type={"income"} data={data}/>
                         {/*<IncomeExpenseStackedBarchart/>*/}
@@ -41,6 +41,5 @@ export default function Stats() {
                 </div>
             </div>
         </BaseLayout>
-
     )
 }

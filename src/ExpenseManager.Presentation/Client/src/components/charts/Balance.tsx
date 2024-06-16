@@ -22,9 +22,13 @@ export function Balance() {
 
     if (!data) return <div>No data</div>;
 
-    const totalBalance = data['totalBalance']
-    const totalExpenses = data['totalExpenses']
-    const totalIncome = data['totalIncome']
+    function numberWithCommas(number: number) {
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    const totalBalance = numberWithCommas(data['totalBalance']);
+    const totalExpenses = numberWithCommas(data['totalExpenses']);
+    const totalIncome = numberWithCommas(data['totalIncome']);
 
     return (
         <div className={"grid grid-cols-2 grid-rows-3 w-[280px]"}>
