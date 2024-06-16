@@ -8,11 +8,11 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "description": "Movie with friends",
-  "amount": 200.00,
+  "description": "Coffee",
+  "amount": 50.00,
   "type": "Expense",
   "date": 1718471967,
   "categoryIds": [
-    "d1df5ae3-233c-422b-a951-2e355be8af77"
+    "d1df5ae3-233c-422b-a951-2e355be8af76"
   ]
 }

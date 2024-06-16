@@ -10,7 +10,11 @@ import {
     XAxis,
     YAxis
 } from 'recharts';
-import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card.tsx";
+import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card.tsx";
+import {RadioGroup, RadioGroupItem} from '../ui/radio-group';
+import {Label} from "@/components/ui/label.tsx";
+import {useTheme} from "@/components/theme/ThemeProvider.tsx";
+import {useEffect} from 'react';
 
 const data = [
     {
@@ -76,11 +80,18 @@ const data = [
 ];
 
 export default function IncomeExpenseStackedBarchart() {
+    const {theme} = useTheme();
+
+    const fillColor = theme === "light" ? "hsl(240 4.8% 95.9%)" : "hsl(240 3.7% 15.9%)";
+
     return (
-        <Card className="w-full sm:w-[824px] h-[400px]">
+        <Card className="w-full sm:w-[824px] h-[800px]">
             <CardHeader>
                 <CardTitle>Title</CardTitle>
             </CardHeader>
+            <CardDescription>
+                Description
+            </CardDescription>
             <CardContent>
                 <ResponsiveContainer width="100%" height={300}>
                     <BarChart
@@ -96,17 +107,48 @@ export default function IncomeExpenseStackedBarchart() {
                         <CartesianGrid strokeDasharray="3 3"/>
                         <XAxis dataKey="name"/>
                         <YAxis/>
-                        <Tooltip/>
+                        <Tooltip cursor={{fill: fillColor}} content={<CustomTooltip/>}/>
                         <Legend/>
                         <ReferenceLine y={0} stroke="#000"/>
                         <Bar dataKey="income" fill="#8884d8" stackId="stack"
-                             activeBar={<Rectangle fill="pink" stroke="blue"/>}/>
+                            // activeBar={<Rectangle fill="pink" stroke="blue"/>}
+                        />
                         <Bar dataKey="expense" fill="#82ca9d" stackId="stack"
-                             activeBar={<Rectangle fill="gold" stroke="purple"/>}/>
+                            // activeBar={<Rectangle fill="gold" stroke="purple"/>}
+                        />
                     </BarChart>
                 </ResponsiveContainer>
+                <CardFooter>
+                    <RadioGroup defaultValue="comfortable">
+                        <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="default" id="r1"/>
+                            <Label htmlFor="r1">This week</Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="comfortable" id="r2"/>
+                            <Label htmlFor="r2">This month</Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="compact" id="r3"/>
+                            <Label htmlFor="r3">This year</Label>
+                        </div>
+                    </RadioGroup>
+                </CardFooter>
             </CardContent>
         </Card>
 
     )
 }
+
+function CustomTooltip({active, payload, label}) {
+    if (active && payload && payload.length) {
+        return (
+            <div className="custom-tooltip bg-background p-3 rounded-md">
+                <p className="label">{`Income : ${payload[0].value}`}</p>
+                <p className="label">{`Expense : ${payload[1].value}`}</p>
+            </div>
+        );
+    }
+
+    return null;
+};
