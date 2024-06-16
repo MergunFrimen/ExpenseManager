@@ -29,7 +29,7 @@ public static class RuleBuilderExtensions
         var options = ruleBuilder
             .NotEmpty()
             .MaximumLength(Category.NameMaxLength)
-            .Matches("[a-zA-Z0-9 ]").WithMessage("Category name must be alphanumeric.");
+            .Matches("[a-zA-Z0-9 ]").WithMessage("Name name must be alphanumeric.");
     }
 
     public static void TransactionType<T>(this IRuleBuilder<T, TransactionType> ruleBuilder)

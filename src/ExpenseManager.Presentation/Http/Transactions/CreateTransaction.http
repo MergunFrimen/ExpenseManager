@@ -3,17 +3,16 @@
 
 ###
 
-@categoryId1 = e15f41e7-4dde-4450-8782-e2db880b4c95
-
 POST {{host}}/api/v1/transactions
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "description": "test",
-  "amount": 50.00,
-  "type": "Expense",
+  "description": "Grade average stipendium",
+  "amount": 12000.00,
+  "type": "Income",
   "date": 1718471967,
   "categoryIds": [
+    "731ef8ce-3f28-4e52-a8f1-23b6e483c186"
   ]
 }

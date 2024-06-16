@@ -12,7 +12,7 @@ public class ImportMappingConfig : IRegister
         config.NewConfig<(ImportRequest Request, Guid UserId), ImportCommand>()
             .Map(dest => dest.UserId, src => src.UserId)
             .Map(dest => dest, src => src.Request);
-        
+
         config.NewConfig<ImportResult, ImportResponse>()
             .Map(dest => dest, src => src);
     }

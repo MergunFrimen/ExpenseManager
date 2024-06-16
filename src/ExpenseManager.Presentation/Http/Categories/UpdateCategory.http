@@ -3,7 +3,7 @@
 
 ###
 
-@id = 29a9a971-1f7b-4de6-9be4-5651facf4c06
+@id = 3323cb5c-2ea4-4ec7-8e78-7074dd66ba76
 
 PUT {{host}}/api/v1/categories/{{id}}
 Content-Type: application/json

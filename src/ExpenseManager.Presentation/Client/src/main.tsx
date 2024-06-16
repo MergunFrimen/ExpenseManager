@@ -3,7 +3,7 @@ import React from "react";
 import './index.css'
 import {ThemeProvider} from "@/components/theme/ThemeProvider.tsx";
 import {AuthProvider} from './components/auth/AuthProvider';
-import {TransactionForm} from "@/components/transactions/TransactionForm.tsx";
+import Stats from "@/routes/Stats.tsx";
 
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement,
@@ -13,8 +13,7 @@ root.render(
     <React.StrictMode>
         <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
             <AuthProvider>
-                {/*<Routes/>*/}
-                <TransactionForm type={"create"}/>
+                <Stats/>
             </AuthProvider>
         </ThemeProvider>
     </React.StrictMode>

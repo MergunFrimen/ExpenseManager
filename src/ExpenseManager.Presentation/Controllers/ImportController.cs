@@ -17,7 +17,7 @@ public class ImportController(ISender mediatr, IMapper mapper) : ApiController
         if (userId.IsError && userId.FirstError == Errors.Authentication.InvalidCredentials)
             return Problem(statusCode: StatusCodes.Status401Unauthorized,
                 title: userId.FirstError.Description);
-        
+
         var command = mapper.Map<ImportCommand>((request, userId.Value));
         var result = await mediatr.Send(command);
 

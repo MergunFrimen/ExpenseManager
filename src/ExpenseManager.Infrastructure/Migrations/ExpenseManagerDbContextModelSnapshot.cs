@@ -37,7 +37,7 @@ namespace ExpenseManager.Infrastructure.Migrations
                     b.ToTable("CategoryTransaction");
                 });
 
-            modelBuilder.Entity("ExpenseManager.Domain.Categories.Category", b =>
+            modelBuilder.Entity("ExpenseManager.Domain.Categories.Name", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
@@ -117,7 +117,7 @@ namespace ExpenseManager.Infrastructure.Migrations
 
             modelBuilder.Entity("CategoryTransaction", b =>
                 {
-                    b.HasOne("ExpenseManager.Domain.Categories.Category", null)
+                    b.HasOne("ExpenseManager.Domain.Categories.Name", null)
                         .WithMany()
                         .HasForeignKey("CategoriesId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -130,7 +130,7 @@ namespace ExpenseManager.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ExpenseManager.Domain.Categories.Category", b =>
+            modelBuilder.Entity("ExpenseManager.Domain.Categories.Name", b =>
                 {
                     b.HasOne("ExpenseManager.Domain.Users.User", "User")
                         .WithMany()

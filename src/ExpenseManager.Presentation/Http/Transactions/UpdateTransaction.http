@@ -4,17 +4,16 @@
 ###
 
 @transactionId = 3323cb5c-2ea4-4ec7-8e78-7074dd66ba76
-@categoryId1 = d1df5ae3-233c-422b-a951-2e355be8af76
 
 PUT {{host}}/api/v1/transactions/{{transactionId}}
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "description": "TEST SUCCESS 2",
-  "amount": 321,
+  "description": "Work",
+  "amount": 45000,
    "type": "Income",
   "categoryIds": [
-    "{{categoryId1}}"
+    "f52bce26-255d-4427-841b-e1d9a82206e9"
   ]
 }

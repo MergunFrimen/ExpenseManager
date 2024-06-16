@@ -2,6 +2,7 @@ using ErrorOr;
 using ExpenseManager.Application.Common.Interfaces.Cqrs;
 using ExpenseManager.Application.Common.Interfaces.Services;
 using ExpenseManager.Application.Statistics.Common;
+using ExpenseManager.Domain.Transactions.ValueObjects;
 
 namespace ExpenseManager.Application.Statistics.Queries.GetCharts;
 
@@ -11,15 +12,11 @@ public class GetChartsQueryHandler(
 {
     public async Task<ErrorOr<ChartsResult>> Handle(GetChartsQuery query, CancellationToken cancellationToken)
     {
-        var from = query.From ?? DateTime.MinValue;
-        var to = query.To ?? DateTime.MaxValue;
+        var expenseCategoryDonutChart =
+            await chartsService.CalculateCategoryDonutChart(query.UserId, TransactionType.Expense, cancellationToken);
+        var incomeCategoryDonutChart =
+            await chartsService.CalculateCategoryDonutChart(query.UserId, TransactionType.Income, cancellationToken);
 
-        var categoryDonutCharts =
-            await chartsService.CalculateCategoryDonutChart(query.UserId, from, to, cancellationToken);
-
-        return categoryDonutCharts.Match(
-            value => new ChartsResult(value),
-            ErrorOr<ChartsResult>.From
-        );
+        return new ChartsResult(expenseCategoryDonutChart, incomeCategoryDonutChart);
     }
 }

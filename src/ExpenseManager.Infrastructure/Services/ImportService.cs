@@ -1,5 +1,4 @@
 using ErrorOr;
-using ExpenseManager.Application.Common.Interfaces.Persistence;
 using ExpenseManager.Application.Common.Interfaces.Services;
 using ExpenseManager.Application.Import.Commands;
 using ExpenseManager.Application.Import.Common;
@@ -63,7 +62,7 @@ public class ImportService(
 
                 amountCategoryAdded++;
             }
-            
+
             foreach (var transaction in command.Transactions)
             {
                 List<Category> categories = [];

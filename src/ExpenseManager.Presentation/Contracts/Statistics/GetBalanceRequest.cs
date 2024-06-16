@@ -1,3 +1,3 @@
 namespace ExpenseManager.Presentation.Contracts.Statistics;
 
-public sealed record GetBalanceRequest();
+public sealed record GetBalanceRequest;

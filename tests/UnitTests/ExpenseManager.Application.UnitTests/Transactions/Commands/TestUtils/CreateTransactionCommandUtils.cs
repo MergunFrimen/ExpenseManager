@@ -6,7 +6,7 @@ public static class CreateTransactionCommandUtils
     // {
     //     return new CreateTransactionCommand(
     //         Constants.Transaction.Id,
-    //         new[] { Constants.Category.Id },
+    //         new[] { Constants.Name.Id },
     //         Constants.Transaction.Type,
     //         Constants.Transaction.Description,
     //         Constants.Transaction.Amount,

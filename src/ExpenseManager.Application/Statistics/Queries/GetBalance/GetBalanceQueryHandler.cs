@@ -2,6 +2,7 @@ using ErrorOr;
 using ExpenseManager.Application.Common.Interfaces.Cqrs;
 using ExpenseManager.Application.Common.Interfaces.Persistence;
 using ExpenseManager.Application.Statistics.Common;
+using ExpenseManager.Domain.Transactions.ValueObjects;
 
 namespace ExpenseManager.Application.Statistics.Queries.GetBalance;
 
@@ -20,7 +21,15 @@ public class GetBalanceQueryHandler(
         var totalBalance = transactions.Value
             .Select(transaction => transaction.Amount)
             .Sum();
+        var totalExpenses = transactions.Value
+            .Where(transaction => transaction.Type == TransactionType.Expense)
+            .Select(transaction => transaction.Amount)
+            .Sum();
+        var totalIncome = transactions.Value
+            .Where(transaction => transaction.Type == TransactionType.Income)
+            .Select(transaction => transaction.Amount)
+            .Sum();
 
-        return new GetBalanceResult(totalBalance);
+        return new GetBalanceResult(totalBalance, totalExpenses, totalIncome);
     }
 }

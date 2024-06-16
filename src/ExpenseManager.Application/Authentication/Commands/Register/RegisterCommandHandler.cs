@@ -57,11 +57,11 @@ public class RegisterCommandHandler(
         [
             Category.Create(null, "Food", user),
             Category.Create(null, "Transport", user)
-            // Category.Create(null, "Entertainment", user),
-            // Category.Create(null, "Health", user),
-            // Category.Create(null, "Clothing", user),
-            // Category.Create(null, "Rent", user),
-            // Category.Create(null, "Other", user)
+            // Name.Create(null, "Entertainment", user),
+            // Name.Create(null, "Health", user),
+            // Name.Create(null, "Clothing", user),
+            // Name.Create(null, "Rent", user),
+            // Name.Create(null, "Other", user)
         ];
 
         foreach (var category in categories) await categoryRepository.AddAsync(category, cancellationToken);

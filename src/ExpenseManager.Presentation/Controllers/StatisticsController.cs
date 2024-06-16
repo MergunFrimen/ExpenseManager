@@ -12,14 +12,14 @@ namespace ExpenseManager.Presentation.Controllers;
 public class StatisticsController(ISender mediatr, IMapper mapper) : ApiController
 {
     [HttpGet("balance")]
-    public async Task<IActionResult> GetBalance(GetBalanceRequest request)
+    public async Task<IActionResult> GetBalance()
     {
         var userId = GetUserId();
         if (userId.IsError && userId.FirstError == Errors.Authentication.InvalidCredentials)
             return Problem(statusCode: StatusCodes.Status401Unauthorized,
                 title: userId.FirstError.Description);
 
-        var query = mapper.Map<GetBalanceQuery>((request, userId.Value));
+        var query = new GetBalanceQuery(userId.Value);
         var result = await mediatr.Send(query);
 
         return result.Match(
@@ -29,14 +29,14 @@ public class StatisticsController(ISender mediatr, IMapper mapper) : ApiControll
     }
 
     [HttpGet("charts")]
-    public async Task<IActionResult> GetCharts(string from, string to)
+    public async Task<IActionResult> GetCharts()
     {
         var userId = GetUserId();
         if (userId.IsError && userId.FirstError == Errors.Authentication.InvalidCredentials)
             return Problem(statusCode: StatusCodes.Status401Unauthorized,
                 title: userId.FirstError.Description);
 
-        var query = mapper.Map<GetChartsQuery>((userId.Value, from, to));
+        var query = new GetChartsQuery(userId.Value);
         var result = await mediatr.Send(query);
 
         return result.Match(
@@ -45,4 +45,3 @@ public class StatisticsController(ISender mediatr, IMapper mapper) : ApiControll
         );
     }
 }
-

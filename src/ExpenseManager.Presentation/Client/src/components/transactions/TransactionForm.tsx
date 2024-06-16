@@ -1,4 +1,3 @@
-import React from "react";
 import {Label} from "@/components/ui/label.tsx";
 import {Input} from "@/components/ui/input.tsx";
 import {Button} from "@/components/ui/button.tsx";
@@ -16,23 +15,37 @@ import {
     DialogTrigger
 } from "@/components/ui/dialog.tsx";
 import {Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList} from "@/components/ui/command.tsx";
+import useSWR from 'swr'
+import {TransactionDto} from "@/models/transactions/TransactionDto.ts";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const schema = z.object({
+    description: z.string().max(150),
+    amount: z.number().min(0.01),
+    type: z.enum(["Expense", "Income"]),
+    data: z.date(),
+    categoryIds: z.array(z.string())
+});
+
+async function postRequest(url: string, { arg }: { arg: TransactionDto }) {
+    return fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(arg)
+    }).then(res => res.json())
+}
 
 export function TransactionForm() {
-    const [open, setOpen] = React.useState(false)
-    const [written, setWritten] = React.useState("")
-    const [value, setValue] = React.useState("")
-    const categories = [
-        {value: "food", label: "Food"},
-        {value: "transport", label: "Transport"},
-        {value: "entertainment", label: "Entertainment"},
-        {value: "health", label: "Health"},
-        {value: "education", label: "Education"},
-        {value: "other", label: "Other"},
-    ];
+    const form = useForm<z.infer<typeof schema>>({
+        resolver: zodResolver(schema),
+    })
+
+    const { data, trigger: createTransaction, isMutating: isCreating } = useSWR('/api/v1/transactions', postRequest)
 
     return (
         <BaseLayout>
-            <Dialog>
+            <Dialog open={true}>
                 <DialogTrigger asChild>
                     <Button className="w-fit" variant="outline">Add new expense</Button>
                 </DialogTrigger>
@@ -140,7 +153,26 @@ export function TransactionForm() {
                         </Popover>
                     </div>
                     <DialogFooter>
-                        <Button type="submit" className="w-full">
+                        <Button
+                            disabled={isCreating}
+                            onClick={async () => {
+                                try {
+                                    const transactionDto: TransactionDto = {
+                                        "id": "",
+                                        "description": "test",
+                                        "amount": 50.00,
+                                        "type": "Expense",
+                                        "date": 1718471967,
+                                        "categoryIds": [
+                                        ]
+                                    }
+                                    const result = await createTransaction(transactionDto)
+                                    console.log(result)
+                                } catch (e) {
+                                    // error handling
+                                }
+                            }}
+                            type="submit" className="w-full">
                             Add expense
                         </Button>
                     </DialogFooter>
