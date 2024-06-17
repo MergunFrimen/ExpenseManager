@@ -3,7 +3,6 @@ import {
     BarChart,
     CartesianGrid,
     Legend,
-    Rectangle,
     ReferenceLine,
     ResponsiveContainer,
     Tooltip,
@@ -14,7 +13,6 @@ import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} f
 import {RadioGroup, RadioGroupItem} from '../ui/radio-group';
 import {Label} from "@/components/ui/label.tsx";
 import {useTheme} from "@/components/theme/ThemeProvider.tsx";
-import {useEffect} from 'react';
 
 const data = [
     {
@@ -151,4 +149,4 @@ function CustomTooltip({active, payload, label}) {
     }
 
     return null;
-};
+}

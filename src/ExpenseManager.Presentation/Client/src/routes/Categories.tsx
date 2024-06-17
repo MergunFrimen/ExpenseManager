@@ -4,21 +4,21 @@ import {Button} from "@/components/ui/button";
 import {z} from "zod";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
+import {Form, FormControl, FormField, FormItem, FormMessage} from "@/components/ui/form";
 import {toast, useToast} from "@/components/ui/use-toast.ts";
 import {useEffect, useState} from "react";
-import {CircleXIcon, EllipsisVerticalIcon, Pencil, SearchIcon, Trash2} from "lucide-react";
+import {CircleXIcon, Pencil, SearchIcon, Trash2} from "lucide-react";
 import {Input} from "@/components/ui/input";
 import {CategoryDto} from "@/models/categories/CategoryDto.ts";
 import {
     Dialog,
     DialogContent,
-    DialogDescription, DialogFooter,
+    DialogDescription,
+    DialogFooter,
     DialogHeader,
     DialogTitle,
     DialogTrigger
 } from "@/components/ui/dialog.tsx";
-import {transactionsApiConnector} from "@/api/transactionsApiConnector.ts";
 import {ScrollArea} from "@/components/ui/scroll-area.tsx";
 import {mutate} from "swr";
 

@@ -1,8 +1,7 @@
 import {useEffect, useState} from "react";
 import useSWRMutation from 'swr/mutation'
-import {DropdownMenuItem} from "@/components/ui/dropdown-menu.tsx";
 import {UploadIcon} from "lucide-react";
-import { Button } from "../ui/button";
+import {DropdownMenuItem} from "@/components/ui/dropdown-menu.tsx";
 
 const fetcher = (url: string) => fetch(url, {
     method: "GET",
@@ -41,9 +40,8 @@ export function Export() {
         }
     }, [downloadUrl]);
 
-    return <Button onClick={() => trigger()} disabled={isMutating}>
+    return <DropdownMenuItem className={''} onClick={() => trigger()} disabled={isMutating}>
         <UploadIcon className="mr-2 h-4 w-4"/>
         {isMutating ? "Loading..." : "Export"}
-    </Button>
-
+    </DropdownMenuItem>
 }

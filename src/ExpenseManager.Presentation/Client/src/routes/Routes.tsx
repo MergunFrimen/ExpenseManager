@@ -7,6 +7,7 @@ import Error from "@/routes/Error.tsx";
 import {useAuth} from "@/components/auth/AuthProvider.tsx";
 import Stats from "@/routes/Stats.tsx";
 import Categories from "@/routes/Categories.tsx";
+import {Logout} from "@/routes/Logout.tsx";
 
 export function Routes() {
     const {token} = useAuth();
@@ -41,10 +42,10 @@ export function Routes() {
                     path: "categories",
                     element: <Categories/>,
                 },
-                // {
-                //     path: "createTransaction",
-                //     element: <TransactionForm/>,
-                // },
+                {
+                    path: "logout",
+                    element: <Logout/>,
+                }
                 // {
                 //     path: "updateTransaction/:id",
                 //     element: <TransactionForm/>,

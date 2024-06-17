@@ -2,12 +2,15 @@ import BaseLayout from "@/layouts/BaseLayout.tsx";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card.tsx";
 import {Input} from "@/components/ui/input.tsx";
 import {Button} from "@/components/ui/button.tsx";
-import {SubmitHandler, useForm} from "react-hook-form";
-import {Check, LoaderCircle} from "lucide-react";
+import {useForm} from "react-hook-form";
 import {z} from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form.tsx";
-import {Link} from "react-router-dom";
+import {Link, Navigate} from "react-router-dom";
+import {toast} from "@/components/ui/use-toast.ts";
+import {useEffect} from "react";
+import useSWRMutation from "swr/mutation";
+import {useAuth} from "@/components/auth/AuthProvider";
 
 const schema = z.object({
     email: z.string().email().max(150),
@@ -16,42 +19,60 @@ const schema = z.object({
 
 type FormFields = z.infer<typeof schema>;
 
+async function fetcher(url: string, {arg}: { arg: FormFields }) {
+    const response = await fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(arg)
+    });
+
+    if (!response.ok)
+        throw response;
+
+    return await response.json();
+}
+
 export default function Login() {
-    // const {token} = useAuth();
-    //
-    // // If the user is authenticated, redirect to the dashboard
-    // if (token) {
-    //     return <Navigate to="/app"/>;
-    // }
-    // const navigate = useNavigate();
+    const {token, setToken} = useAuth();
+
     const form = useForm<FormFields>({
         defaultValues: {
-            email: "",
-            password: "",
+            // email: "",
+            // password: "",
+            // email: "example@com.cz",
+            // password: "example@com.cz",
+            email: "dominik@tichy.cz",
+            password: "Pa$$word1"
         },
         resolver: zodResolver(schema),
     });
     const {
         control,
-        handleSubmit,
-        formState: {
-            errors,
-            isSubmitting,
-            isSubmitSuccessful
-        }
+        handleSubmit
     } = form;
 
+    const {trigger, isMutating, error} = useSWRMutation("/api/v1/auth/login", fetcher);
 
-    const onSubmit: SubmitHandler<FormFields> = async () => {
-        try {
-            await new Promise((resolve) => setTimeout(resolve, 1000));
-            // throw new Error();
-            // navigate("/my-route", { replace: true });
-        } catch (error) {
-            form.setError("root", {
-                message: "Invalid email or password",
-            });
+    useEffect(() => {
+        if (error) {
+            toast({
+                variant: "destructive",
+                title: "Uh oh! Something went wrong.",
+                description: "There was a problem with your request.",
+            })
         }
+    }, [error]);
+
+    async function onSubmit(e: FormFields) {
+        const data = await trigger(e);
+        setToken(data.token);
+    }
+
+    // If the user is authenticated, redirect to the dashboard
+    if (token) {
+        return <Navigate to="/app"/>;
     }
 
     return (
@@ -67,11 +88,6 @@ export default function Login() {
                     <CardContent>
                         <Form {...form}>
                             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                                {errors.root && (
-                                    <div className="text-sm font-medium text-destructive">
-                                        {errors.root.message}
-                                    </div>
-                                )}
                                 <FormField
                                     control={control}
                                     name="email"
@@ -103,20 +119,18 @@ export default function Login() {
                                     )}
                                 />
                                 {/*TODO: fix this monstrosity*/}
-                                <Button type="submit" className="w-full" disabled={isSubmitting || isSubmitSuccessful}>
-                                    {isSubmitting && (<div className={"flex flex-row"}>
-                                        <LoaderCircle className="animate-spin h-5 w-5 mr-3"/>
-                                        <span className="">Logging in</span>
-                                    </div>)}
+                                <Button type="submit" className="w-full" disabled={isMutating}>
+                                    {/*{isSubmitting && (<div className={"flex flex-row"}>*/}
+                                    {/*    <LoaderCircle className="animate-spin h-5 w-5 mr-3"/>*/}
+                                    {/*    <span className="">Logging in</span>*/}
+                                    {/*</div>)}*/}
+                                    Login
 
-                                    {(!isSubmitting && !isSubmitSuccessful) &&
-                                        (<span className={""}>Login</span>)
-                                    }
-                                    {(!isSubmitting && isSubmitSuccessful) &&
-                                        (<div>
-                                            < Check className="h-5 w-5 mr-3"/>
-                                        </div>)
-                                    }
+                                    {/*{(!isSubmitting && isSubmitSuccessful) &&*/}
+                                    {/*    (<div>*/}
+                                    {/*        < Check className="h-5 w-5 mr-3"/>*/}
+                                    {/*    </div>)*/}
+                                    {/*}*/}
                                 </Button>
                             </form>
                             <div className="mt-4 text-center text-sm">

@@ -2,7 +2,6 @@ import BaseLayout from "@/layouts/BaseLayout.tsx";
 import {CategoryDonutChart} from "@/components/charts/CategoryDonutChart.tsx";
 import useSWR from "swr";
 import {Balance} from "@/components/charts/Balance.tsx";
-import IncomeExpenseStackedBarchart from "@/components/charts/IncomeExpenseStackedBarchart.tsx";
 
 const fetcher = (url: string) => fetch(url, {
     method: "GET",
