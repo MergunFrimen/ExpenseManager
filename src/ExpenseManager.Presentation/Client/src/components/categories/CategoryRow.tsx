@@ -1,15 +1,6 @@
-import BaseLayout from "@/layouts/BaseLayout.tsx";
-import useSWRMutation from "swr/mutation";
-import {Button} from "@/components/ui/button";
-import {z} from "zod";
-import {useForm} from "react-hook-form";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {Form, FormControl, FormField, FormItem, FormMessage} from "@/components/ui/form";
-import {toast, useToast} from "@/components/ui/use-toast.ts";
-import {useEffect, useState} from "react";
-import {CircleXIcon, Pencil, SearchIcon, Trash2} from "lucide-react";
-import {Input} from "@/components/ui/input";
 import {CategoryDto} from "@/models/categories/CategoryDto.ts";
+import {useAuth} from "@/components/auth/AuthProvider.tsx";
+import {toast} from "@/components/ui/use-toast.ts";
 import {
     Dialog,
     DialogContent,
@@ -19,29 +10,12 @@ import {
     DialogTitle,
     DialogTrigger
 } from "@/components/ui/dialog.tsx";
-import {ScrollArea} from "@/components/ui/scroll-area.tsx";
+import {Button} from "@/components/ui/button.tsx";
+import {useEffect, useState} from "react";
+import useSWRMutation from "swr/mutation";
+import {Pencil, Trash2} from "lucide-react";
 import {mutate} from "swr";
-import {useAuth} from "@/components/auth/AuthProvider.tsx";
-
-const formSchema = z.object({
-    name: z.string()
-})
-
-async function fetcher(url: string, token: string | null, {arg}: { arg: { filters: { name?: string } } }) {
-    const response = await fetch(`${url}/search`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer " + token
-        },
-        body: JSON.stringify(arg)
-    });
-
-    if (!response.ok)
-        throw response;
-
-    return await response.json();
-}
+import {CategoryForm} from "./CategoryForm";
 
 async function fetcher2(url: string, token: string | null, {arg}: { arg: { categoryId: string } }) {
     const response = await fetch(url, {
@@ -59,87 +33,6 @@ async function fetcher2(url: string, token: string | null, {arg}: { arg: { categ
         throw response;
 
     return await response.json();
-}
-
-export default function Categories() {
-    const {token} = useAuth();
-    const {toast} = useToast()
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            name: ''
-        },
-    })
-    const {
-        data,
-        trigger,
-        error
-    } = useSWRMutation(['/api/v1/categories', token], ([url, token], arg) => fetcher(url, token, arg));
-
-
-    function onSubmit(e: { name?: string }) {
-        trigger({filters: e});
-    }
-
-    // useEffect(() => {
-    //     if (!data)
-    //         trigger({filters: {}});
-    // }, [data]);
-
-
-    useEffect(() => {
-        if (error)
-            toast({
-                variant: "destructive",
-                title: "Uh oh! Something went wrong.",
-                description: "There was a problem with your request.",
-            })
-    }, [error]);
-
-    return (
-        <div className="flex flex-col gap-y-3 p-2">
-            <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                    <FormField
-                        control={form.control}
-                        name="name"
-                        render={({field}) => (
-                            <FormItem>
-                                {/*<FormLabel>Category name</FormLabel>*/}
-                                <FormControl>
-                                    <div className="relative w-full">
-                                        <div
-                                            className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                                            <SearchIcon className="w-4 h-4 text-gray-500 dark:text-gray-400"/>
-                                        </div>
-                                        <button type={'button'}
-                                                className="absolute inset-y-0 end-0 flex items-center pe-3"
-                                                onClick={() => {
-                                                    form.reset({name: ""})
-                                                    trigger({filters: {}})
-                                                }}
-                                        >
-                                            <CircleXIcon className="w-4 h-4 text-gray-500 dark:text-gray-400"/>
-                                        </button>
-                                        <Input
-                                            placeholder="Search category"
-                                            className="h-10 block w-full p-4 ps-10"
-                                            {...field}
-                                        />
-                                    </div>
-                                </FormControl>
-                                <FormMessage/>
-                            </FormItem>
-                        )}
-                    />
-                </form>
-            </Form>
-            <ScrollArea className={'size-full h-[400px] outline outline-1 outline-accent rounded-md p-5'}>
-                {data && data.map(category =>
-                    <CategoryRow key={category.id} category={category}/>
-                )}
-            </ScrollArea>
-        </div>)
 }
 
 export function CategoryRow({category}: { category: CategoryDto }) {
@@ -190,16 +83,16 @@ export function CategoryRow({category}: { category: CategoryDto }) {
                                 className="h-[1.2rem] w-[1.2rem]"/>
                         </Button>
                     </DialogTrigger>
-                    <DialogContent className="sm:max-w-[425px]">
+                    <DialogContent className="sm:max-w-[425px]"
+                                   onInteractOutside={(e) => e.preventDefault()}
+                    >
                         {
                             dialogType === 'edit' && (
                                 <>
                                     <DialogHeader>
                                         <DialogTitle>Edit</DialogTitle>
-                                        <DialogDescription>
-                                            Edit the category name and click save to update the category.
-                                        </DialogDescription>
                                     </DialogHeader>
+                                    <CategoryForm type={'edit'}/>
                                     <DialogFooter>
                                         {/*TODO: add form here*/}
                                         <Button
@@ -208,7 +101,6 @@ export function CategoryRow({category}: { category: CategoryDto }) {
                                             Save changes
                                         </Button>
                                     </DialogFooter>
-
                                 </>
                             )
                         }
@@ -234,16 +126,13 @@ export function CategoryRow({category}: { category: CategoryDto }) {
                                             Delete
                                         </Button>
                                     </DialogFooter>
-
                                 </>
                             )
                         }
-
                     </DialogContent>
                 </Dialog>
             </div>
-
         </div>
     )
-        ;
 }
+

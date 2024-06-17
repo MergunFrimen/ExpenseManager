@@ -9,6 +9,6 @@ Authorization: Bearer {{token}}
 
 {
   "filters": {
-    "name": "f"
+    "name": ""
   }
 }

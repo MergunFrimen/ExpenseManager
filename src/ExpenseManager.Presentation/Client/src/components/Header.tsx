@@ -8,13 +8,23 @@ import {
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu.tsx";
 import {Button} from "@/components/ui/button.tsx";
-import {AreaChartIcon, HomeIcon, LayoutGridIcon, ListIcon, LogOutIcon, SettingsIcon} from "lucide-react";
+import {
+    AreaChartIcon,
+    HomeIcon,
+    LayoutGridIcon,
+    ListIcon,
+    LogInIcon,
+    LogOutIcon,
+    NotebookPenIcon,
+    SettingsIcon
+} from "lucide-react";
 import {useAuth} from "@/components/auth/AuthProvider.tsx";
 import {Export} from "@/components/export/Export.tsx";
 import {Import} from "@/components/import/Import.tsx";
 
 export function Header() {
     const {token} = useAuth();
+    const navigate = useNavigate();
 
     return (
         <header
@@ -27,23 +37,26 @@ export function Header() {
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                    <DropdownMenuItem>
-                        <Link to="/" className="flex items-center size-full">
-                            <HomeIcon className="mr-2 h-4 w-4"/>
-                            <span>Home page</span>
-                        </Link>
+                    <DropdownMenuItem onClick={() => navigate("/")}>
+                        <HomeIcon className="mr-2 h-4 w-4"/>
+                        <span>Home page</span>
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
-                        <Link to="/app" className="flex items-center size-full">
-                            <LayoutGridIcon className="mr-2 h-4 w-4"/>
-                            <span>App page</span>
-                        </Link>
+                    <DropdownMenuItem onClick={() => navigate("/login")}>
+                        <LogInIcon className="mr-2 h-4 w-4"/>
+                        <span>Login</span>
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
-                        <Link to="/app/stats" className="flex items-center size-full">
-                            <AreaChartIcon className="mr-2 h-4 w-4"/>
-                            <span>Stats page</span>
-                        </Link>
+                    <DropdownMenuItem onClick={() => navigate("/register")}>
+                        <NotebookPenIcon className="mr-2 h-4 w-4"/>
+                        <span>Register</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator/>
+                    <DropdownMenuItem onClick={() => navigate("/app")}>
+                        <LayoutGridIcon className="mr-2 h-4 w-4"/>
+                        <span>App page</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => navigate("/app/stats")}>
+                        <AreaChartIcon className="mr-2 h-4 w-4"/>
+                        <span>Stats page</span>
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>

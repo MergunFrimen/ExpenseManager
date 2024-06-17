@@ -118,19 +118,8 @@ export default function Login() {
                                         </FormItem>
                                     )}
                                 />
-                                {/*TODO: fix this monstrosity*/}
                                 <Button type="submit" className="w-full" disabled={isMutating}>
-                                    {/*{isSubmitting && (<div className={"flex flex-row"}>*/}
-                                    {/*    <LoaderCircle className="animate-spin h-5 w-5 mr-3"/>*/}
-                                    {/*    <span className="">Logging in</span>*/}
-                                    {/*</div>)}*/}
                                     Login
-
-                                    {/*{(!isSubmitting && isSubmitSuccessful) &&*/}
-                                    {/*    (<div>*/}
-                                    {/*        < Check className="h-5 w-5 mr-3"/>*/}
-                                    {/*    </div>)*/}
-                                    {/*}*/}
                                 </Button>
                             </form>
                             <div className="mt-4 text-center text-sm">

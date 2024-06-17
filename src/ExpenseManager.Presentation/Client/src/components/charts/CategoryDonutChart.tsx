@@ -21,6 +21,8 @@ export function CategoryDonutChart({type, data}: { type: 'expense' | 'income', d
                             dataKey={'value'}
                             innerRadius={50}
                             outerRadius={80}
+                            animationBegin={0}
+                            animationDuration={800}
                             label
                         >
                             {

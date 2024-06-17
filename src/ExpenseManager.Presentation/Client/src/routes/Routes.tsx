@@ -5,8 +5,8 @@ import Register from "@/routes/Register.tsx";
 import {ProtectedRoute} from "@/routes/ProtectedRoute.tsx";
 import Error from "@/routes/Error.tsx";
 import Stats from "@/routes/Stats.tsx";
-import Categories from "@/routes/Categories.tsx";
 import {Logout} from "@/routes/Logout.tsx";
+import CategoryList from "@/components/categories/CategoryList.tsx";
 
 export function Routes() {
     const publicRoutes: RouteObject[] = [
@@ -37,7 +37,7 @@ export function Routes() {
                 },
                 {
                     path: "categories",
-                    element: <Categories/>,
+                    element: <CategoryList/>,
                 },
                 {
                     path: "logout",

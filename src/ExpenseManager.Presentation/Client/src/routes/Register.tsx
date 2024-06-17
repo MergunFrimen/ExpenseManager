@@ -7,7 +7,11 @@ import {Check, LoaderCircle} from "lucide-react";
 import {z} from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form.tsx";
-import {Link} from "react-router-dom";
+import {Link, Navigate} from "react-router-dom";
+import {toast} from "@/components/ui/use-toast.ts";
+import { useEffect } from "react";
+import useSWRMutation from "swr/mutation";
+import {useAuth} from "@/components/auth/AuthProvider.tsx";
 
 const schema = z.object({
     firstName: z.string().min(2).max(50).regex(/^[a-zA-Z]+$/, {message: "First name must only contain letters"}),
@@ -18,43 +22,58 @@ const schema = z.object({
 
 type FormFields = z.infer<typeof schema>;
 
+async function fetcher(url: string, {arg}: { arg: FormFields }) {
+    const response = await fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(arg)
+    });
+
+    if (!response.ok)
+        throw response;
+
+    return await response.json();
+}
+
 export default function Register() {
-    // const {token} = useAuth();
-    //
-    // // If the user is authenticated, redirect to the dashboard
-    // if (token) {
-    //     return <Navigate to="/app"/>;
-    // }
+    const {token, setToken} = useAuth();
+
     const form = useForm<FormFields>({
         defaultValues: {
-            firstName: "",
-            lastName: "",
-            email: "",
-            password: "",
+            firstName: "John",
+            lastName: "Doe",
+            email: "email@email.com",
+            password: "Pa$$word1",
         },
         resolver: zodResolver(schema),
     });
     const {
         control,
-        handleSubmit,
-        formState: {
-            errors,
-            isSubmitting,
-            isSubmitSuccessful
-        }
+        handleSubmit
     } = form;
 
+    const {trigger, isMutating, error} = useSWRMutation("/api/v1/auth/register", fetcher);
 
-    const onSubmit: SubmitHandler<FormFields> = async (data) => {
-        try {
-            await new Promise((resolve) => setTimeout(resolve, 1000));
-            // throw new Error();
-            console.log(data);
-        } catch (error) {
-            form.setError("root", {
-                message: "Invalid all",
-            });
+    useEffect(() => {
+        if (error) {
+            toast({
+                variant: "destructive",
+                title: "Uh oh! Something went wrong.",
+                description: "There was a problem with your request.",
+            })
         }
+    }, [error]);
+
+    async function onSubmit(e: FormFields) {
+        const data = await trigger(e);
+        setToken(data.token);
+    }
+
+    // If the user is authenticated, redirect to the dashboard
+    if (token) {
+        return <Navigate to="/app"/>;
     }
 
     return (
@@ -70,11 +89,6 @@ export default function Register() {
                     <CardContent>
                         <Form {...form}>
                             <form onSubmit={handleSubmit(onSubmit)} className="grid gap-4">
-                                {errors.root && (
-                                    <div className="text-sm font-medium text-destructive">
-                                        {errors.root.message}
-                                    </div>
-                                )}
                                 <div className="grid grid-cols-2 gap-4">
                                     <FormField
                                         control={control}
@@ -145,22 +159,8 @@ export default function Register() {
                                         </FormItem>
                                     )}
                                 />
-                                {/*TODO: fix this monstrosity*/}
-                                <Button type="submit" className="w-full"
-                                        disabled={isSubmitting || isSubmitSuccessful}>
-                                    {isSubmitting && (<div className={"flex flex-row"}>
-                                        <LoaderCircle className="animate-spin h-5 w-5 mr-3"/>
-                                        <span className="">Registering</span>
-                                    </div>)}
-
-                                    {(!isSubmitting && !isSubmitSuccessful) &&
-                                        (<span className={""}>Register</span>)
-                                    }
-                                    {(!isSubmitting && isSubmitSuccessful) &&
-                                        (<div>
-                                            < Check className="h-5 w-5 mr-3"/>
-                                        </div>)
-                                    }
+                                <Button type="submit" className="w-full" disabled={isMutating}>
+                                    Register
                                 </Button>
                             </form>
                             <div className="mt-4 text-center text-sm">
