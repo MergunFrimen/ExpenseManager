@@ -4,14 +4,11 @@ import Login from "@/routes/Login.tsx";
 import Register from "@/routes/Register.tsx";
 import {ProtectedRoute} from "@/routes/ProtectedRoute.tsx";
 import Error from "@/routes/Error.tsx";
-import {useAuth} from "@/components/auth/AuthProvider.tsx";
 import Stats from "@/routes/Stats.tsx";
 import Categories from "@/routes/Categories.tsx";
 import {Logout} from "@/routes/Logout.tsx";
 
 export function Routes() {
-    const {token} = useAuth();
-
     const publicRoutes: RouteObject[] = [
         {
             path: "/",
@@ -46,14 +43,6 @@ export function Routes() {
                     path: "logout",
                     element: <Logout/>,
                 }
-                // {
-                //     path: "updateTransaction/:id",
-                //     element: <TransactionForm/>,
-                // },
-                // {
-                //     path: "updateCategory/:id",
-                //     element: <>editCategory</>,
-                // }
             ],
         },
     ];

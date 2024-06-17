@@ -1,6 +1,6 @@
 import {Navigate, Outlet, useLocation} from "react-router-dom";
 import {useAuth} from "@/components/auth/AuthProvider.tsx";
-import Dashboard from "@/routes/Dashboard.tsx";
+import App from "@/routes/App.tsx";
 
 export const ProtectedRoute = () => {
     const {token} = useAuth();
@@ -13,7 +13,7 @@ export const ProtectedRoute = () => {
     }
 
     if (location.pathname === '/app') {
-        return <Dashboard/>
+        return <App/>
     }
 
     return <Outlet/>
