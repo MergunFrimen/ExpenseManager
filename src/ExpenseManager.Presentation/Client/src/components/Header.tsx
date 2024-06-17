@@ -31,8 +31,6 @@ export function Header() {
 }
 
 function Settings() {
-    const navigate = useNavigate();
-
     return (
         // <DropdownMenu open={true}>
         <DropdownMenu>
@@ -43,9 +41,11 @@ function Settings() {
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={() => navigate("/app/logout")}>
-                    <LogOutIcon className="mr-2 h-4 w-4"/>
-                    <span>Logout</span>
+                <DropdownMenuItem>
+                    <Link to="/app/logout" className="flex items-center size-full">
+                        <LogOutIcon className="mr-2 h-4 w-4"/>
+                        <span>Logout</span>
+                    </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator/>
                 <div className={'flex flex-col wrap gap-y-2'}>

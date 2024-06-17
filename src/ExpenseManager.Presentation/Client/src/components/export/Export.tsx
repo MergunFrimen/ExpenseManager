@@ -40,7 +40,7 @@ export function Export() {
         }
     }, [downloadUrl]);
 
-    return <DropdownMenuItem className={''} onClick={() => trigger()} disabled={isMutating}>
+    return <DropdownMenuItem className={'hover:cursor-pointer'} onClick={() => trigger()} disabled={isMutating}>
         <UploadIcon className="mr-2 h-4 w-4"/>
         {isMutating ? "Loading..." : "Export"}
     </DropdownMenuItem>

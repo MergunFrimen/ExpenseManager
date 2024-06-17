@@ -5,9 +5,10 @@ import {Input} from "@/components/ui/input.tsx";
 import {useEffect, useRef} from 'react';
 import {toast} from "@/components/ui/use-toast.ts";
 import {useAuth} from "@/components/auth/AuthProvider.tsx";
-import {DropdownMenuItem} from '../ui/dropdown-menu';
+import {Button} from '../ui/button';
+import { DropdownMenuItem } from '../ui/dropdown-menu';
 
-async function fetcher(url: string, token: string, {arg}: { arg: ImportDto }) {
+async function fetcher(url: string, token: string | null, {arg}: { arg: ImportDto }) {
     const response = await fetch(url, {
         method: "POST",
         headers: {
@@ -24,14 +25,14 @@ async function fetcher(url: string, token: string, {arg}: { arg: ImportDto }) {
 }
 
 export function Import() {
-    const fileInputRef = useRef<HTMLInputElement>(null);
     const {token} = useAuth();
+    const fileInputRef = useRef<HTMLInputElement>(null);
     const {
         data,
         trigger,
         isMutating,
         error
-    } = useSWRMutation(['/api/v1/import', token], ([url, token]) => fetcher(url, token));
+    } = useSWRMutation(['/api/v1/import', token], ([url, token], arg) => fetcher(url, token, arg));
 
     useEffect(() => {
         if (error)
@@ -53,13 +54,13 @@ export function Import() {
     }, [data]);
 
     return (
-        <DropdownMenuItem
+        <div
             onClick={() => {
                 if (fileInputRef.current) {
                     fileInputRef.current.click();
                 }
             }}
-            className={''} disabled={isMutating}
+            className={'relative hover:bg-accent hover:text-accent-foreground flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors hover:cursor-pointer focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50'}
         >
             <DownloadIcon className="mr-2 h-4 w-4"/>
             {isMutating ? "Loading..." : "Import"}
@@ -70,7 +71,7 @@ export function Import() {
                         const reader = new FileReader();
                         reader.onload = () => {
                             const result = reader.result as string;
-                            console.log(data)
+                            const data = JSON.parse(result);
                             trigger(data);
                         };
                         reader.readAsText(file);
@@ -78,6 +79,6 @@ export function Import() {
                     }
                 }}/>
             </div>
-        </DropdownMenuItem>
+        </div>
     )
 }

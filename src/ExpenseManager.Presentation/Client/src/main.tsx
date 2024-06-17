@@ -11,11 +11,13 @@ const root = ReactDOM.createRoot(
 
 root.render(
     <React.StrictMode>
-        <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-            <AuthProvider>
-                <Routes/>
-            </AuthProvider>
-        </ThemeProvider>
+        {/*<SWRConfig value={{refreshInterval: 500}}>*/}
+            <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+                <AuthProvider>
+                    <Routes/>
+                </AuthProvider>
+            </ThemeProvider>
+        {/*</SWRConfig>*/}
     </React.StrictMode>
 )
 

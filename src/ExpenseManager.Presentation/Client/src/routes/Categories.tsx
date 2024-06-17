@@ -21,17 +21,18 @@ import {
 } from "@/components/ui/dialog.tsx";
 import {ScrollArea} from "@/components/ui/scroll-area.tsx";
 import {mutate} from "swr";
+import {useAuth} from "@/components/auth/AuthProvider.tsx";
 
 const formSchema = z.object({
     name: z.string()
 })
 
-async function fetcher(url: string, {arg}: { arg: { filters: { name?: string } } }) {
+async function fetcher(url: string, token: string | null, {arg}: { arg: { filters: { name?: string } } }) {
     const response = await fetch(`${url}/search`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0NzlmMjkzZi1iY2Y3LTRmMDgtOThkOC1jNjk3Y2FkZTZkM2UiLCJnaXZlbl9uYW1lIjoiRG9taW5payIsImZhbWlseV9uYW1lIjoiVGljaHkiLCJqdGkiOiJjNWVjMWJiMi0wZTg1LTQxZDMtODI5Yy0zZTZkZGQ1MzBjM2IiLCJpc3MiOiJFeHBlbnNlTWFuYWdlciIsImF1ZCI6IkV4cGVuc2VNYW5hZ2VyIiwiZXhwIjoxNzE4ODQ0MzMzfQ.KX20Dz1q1ghopNcZT0_EeH1i35wl1-zuw9u5tv1r32s"
+            "Authorization": "Bearer " + token
         },
         body: JSON.stringify(arg)
     });
@@ -42,7 +43,25 @@ async function fetcher(url: string, {arg}: { arg: { filters: { name?: string } }
     return await response.json();
 }
 
+async function fetcher2(url: string, token: string | null, {arg}: { arg: { categoryIds: string[] } }) {
+    const response = await fetch(url, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
+        },
+        body: JSON.stringify(arg)
+    });
+
+    if (!response.ok)
+        throw response;
+
+    return await response.json();
+}
+
+
 export default function Categories() {
+    const {token} = useAuth();
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -50,7 +69,13 @@ export default function Categories() {
         },
     })
     const {reset} = form;
-    const {data, trigger, isMutating, error} = useSWRMutation("/api/v1/categories", fetcher);
+    const {
+        data,
+        trigger,
+        error
+    } = useSWRMutation(['/api/v1/categories', token], ([url, token], arg) => fetcher(url, token, arg));
+
+
     const {toast} = useToast()
 
     if (data) console.log('data', data)
@@ -125,27 +150,16 @@ export default function Categories() {
     </BaseLayout>
 }
 
-async function fetcher2(url: string, {arg}: { arg: { categoryIds: string[] } }) {
-    const response = await fetch(url, {
-        method: "DELETE",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0NzlmMjkzZi1iY2Y3LTRmMDgtOThkOC1jNjk3Y2FkZTZkM2UiLCJnaXZlbl9uYW1lIjoiRG9taW5payIsImZhbWlseV9uYW1lIjoiVGljaHkiLCJqdGkiOiJjNWVjMWJiMi0wZTg1LTQxZDMtODI5Yy0zZTZkZGQ1MzBjM2IiLCJpc3MiOiJFeHBlbnNlTWFuYWdlciIsImF1ZCI6IkV4cGVuc2VNYW5hZ2VyIiwiZXhwIjoxNzE4ODQ0MzMzfQ.KX20Dz1q1ghopNcZT0_EeH1i35wl1-zuw9u5tv1r32s"
-        },
-        body: JSON.stringify(arg)
-    });
-
-    if (!response.ok)
-        throw response;
-
-    return await response.json();
-}
-
-
 export function CategoryRow({category}: { category: CategoryDto }) {
-    const {data, trigger, error} = useSWRMutation("/api/v1/categories", fetcher2);
+    const {token} = useAuth();
     const [open, setOpen] = useState(false);
     const [dialogType, setDialogType] = useState<'edit' | 'remove' | undefined>(undefined);
+
+    const {
+        data,
+        trigger,
+        error
+    } = useSWRMutation(['/api/v1/categories', token], ([url, token], arg) => fetcher2(url, token, arg));
 
     useEffect(() => {
         console.log('error', error)
@@ -193,20 +207,20 @@ export function CategoryRow({category}: { category: CategoryDto }) {
                                     <DialogHeader>
                                         <DialogTitle>Edit</DialogTitle>
                                         <DialogDescription>
-                                            Are you sure you want to delete this transaction? This action cannot be undone.
+                                            Edit the category name and click save to update the category.
                                         </DialogDescription>
                                     </DialogHeader>
                                     <DialogFooter>
+                                        {/*TODO: add form here*/}
                                         <Button
                                             type="submit"
-                                            variant="destructive"
                                             onClick={() => {
                                                 trigger({categoryIds: [category.id]})
                                                 setOpen(false)
                                                 mutate('/api/v1/categories')
                                             }}
                                         >
-                                            Delete
+                                            Save changes
                                         </Button>
                                     </DialogFooter>
 
