@@ -11,18 +11,14 @@ import {DownloadIcon, LogOutIcon, SettingsIcon, UploadIcon} from "lucide-react";
 import {useAuth} from "@/components/auth/AuthProvider.tsx";
 
 export function Header() {
-    const {token} = useAuth();
-
-    console.log(location.pathname.substring(0, 5))
     return (
-        <header className="container z-[1] left-0 top-0 bg-background fixed flex justify-between items-center py-4">
-            {/*<div to="/" className="text-xl self-start font-bold px-5">*/}
-            {/*    Expense Manager*/}
-            {/*</div>*/}
+        <header className="container z-[1] left-0 right-0 top-0 bg-background fixed flex justify-between items-center py-4">
+            <div to="/" className="text-xl self-start font-bold px-5">
+                Expense Manager
+            </div>
             <div className="flex row gap-x-2">
                 <ModeToggle/>
-                {/*<Settings/>*/}
-                {/*{token && <Settings/>}*/}
+                <Settings/>
             </div>
         </header>
     )

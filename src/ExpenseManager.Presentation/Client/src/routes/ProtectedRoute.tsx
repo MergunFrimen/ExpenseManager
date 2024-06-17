@@ -1,5 +1,6 @@
-import {Outlet, useLocation} from "react-router-dom";
+import {Navigate, Outlet, useLocation} from "react-router-dom";
 import {useAuth} from "@/components/auth/AuthProvider.tsx";
+import Dashboard from "@/routes/Dashboard.tsx";
 
 export const ProtectedRoute = () => {
     const {token} = useAuth();
@@ -7,13 +8,13 @@ export const ProtectedRoute = () => {
 
     // TODO: reenable when done
     // If the user is not authenticated, redirect to the login page
-    // if (!token) {
-    //     return <Navigate to="/login"/>;
-    // }
-    //
-    // if (location.pathname === '/app') {
-    //     return <Dashboard/>
-    // }
+    if (!token) {
+        return <Navigate to="/login"/>;
+    }
+
+    if (location.pathname === '/app') {
+        return <Dashboard/>
+    }
 
     return <Outlet/>
 };
