@@ -1,8 +1,10 @@
+import {CategoryDto} from "@/models/categories/CategoryDto.ts";
+
 export interface TransactionDto {
     id: string;
-    type: string;
     description: string;
     amount: number;
+    type: string;
     date: number;
-    categoryIds: string[];
+    categories: CategoryDto[];
 }

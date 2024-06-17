@@ -3,16 +3,19 @@ import {ModeToggle} from "@/components/theme/ModeToggle.tsx";
 import {
     DropdownMenu,
     DropdownMenuContent,
-    DropdownMenuItem,
+    DropdownMenuItem, DropdownMenuSeparator,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {DownloadIcon, LogOutIcon, SettingsIcon, UploadIcon} from "lucide-react";
 import {useAuth} from "@/components/auth/AuthProvider.tsx";
+import {Export} from "@/components/export/Export.tsx";
+import {Import} from "@/components/import/Import.tsx";
 
 export function Header() {
     return (
-        <header className="container z-[1] left-0 right-0 top-0 bg-background fixed flex justify-between items-center py-4">
+        <header
+            className="container z-[1] left-0 right-0 top-0 bg-background fixed flex justify-between items-center py-4">
             <div to="/" className="text-xl self-start font-bold px-5">
                 Expense Manager
             </div>
@@ -28,7 +31,7 @@ function Settings() {
     const navigate = useNavigate();
 
     return (
-        <DropdownMenu>
+        <DropdownMenu open={true}>
             <DropdownMenuTrigger asChild>
                 <Button variant="outline" size="icon">
                     <SettingsIcon
@@ -40,14 +43,9 @@ function Settings() {
                     <LogOutIcon className="mr-2 h-4 w-4"/>
                     <span>Logout</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => console.log("export")}>
-                    <UploadIcon className="mr-2 h-4 w-4"/>
-                    <span>Export</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => console.log("import")}>
-                    <DownloadIcon className="mr-2 h-4 w-4"/>
-                    <span>Import</span>
-                </DropdownMenuItem>
+                <DropdownMenuSeparator/>
+                <Export/>
+                <Import/>
             </DropdownMenuContent>
         </DropdownMenu>
     )

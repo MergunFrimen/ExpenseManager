@@ -11,7 +11,7 @@ namespace ExpenseManager.Presentation.Controllers;
 public class ImportController(ISender mediatr, IMapper mapper) : ApiController
 {
     [HttpPost]
-    public async Task<IActionResult> Export(ImportRequest request)
+    public async Task<IActionResult> Import(ImportRequest request)
     {
         var userId = GetUserId();
         if (userId.IsError && userId.FirstError == Errors.Authentication.InvalidCredentials)
