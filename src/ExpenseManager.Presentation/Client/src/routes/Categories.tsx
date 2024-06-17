@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/dialog.tsx";
 import {transactionsApiConnector} from "@/api/transactionsApiConnector.ts";
 import {ScrollArea} from "@/components/ui/scroll-area.tsx";
+import {mutate} from "swr";
 
 const formSchema = z.object({
     name: z.string()
@@ -144,6 +145,7 @@ async function fetcher2(url: string, {arg}: { arg: { categoryIds: string[] } }) 
 export function CategoryRow({category}: { category: CategoryDto }) {
     const {data, trigger, error} = useSWRMutation("/api/v1/categories", fetcher2);
     const [open, setOpen] = useState(false);
+    const [dialogType, setDialogType] = useState<'edit' | 'remove' | undefined>(undefined);
 
     useEffect(() => {
         console.log('error', error)
@@ -162,43 +164,87 @@ export function CategoryRow({category}: { category: CategoryDto }) {
 
 
     return (
-        <div key={category.id} className={'grid grid-cols-2 items-center'}>
-            {/*<h1>{category.id}</h1>*/}
+        <div key={category.id} className={'grid grid-cols-2 items-center space-y-3'}>
             <h1>{category.name}</h1>
-            <div className="flex flex-row gap-x-2 justify-end">
-                <Button variant="outline" size="icon" onClick={() => {
+            <div className="flex flex-row gap-x-1 justify-end">
+                <Dialog open={open} onOpenChange={() => {
+                    setOpen(!open)
                 }}>
-                    <Pencil
-                        className="h-[1.2rem] w-[1.2rem]"/>
-                </Button>
-                <Dialog open={open} onOpenChange={setOpen}>
                     <DialogTrigger asChild>
-                        <Button variant="destructive" size="icon">
+                        <Button variant="secondary" size="icon"
+                                onClick={() => setDialogType('edit')}
+                        >
+                            <Pencil
+                                className="h-[1.2rem] w-[1.2rem]"/>
+                        </Button>
+                    </DialogTrigger>
+                    <DialogTrigger asChild>
+                        <Button variant="destructive" size="icon"
+                                onClick={() => setDialogType('remove')}
+                        >
                             <Trash2
                                 className="h-[1.2rem] w-[1.2rem]"/>
                         </Button>
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-[425px]">
-                        <DialogHeader>
-                            <DialogTitle>Confirm delete</DialogTitle>
-                            <DialogDescription>
-                                Are you sure you want to delete this transaction? This action cannot be undone.
-                            </DialogDescription>
-                        </DialogHeader>
-                        <DialogFooter>
-                            <Button variant="destructive"
-                                    onClick={() => {
-                                        trigger({categoryIds: [category.id]})
-                                        setOpen(false);
-                                    }}
-                            >
-                                Delete
-                            </Button>
-                        </DialogFooter>
+                        {
+                            dialogType === 'edit' && (
+                                <>
+                                    <DialogHeader>
+                                        <DialogTitle>Edit</DialogTitle>
+                                        <DialogDescription>
+                                            Are you sure you want to delete this transaction? This action cannot be undone.
+                                        </DialogDescription>
+                                    </DialogHeader>
+                                    <DialogFooter>
+                                        <Button
+                                            type="submit"
+                                            variant="destructive"
+                                            onClick={() => {
+                                                trigger({categoryIds: [category.id]})
+                                                setOpen(false)
+                                                mutate('/api/v1/categories')
+                                            }}
+                                        >
+                                            Delete
+                                        </Button>
+                                    </DialogFooter>
+
+                                </>
+                            )
+                        }
+                        {
+                            dialogType === 'remove' && (
+                                <>
+                                    <DialogHeader>
+                                        <DialogTitle>Delete</DialogTitle>
+                                        <DialogDescription>
+                                            Are you sure you want to delete this transaction? This action cannot be undone.
+                                        </DialogDescription>
+                                    </DialogHeader>
+                                    <DialogFooter>
+                                        <Button
+                                            type="submit"
+                                            variant="destructive"
+                                            onClick={() => {
+                                                trigger({categoryIds: [category.id]})
+                                                setOpen(false)
+                                                mutate('/api/v1/categories')
+                                            }}
+                                        >
+                                            Delete
+                                        </Button>
+                                    </DialogFooter>
+
+                                </>
+                            )
+                        }
+
                     </DialogContent>
                 </Dialog>
             </div>
 
         </div>
-    );
+    )
+        ;
 }
