@@ -5,5 +5,10 @@ namespace ExpenseManager.Application.Categories.Queries.SearchCategories;
 
 public sealed record SearchCategoriesQuery(
     Guid UserId,
-    string Name
+
+    FilterRequest Filters
 ) : IQuery<List<CategoryResult>>;
+
+public sealed record FilterRequest(
+    string? Name
+);

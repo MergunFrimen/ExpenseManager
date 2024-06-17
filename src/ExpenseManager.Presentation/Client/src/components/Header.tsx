@@ -31,7 +31,8 @@ function Settings() {
     const navigate = useNavigate();
 
     return (
-        <DropdownMenu open={true}>
+        // <DropdownMenu open={true}>
+        <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button variant="outline" size="icon">
                     <SettingsIcon

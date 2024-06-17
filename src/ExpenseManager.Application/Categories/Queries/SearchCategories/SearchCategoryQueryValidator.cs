@@ -7,7 +7,6 @@ public class SearchCategoriesQueryValidator : AbstractValidator<SearchCategories
 {
     public SearchCategoriesQueryValidator()
     {
-        RuleFor(x => x.UserId).NotEmpty();
-        RuleFor(x => x.Name).CategoryName();
+        RuleFor(x => x.Filters).NotEmpty();
     }
 }

@@ -4,7 +4,6 @@ import './index.css'
 import {ThemeProvider} from "@/components/theme/ThemeProvider.tsx";
 import {AuthProvider} from './components/auth/AuthProvider';
 import {Routes} from "@/routes/Routes.tsx";
-import {Import} from "@/components/import/Import.tsx";
 
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement,
@@ -15,7 +14,6 @@ root.render(
         <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
             <AuthProvider>
                 <Routes/>
-                {/*<Import />*/}
             </AuthProvider>
         </ThemeProvider>
     </React.StrictMode>

@@ -82,7 +82,7 @@ public class CategoryController(ISender mediatr, IMapper mapper) : ApiController
         );
     }
 
-    [HttpGet]
+    [HttpPost("search")]
     public async Task<IActionResult> Search(SearchCategoriesRequest request)
     {
         var userId = GetUserId();

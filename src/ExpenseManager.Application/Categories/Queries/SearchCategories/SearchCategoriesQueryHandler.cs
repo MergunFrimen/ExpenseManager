@@ -2,6 +2,7 @@ using ErrorOr;
 using ExpenseManager.Application.Categories.Common;
 using ExpenseManager.Application.Common.Interfaces.Cqrs;
 using ExpenseManager.Application.Common.Interfaces.Persistence;
+using ExpenseManager.Domain.Categories;
 
 namespace ExpenseManager.Application.Categories.Queries.SearchCategories;
 
@@ -11,14 +12,18 @@ public class SearchCategoriesQueryHandler(ICategoryRepository categoryRepository
     public async Task<ErrorOr<List<CategoryResult>>> Handle(SearchCategoriesQuery query,
         CancellationToken cancellationToken)
     {
-        var categories = await categoryRepository.FindAsync(
-            category => category.User.Id == query.UserId &&
-                        category.Name.ToLower().Contains(query.Name.ToLower()),
-            cancellationToken);
+        var result = await categoryRepository.FindAsync(
+            category => category.User.Id == query.UserId, cancellationToken);
+        if (result.IsError)
+            return result.Errors;
+        
+        if (query.Filters.Name is not null)
+        {
+            result = result.Value.Where(
+                category => category.Name.ToLower().Contains(query.Filters.Name.ToLower())
+            ).ToList();
+        }
 
-        return categories.Match(
-            value => value.Select(category => new CategoryResult(category)).ToList(),
-            ErrorOr<List<CategoryResult>>.From
-        );
+        return result.Value.Select(category => new CategoryResult(category)).ToList();
     }
 }

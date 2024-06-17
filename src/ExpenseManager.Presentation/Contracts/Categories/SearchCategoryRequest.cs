@@ -1,5 +1,9 @@
 namespace ExpenseManager.Presentation.Contracts.Categories;
 
 public sealed record SearchCategoriesRequest(
-    string Name
+    FilterRequest Filters
+);
+
+public sealed record FilterRequest(
+    string? Name
 );
