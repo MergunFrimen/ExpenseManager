@@ -43,14 +43,16 @@ async function fetcher(url: string, token: string | null, {arg}: { arg: { filter
     return await response.json();
 }
 
-async function fetcher2(url: string, token: string | null, {arg}: { arg: { categoryIds: string[] } }) {
+async function fetcher2(url: string, token: string | null, {arg}: { arg: { categoryId: string } }) {
     const response = await fetch(url, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",
             "Authorization": "Bearer " + token
         },
-        body: JSON.stringify(arg)
+        body: JSON.stringify({
+            categoryIds: [arg.categoryId]
+        })
     });
 
     if (!response.ok)
@@ -59,16 +61,15 @@ async function fetcher2(url: string, token: string | null, {arg}: { arg: { categ
     return await response.json();
 }
 
-
 export default function Categories() {
     const {token} = useAuth();
+    const {toast} = useToast()
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: ''
         },
     })
-    const {reset} = form;
     const {
         data,
         trigger,
@@ -76,25 +77,17 @@ export default function Categories() {
     } = useSWRMutation(['/api/v1/categories', token], ([url, token], arg) => fetcher(url, token, arg));
 
 
-    const {toast} = useToast()
-
-    if (data) console.log('data', data)
-
     function onSubmit(e: { name?: string }) {
-        if (e.name)
-            trigger({filters: e});
-        else
-            trigger({filters: {}});
+        trigger({filters: e});
     }
 
-    useEffect(() => {
-        if (!data)
-            trigger({filters: {}});
-    }, [data]);
+    // useEffect(() => {
+    //     if (!data)
+    //         trigger({filters: {}});
+    // }, [data]);
 
 
     useEffect(() => {
-        console.log('error', error)
         if (error)
             toast({
                 variant: "destructive",
@@ -103,8 +96,8 @@ export default function Categories() {
             })
     }, [error]);
 
-    return <BaseLayout>
-        <div className="container flex flex-col size-full gap-y-3">
+    return (
+        <div className="flex flex-col gap-y-3 p-2">
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                     <FormField
@@ -114,7 +107,7 @@ export default function Categories() {
                             <FormItem>
                                 {/*<FormLabel>Category name</FormLabel>*/}
                                 <FormControl>
-                                    <div className="relative sm:w-1/3 md:w-1/4 w-full">
+                                    <div className="relative w-full">
                                         <div
                                             className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                                             <SearchIcon className="w-4 h-4 text-gray-500 dark:text-gray-400"/>
@@ -122,7 +115,7 @@ export default function Categories() {
                                         <button type={'button'}
                                                 className="absolute inset-y-0 end-0 flex items-center pe-3"
                                                 onClick={() => {
-                                                    reset({name: ""})
+                                                    form.reset({name: ""})
                                                     trigger({filters: {}})
                                                 }}
                                         >
@@ -141,13 +134,12 @@ export default function Categories() {
                     />
                 </form>
             </Form>
-            <ScrollArea className={'h-full p-2'}>
+            <ScrollArea className={'size-full h-[400px] outline outline-1 outline-accent rounded-md p-5'}>
                 {data && data.map(category =>
                     <CategoryRow key={category.id} category={category}/>
                 )}
             </ScrollArea>
-        </div>
-    </BaseLayout>
+        </div>)
 }
 
 export function CategoryRow({category}: { category: CategoryDto }) {
@@ -162,7 +154,6 @@ export function CategoryRow({category}: { category: CategoryDto }) {
     } = useSWRMutation(['/api/v1/categories', token], ([url, token], arg) => fetcher2(url, token, arg));
 
     useEffect(() => {
-        console.log('error', error)
         if (error)
             toast({
                 variant: "destructive",
@@ -173,7 +164,6 @@ export function CategoryRow({category}: { category: CategoryDto }) {
     }, [error]);
 
     useEffect(() => {
-        console.log('data', data)
     }, [data]);
 
 
@@ -214,11 +204,6 @@ export function CategoryRow({category}: { category: CategoryDto }) {
                                         {/*TODO: add form here*/}
                                         <Button
                                             type="submit"
-                                            onClick={() => {
-                                                trigger({categoryIds: [category.id]})
-                                                setOpen(false)
-                                                mutate('/api/v1/categories')
-                                            }}
                                         >
                                             Save changes
                                         </Button>
@@ -241,7 +226,7 @@ export function CategoryRow({category}: { category: CategoryDto }) {
                                             type="submit"
                                             variant="destructive"
                                             onClick={() => {
-                                                trigger({categoryIds: [category.id]})
+                                                trigger({categoryId: category.id})
                                                 setOpen(false)
                                                 mutate('/api/v1/categories')
                                             }}

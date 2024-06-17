@@ -1,9 +1,7 @@
 @host = http://localhost:5222
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0NzlmMjkzZi1iY2Y3LTRmMDgtOThkOC1jNjk3Y2FkZTZkM2UiLCJnaXZlbl9uYW1lIjoiRG9taW5payIsImZhbWlseV9uYW1lIjoiVGljaHkiLCJqdGkiOiIxNGQ2NDZjNy00YmE2LTRmOTYtYTc4ZC1lNmZmYjA2ZDg1YzYiLCJpc3MiOiJFeHBlbnNlTWFuYWdlciIsImF1ZCI6IkV4cGVuc2VNYW5hZ2VyIiwiZXhwIjoxNzE4OTcyMzk5fQ.hFcvzYgemeE-I1xguLotadMmufzQm14GfC28WGw_Z6I
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhYWY2YzJlOS0xNDlhLTRhNGYtYTAyNi1iMmJkOWU3MjM4N2EiLCJnaXZlbl9uYW1lIjoiRG9taW5payIsImZhbWlseV9uYW1lIjoiVGljaHkiLCJqdGkiOiJmMmUzZjkyOC1iOTBkLTQxNWYtODNjNy0wNGI2Y2Q0Zjc1ZjEiLCJpc3MiOiJFeHBlbnNlTWFuYWdlciIsImF1ZCI6IkV4cGVuc2VNYW5hZ2VyIiwiZXhwIjoxNzE5MDEwMzQzfQ.OOpUBd7VFtJcwJU0Xc4u7m719zbsSZEcl9q96G_wE6U
 
 ###
-
-@name = f
 
 POST {{host}}/api/v1/categories/search
 Content-Type: application/json
@@ -11,6 +9,6 @@ Authorization: Bearer {{token}}
 
 {
   "filters": {
-    "name": "food"
+    "name": "f"
   }
 }
