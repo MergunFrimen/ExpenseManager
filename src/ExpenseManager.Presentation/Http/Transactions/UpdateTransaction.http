@@ -1,16 +1,16 @@
 @host = http://localhost:5222
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0NzlmMjkzZi1iY2Y3LTRmMDgtOThkOC1jNjk3Y2FkZTZkM2UiLCJnaXZlbl9uYW1lIjoiRG9taW5payIsImZhbWlseV9uYW1lIjoiVGljaHkiLCJqdGkiOiIyNmZhMzJjYy1jZmNhLTQxMWUtOGZlYS04OWVjZTFjNmI5YTAiLCJpc3MiOiJFeHBlbnNlTWFuYWdlciIsImF1ZCI6IkV4cGVuc2VNYW5hZ2VyIiwiZXhwIjoxNzE4ODMzMzc2fQ.7xUjPKQw-OXYfTkwZ2wGvONwciFUWq00TxbtIbAu_00
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhYWY2YzJlOS0xNDlhLTRhNGYtYTAyNi1iMmJkOWU3MjM4N2EiLCJnaXZlbl9uYW1lIjoiRG9taW5payIsImZhbWlseV9uYW1lIjoiVGljaHkiLCJqdGkiOiJiNDE1NTA2Ni1lZjI0LTRmNDItYTJiMy02YThlNDMyZjk2OWYiLCJpc3MiOiJFeHBlbnNlTWFuYWdlciIsImF1ZCI6IkV4cGVuc2VNYW5hZ2VyIiwiZXhwIjoxNzE5MDY2NjY4fQ.pOS1sXSiL0fa9c65Iv1bqqCzXoa1p9H6GoUYkboNyNY
 
 ###
 
-@transactionId = 3323cb5c-2ea4-4ec7-8e78-7074dd66ba76
+@transactionId = 078d2822-d80c-4d7f-beeb-6a99d5596171
 
 PUT {{host}}/api/v1/transactions/{{transactionId}}
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "description": "Work",
+  "description": "Stipendium",
   "amount": 45000,
   "type": "Income",
   "categoryIds": [

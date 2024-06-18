@@ -62,4 +62,14 @@ public sealed class Transaction : Entity
 
         return transaction;
     }
+    
+    public Transaction Update(Transaction update)
+    {
+        Description = update.Description;
+        Type = update.Type;
+        Date = update.Date;
+        Categories = update.Categories;
+
+        return this;
+    }
 }

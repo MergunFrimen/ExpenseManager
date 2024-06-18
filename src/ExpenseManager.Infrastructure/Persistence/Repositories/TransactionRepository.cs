@@ -39,17 +39,19 @@ public class TransactionRepository(ExpenseManagerDbContext dbContext) : ITransac
         return newTransaction.Entity;
     }
     
-    public async Task<ErrorOr<Transaction>> UpdateAsync(Transaction transaction, CancellationToken cancellationToken)
+    public async Task<ErrorOr<Transaction>> UpdateAsync(Transaction update, CancellationToken cancellationToken)
     {
-        if (await dbContext.Transactions.FirstOrDefaultAsync(c => c.User.Id == transaction.User.Id && c.Id == transaction.Id,
-                cancellationToken) is not { } transaction2)
+        if (await dbContext.Transactions.FirstOrDefaultAsync(c => c.User.Id == update.User.Id && c.Id == update.Id,
+                cancellationToken) is not { } transaction)
             return Errors.Transaction.NotFound;
 
-        // transaction2.Name = transaction.Name;
+        transaction.Update(update);
+        
+        dbContext.Update(transaction);
 
         await dbContext.SaveChangesAsync(cancellationToken);
 
-        return transaction2;
+        return transaction;
     }
 
     public async Task<ErrorOr<Transaction>> RemoveAsync(Transaction transaction, CancellationToken cancellationToken)
