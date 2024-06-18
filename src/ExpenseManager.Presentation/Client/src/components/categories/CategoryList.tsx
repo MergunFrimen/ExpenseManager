@@ -103,7 +103,7 @@ export function CategoryList() {
                     />
                 </form>
             </Form>
-            <ScrollArea className={'size-full h-[400px] outline outline-1 outline-accent rounded-md p-5'}>
+            <ScrollArea className={'size-full h-[600px] outline outline-1 outline-accent rounded-md p-5'}>
                 {data && data.map(category =>
                     <CategoryRow key={category.id} category={category}/>
                 )}

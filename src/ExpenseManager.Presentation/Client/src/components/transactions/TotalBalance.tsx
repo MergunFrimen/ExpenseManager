@@ -40,7 +40,7 @@ export function TotalBalance() {
         <div className={"grid grid-cols-2 w-[280px]"}>
             <span className={"scroll-m-20 text-xl font-semibold tracking-tight text-[]"}>Total balance:</span>
             <span
-                className={"scroll-m-20 text-xl font-semibold tracking-tight text-right text-[#0088FE]"}>{totalBalance} CZK</span>
+                className={"scroll-m-20 text-xl font-semibold tracking-tight text-right"}>{totalBalance} CZK</span>
         </div>
     )
 }

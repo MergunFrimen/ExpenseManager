@@ -3,21 +3,43 @@ import {Button} from "@/components/ui/button.tsx";
 import {useState} from "react";
 import {Pencil, Trash2} from "lucide-react";
 import {TransactionDto} from "@/models/transactions/TransactionDto.ts";
+import {Badge} from "@/components/ui/badge.tsx";
 
 export function TransactionRow({transaction}: { transaction: TransactionDto }) {
     const [open, setOpen] = useState(false);
     const [dialogType, setDialogType] = useState<'edit' | 'remove' | undefined>(undefined);
 
     let date: string | Date = '';
-    if (transaction.date)
-        date = new Date(transaction.date).toLocaleDateString('cz-CZ')
+    if (transaction.date) {
+        date = new Date(transaction.date)
+        date = `${date.getDay()}.${date.getMonth()}.${date.getFullYear()}`
+    }
 
+    function numberFormat(number: number) {
+        let formatted = number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        if (transaction.type === 'Expense')
+            return `-${formatted} CZK`
+        else
+            return `+${formatted} CZK`
+    }
+
+    const amount = numberFormat(transaction.amount);
+    
     return (
         <div key={transaction.id} className={'grid grid-cols-5 items-center space-y-3'}>
-            <h1>{transaction.description}</h1>
-            <h1>{transaction.amount}</h1>
-            <h1>{date}</h1>
-            <h1>{transaction.categoryNames.join(', ')}</h1>
+            <h1 className={'text-left'}>{transaction.description}</h1>
+            <h1 className={'text-right w-[100px]'}>
+                {transaction.type === 'Expense' && <h1 className={'text-red-500'}>{amount}</h1>}
+                {transaction.type === 'Income' && <h1 className={'text-green-500'}>{amount}</h1>}
+            </h1>
+            <h1 className={'text-left w-[10px]'}>{date}</h1>
+            <div className={'flex flex-row wrap gap-1 p-2 justify-end'}>
+                {
+                    transaction.categoryNames.map(name => (
+                        <Badge variant={'outline'} className={'min-w-fit'}>{name}</Badge>
+                    ))
+                }
+            </div>
             <div className="flex flex-row gap-x-1 justify-end">
                 <Dialog open={open} onOpenChange={setOpen}>
                     <DialogTrigger asChild>
@@ -40,17 +62,3 @@ export function TransactionRow({transaction}: { transaction: TransactionDto }) {
         </div>
     )
 }
-
-// function CategoryDialogContext({type, category, setOpen}: {
-//     type: 'edit' | 'remove' | undefined,
-//     category: CategoryDto,
-//     setOpen: (open: boolean) => void
-// }) {
-//     if (type === 'edit') {
-//         return <CategoryForm type={'edit'} category={category} setOpen={setOpen}/>
-//     }
-//     if (type === 'remove') {
-//         return <RemoveCategoryDialog category={category} setOpen={setOpen}/>
-//     }
-//     return <></>
-// }

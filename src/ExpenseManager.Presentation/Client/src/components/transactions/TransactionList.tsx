@@ -4,6 +4,17 @@ import {ScrollArea} from "@/components/ui/scroll-area.tsx";
 import {useAuth} from "@/components/auth/AuthProvider.tsx";
 import {CategoryRow} from "@/components/categories/CategoryRow.tsx";
 import { TransactionRow } from "./TransactionRow";
+import {
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableFooter,
+    TableHead,
+    TableHeader,
+    TableRow
+} from "@/components/ui/table.tsx";
+import {TransactionDto} from "@/models/transactions/TransactionDto.ts";
 
 async function fetcher(url: string, token: string | null, {arg}: { arg: { filters: { name?: string } } }) {
     const response = await fetch(`${url}/search`, {
@@ -42,7 +53,7 @@ export function TransactionList() {
 
     return (
         <div className="flex flex-col gap-y-3 p-2">
-            <ScrollArea className={'size-full h-[400px] outline outline-1 outline-accent rounded-md p-5'}>
+            <ScrollArea className={'size-full h-[600px] outline outline-1 outline-accent rounded-md p-5'}>
                 {data && data.map(transaction =>
                     <TransactionRow key={transaction.id} transaction={transaction}/>
                 )}
