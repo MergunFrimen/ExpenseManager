@@ -8,11 +8,15 @@ export function TransactionRow({transaction}: { transaction: TransactionDto }) {
     const [open, setOpen] = useState(false);
     const [dialogType, setDialogType] = useState<'edit' | 'remove' | undefined>(undefined);
 
+    let date: string | Date = '';
+    if (transaction.date)
+        date = new Date(transaction.date).toLocaleDateString('cz-CZ')
+
     return (
         <div key={transaction.id} className={'grid grid-cols-5 items-center space-y-3'}>
             <h1>{transaction.description}</h1>
             <h1>{transaction.amount}</h1>
-            <h1>{transaction.date}</h1>
+            <h1>{date}</h1>
             <h1>{transaction.categoryNames.join(', ')}</h1>
             <div className="flex flex-row gap-x-1 justify-end">
                 <Dialog open={open} onOpenChange={setOpen}>
