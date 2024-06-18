@@ -45,10 +45,9 @@ public class UpdateTransactionCommandHandler(
             categories.Value
         );
 
-        var removeResult = await transactionRepository.RemoveAsync(transaction.Value, cancellationToken);
-        var addResult = await transactionRepository.AddAsync(newTransaction, cancellationToken);
+        var updatedTransaction = await transactionRepository.UpdateAsync(transaction.Value, cancellationToken);
 
-        return addResult.Match(
+        return updatedTransaction.Match(
             value => new TransactionResult(value),
             ErrorOr<TransactionResult>.From
         );

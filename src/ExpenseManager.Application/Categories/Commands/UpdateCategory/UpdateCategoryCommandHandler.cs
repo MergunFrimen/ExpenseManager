@@ -43,10 +43,9 @@ public class UpdateCategoryCommandHandler(
         );
 
         // Update the category
-        var removeResult = await categoryRepository.RemoveAsync(category.Value, cancellationToken);
-        var addResult = await categoryRepository.AddAsync(newCategory, cancellationToken);
+        var updatedCategory = await categoryRepository.UpdateAsync(newCategory, cancellationToken);
 
-        return addResult.Match(
+        return updatedCategory.Match(
             value => new CategoryResult(value),
             ErrorOr<CategoryResult>.From
         );

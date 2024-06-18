@@ -38,17 +38,19 @@ public class CategoryRepository(ExpenseManagerDbContext dbContext) : ICategoryRe
         return newCategory.Entity;
     }
 
-    public async Task<ErrorOr<Category>> UpdateAsync(Category category, CancellationToken cancellationToken)
+    public async Task<ErrorOr<Category>> UpdateAsync(Category update, CancellationToken cancellationToken)
     {
-        if (await dbContext.Categories.FirstOrDefaultAsync(c => c.User.Id == category.User.Id && c.Id == category.Id,
-                cancellationToken) is not { } category2)
+        if (await dbContext.Categories.FirstOrDefaultAsync(c => c.User.Id == update.User.Id && c.Id == update.Id,
+                cancellationToken) is not { } category)
             return Errors.Category.NotFound;
 
-        category2.Name = category.Name;
+        category.Update(update);
+        
+        dbContext.Update(category);
 
         await dbContext.SaveChangesAsync(cancellationToken);
 
-        return category2;
+        return category;
     }
 
     public async Task<ErrorOr<Category>> RemoveAsync(Category category, CancellationToken cancellationToken)

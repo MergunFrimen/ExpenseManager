@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using ExpenseManager.Domain.Common.Models;
 using ExpenseManager.Domain.Users;
 
@@ -21,7 +22,7 @@ public sealed class Category : Entity
     {
     }
 
-    public string Name { get; private set; }
+    public string Name { get; set; }
     public User User { get; private set; }
 
     public static Category Create(
@@ -37,5 +38,11 @@ public sealed class Category : Entity
         );
 
         return transaction;
+    }
+    public Category Update(Category update)
+    {
+        Name = update.Name;
+
+        return this;
     }
 }
