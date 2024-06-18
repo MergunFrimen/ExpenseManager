@@ -20,17 +20,17 @@ export function TransactionFilterDialog({form, onSubmit}: {
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]" onInteractOutside={(e) => e.preventDefault()}>
                 <DialogHeader>
-                    <DialogTitle>Filter categories</DialogTitle>
+                    <DialogTitle>Filter transactions</DialogTitle>
                 </DialogHeader>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)}
                           className="space-y-8 flex flex-col size-full items-center justify-center">
                         <FormField
                             control={form.control}
-                            name="name"
+                            name="description"
                             render={({field}) => (
                                 <FormItem className="size-full">
-                                    <FormLabel htmlFor={'name'}>Category name</FormLabel>
+                                    <FormLabel htmlFor={'name'}>Description</FormLabel>
                                     <FormControl>
                                         <Input
                                             id="name"

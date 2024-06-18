@@ -30,7 +30,7 @@ export function CategoryFilterDialog({form, onSubmit}: {
                             name="name"
                             render={({field}) => (
                                 <FormItem className="size-full">
-                                    <FormLabel htmlFor={'name'}>Category name</FormLabel>
+                                    <FormLabel htmlFor={'name'}>Name</FormLabel>
                                     <FormControl>
                                         <Input
                                             id="name"

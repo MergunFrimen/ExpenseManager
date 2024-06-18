@@ -5,6 +5,10 @@ import {Pencil, Trash2} from "lucide-react";
 import {TransactionDto} from "@/models/transactions/TransactionDto.ts";
 import {Badge} from "@/components/ui/badge.tsx";
 import {RemoveTransactionDialog} from "@/components/transactions/RemoveTransactionDialog.tsx";
+import {CategoryDto} from "@/models/categories/CategoryDto.ts";
+import {EditCategoryForm} from "@/components/categories/EditCategoryForm.tsx";
+import {RemoveCategoryDialog} from "@/components/categories/RemoveCategoryDialog.tsx";
+import {EditTransactionForm} from "@/components/transactions/EditTransactionForm.tsx";
 
 export function TransactionRow({transaction}: { transaction: TransactionDto }) {
     const [open, setOpen] = useState(false);
@@ -69,9 +73,9 @@ function TransactionDialogContext({type, transaction, setOpen}: {
     transaction: TransactionDto,
     setOpen: (open: boolean) => void
 }) {
-    // if (type === 'edit') {
-    //     return <EditCategoryForm type={'edit'} transaction={transaction} setOpen={setOpen}/>
-    // }
+    if (type === 'edit') {
+        return <EditTransactionForm type={'edit'} transaction={transaction} setOpen={setOpen}/>
+    }
     if (type === 'remove') {
         return <RemoveTransactionDialog transaction={transaction} setOpen={setOpen}/>
     }

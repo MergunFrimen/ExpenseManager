@@ -3,13 +3,16 @@ import {z} from "zod";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useToast} from "@/components/ui/use-toast.ts";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {FilterXIcon, PlusIcon, RefreshCwIcon} from "lucide-react";
 import {ScrollArea} from "@/components/ui/scroll-area.tsx";
 import {useAuth} from "@/components/auth/AuthProvider.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {TransactionRow} from "@/components/transactions/TransactionRow.tsx";
 import {TransactionFilterDialog} from "@/components/transactions/TransactionFilterDialog.tsx";
+import {Dialog, DialogContent, DialogTrigger} from "@/components/ui/dialog.tsx";
+import {CreateCategoryForm} from "@/components/categories/CreateCategoryForm.tsx";
+import {CategoryFilterDialog} from "@/components/categories/CategoryFilterDialog.tsx";
 
 const formSchema = z.object({
     description: z.string(),
@@ -54,7 +57,7 @@ export function TransactionList() {
         trigger,
         error
     } = useSWRMutation(['/api/v1/transactions', token], ([url, token], arg) => fetcher(url, token, arg));
-
+    const [open, setOpen] = useState(false);
 
     function onSubmit(e) {
         trigger({filters: e});
@@ -76,22 +79,25 @@ export function TransactionList() {
     return (
         <div className="flex flex-col gap-y-3">
             <div className="flex flex-row gap-x-3 justify-between">
-                <Button
-                    variant="default"
-                    className="bg-green-500"
-                    onClick={
-                        () => trigger({filters: {}})
-                    }>
-                    <PlusIcon className="h-[1.2rem] w-[1.2rem]"/>
-                    Add new
-                </Button>
+                <Dialog open={open} onOpenChange={setOpen}>
+                    <DialogTrigger asChild>
+                        <Button
+                            variant="default"
+                            className="bg-green-500"
+                            onClick={
+                                () => trigger({filters: {}})
+                            }>
+                            <PlusIcon className="h-[1.2rem] w-[1.2rem]"/>
+                            Add new
+                        </Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[425px]" onInteractOutside={(e) => e.preventDefault()}>
+                        <CreateCategoryForm setOpen={setOpen}/>
+                    </DialogContent>
+                </Dialog>
+
                 <div className="flex flex-row gap-x-3">
                     <TransactionFilterDialog form={form} onSubmit={onSubmit}/>
-                    <Button variant="ghost" size="icon" onClick={
-                        () => trigger({filters: {}})
-                    }>
-                        <FilterXIcon className="h-[1.2rem] w-[1.2rem]"/>
-                    </Button>
                     <Button variant="ghost" size="icon" onClick={
                         () => trigger({filters: {}})
                     }>

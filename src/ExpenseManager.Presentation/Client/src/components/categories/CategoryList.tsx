@@ -82,7 +82,6 @@ export function CategoryList() {
                         </Button>
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-[425px]" onInteractOutside={(e) => e.preventDefault()}>
-                        {/*<EditCategoryForm type={'create'} category={undefined} setOpen={} />*/}
                         <CreateCategoryForm setOpen={setOpen}/>
                     </DialogContent>
                 </Dialog>
