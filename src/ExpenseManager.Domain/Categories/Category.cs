@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using ExpenseManager.Domain.Common.Models;
 using ExpenseManager.Domain.Users;
 
@@ -39,6 +38,7 @@ public sealed class Category : Entity
 
         return transaction;
     }
+
     public Category Update(Category update)
     {
         Name = update.Name;

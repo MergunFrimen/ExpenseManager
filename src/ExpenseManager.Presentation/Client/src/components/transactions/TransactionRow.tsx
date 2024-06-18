@@ -4,9 +4,6 @@ import {useState} from "react";
 import {Pencil, Trash2} from "lucide-react";
 import {TransactionDto} from "@/models/transactions/TransactionDto.ts";
 import {Badge} from "@/components/ui/badge.tsx";
-import {CategoryDto} from "@/models/categories/CategoryDto.ts";
-import {EditCategoryForm} from "@/components/categories/EditCategoryForm.tsx";
-import {RemoveCategoryDialog} from "@/components/categories/RemoveCategoryDialog.tsx";
 import {RemoveTransactionDialog} from "@/components/transactions/RemoveTransactionDialog.tsx";
 
 export function TransactionRow({transaction}: { transaction: TransactionDto }) {
@@ -28,7 +25,7 @@ export function TransactionRow({transaction}: { transaction: TransactionDto }) {
     }
 
     const amount = numberFormat(transaction.amount);
-    
+
     return (
         <div key={transaction.id} className={'grid grid-cols-5 items-center space-y-3'}>
             <h1 className={'text-left'}>{transaction.description}</h1>

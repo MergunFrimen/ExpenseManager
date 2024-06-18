@@ -17,11 +17,11 @@ root.render(
             // refreshInterval: 100
         }}>
             <SWRDevTools>
-            <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-                <AuthProvider>
-                    <Routes/>
-                </AuthProvider>
-            </ThemeProvider>
+                <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+                    <AuthProvider>
+                        <Routes/>
+                    </AuthProvider>
+                </ThemeProvider>
             </SWRDevTools>
         </SWRConfig>
     </React.StrictMode>

@@ -38,7 +38,7 @@ public class TransactionRepository(ExpenseManagerDbContext dbContext) : ITransac
 
         return newTransaction.Entity;
     }
-    
+
     public async Task<ErrorOr<Transaction>> UpdateAsync(Transaction update, CancellationToken cancellationToken)
     {
         if (await dbContext.Transactions.FirstOrDefaultAsync(c => c.User.Id == update.User.Id && c.Id == update.Id,
@@ -46,7 +46,7 @@ public class TransactionRepository(ExpenseManagerDbContext dbContext) : ITransac
             return Errors.Transaction.NotFound;
 
         transaction.Update(update);
-        
+
         dbContext.Update(transaction);
 
         await dbContext.SaveChangesAsync(cancellationToken);

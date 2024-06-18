@@ -4,7 +4,7 @@ import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useToast} from "@/components/ui/use-toast.ts";
 import {useEffect, useState} from "react";
-import {FilterXIcon, PlusIcon, RefreshCwIcon} from "lucide-react";
+import {PlusIcon, RefreshCwIcon} from "lucide-react";
 import {ScrollArea} from "@/components/ui/scroll-area.tsx";
 import {useAuth} from "@/components/auth/AuthProvider.tsx";
 import {CategoryRow} from "@/components/categories/CategoryRow.tsx";
@@ -83,7 +83,7 @@ export function CategoryList() {
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-[425px]" onInteractOutside={(e) => e.preventDefault()}>
                         {/*<EditCategoryForm type={'create'} category={undefined} setOpen={} />*/}
-                        <CreateCategoryForm setOpen={setOpen} />
+                        <CreateCategoryForm setOpen={setOpen}/>
                     </DialogContent>
                 </Dialog>
 

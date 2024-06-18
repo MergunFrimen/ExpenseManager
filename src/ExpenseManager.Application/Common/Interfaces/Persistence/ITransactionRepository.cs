@@ -1,5 +1,5 @@
-using ExpenseManager.Domain.Transactions;
 using ErrorOr;
+using ExpenseManager.Domain.Transactions;
 
 namespace ExpenseManager.Application.Common.Interfaces.Persistence;
 

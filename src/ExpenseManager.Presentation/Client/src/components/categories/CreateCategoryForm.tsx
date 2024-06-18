@@ -8,7 +8,6 @@ import useSWRMutation from "swr/mutation";
 import {useEffect} from "react";
 import {z} from "zod";
 import {Label} from "@/components/ui/label.tsx";
-import {CategoryDto} from "@/models/categories/CategoryDto.ts";
 import {Button} from "@/components/ui/button.tsx";
 import {DialogFooter, DialogHeader, DialogTitle} from "@/components/ui/dialog.tsx";
 
@@ -66,7 +65,7 @@ export function CreateCategoryForm({setOpen}: {
                 description: "There was a problem with your request.",
             })
     }, [error]);
-    
+
     return (
         <div className="flex flex-col gap-y-3 p-2">
             <DialogHeader>

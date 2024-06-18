@@ -1,5 +1,5 @@
-using ExpenseManager.Domain.Categories;
 using ErrorOr;
+using ExpenseManager.Domain.Categories;
 
 namespace ExpenseManager.Application.Common.Interfaces.Persistence;
 

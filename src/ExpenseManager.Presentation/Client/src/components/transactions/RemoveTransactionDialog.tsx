@@ -4,7 +4,6 @@ import {toast} from "@/components/ui/use-toast.ts";
 import useSWRMutation from "swr/mutation";
 import {useAuth} from "@/components/auth/AuthProvider.tsx";
 import {useEffect} from "react";
-import {CategoryDto} from "@/models/categories/CategoryDto.ts";
 import {TransactionDto} from "@/models/transactions/TransactionDto.ts";
 
 async function fetcher(url: string, token: string | null, {arg}: { arg: { transactionIds: string } }) {
@@ -25,7 +24,10 @@ async function fetcher(url: string, token: string | null, {arg}: { arg: { transa
     return await response.json();
 }
 
-export function RemoveTransactionDialog({transaction, setOpen}: { transaction: TransactionDto, setOpen: (open: boolean) => void }) {
+export function RemoveTransactionDialog({transaction, setOpen}: {
+    transaction: TransactionDto,
+    setOpen: (open: boolean) => void
+}) {
     const {token} = useAuth();
     const {
         data,

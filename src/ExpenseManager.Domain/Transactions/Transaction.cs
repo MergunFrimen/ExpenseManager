@@ -62,7 +62,7 @@ public sealed class Transaction : Entity
 
         return transaction;
     }
-    
+
     public Transaction Update(Transaction update)
     {
         Description = update.Description;

@@ -45,7 +45,7 @@ public class CategoryRepository(ExpenseManagerDbContext dbContext) : ICategoryRe
             return Errors.Category.NotFound;
 
         category.Update(update);
-        
+
         dbContext.Update(category);
 
         await dbContext.SaveChangesAsync(cancellationToken);

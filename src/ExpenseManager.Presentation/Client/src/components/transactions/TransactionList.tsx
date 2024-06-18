@@ -10,8 +10,6 @@ import {useAuth} from "@/components/auth/AuthProvider.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {TransactionRow} from "@/components/transactions/TransactionRow.tsx";
 import {TransactionFilterDialog} from "@/components/transactions/TransactionFilterDialog.tsx";
-import {CategoryRow} from "@/components/categories/CategoryRow.tsx";
-import {CategoryFilterDialog} from "@/components/categories/CategoryFilterDialog.tsx";
 
 const formSchema = z.object({
     description: z.string(),
