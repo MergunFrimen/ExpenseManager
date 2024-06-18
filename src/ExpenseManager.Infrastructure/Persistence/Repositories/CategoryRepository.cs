@@ -38,22 +38,35 @@ public class CategoryRepository(ExpenseManagerDbContext dbContext) : ICategoryRe
         return newCategory.Entity;
     }
 
-    public async Task<ErrorOr<Category>> RemoveAsync(Category transaction, CancellationToken cancellationToken)
+    public async Task<ErrorOr<Category>> UpdateAsync(Category category, CancellationToken cancellationToken)
     {
-        dbContext.Categories.Remove(transaction);
+        if (await dbContext.Categories.FirstOrDefaultAsync(c => c.User.Id == category.User.Id && c.Id == category.Id,
+                cancellationToken) is not { } category2)
+            return Errors.Category.NotFound;
+
+        category2.Name = category.Name;
 
         await dbContext.SaveChangesAsync(cancellationToken);
 
-        return transaction;
+        return category2;
     }
 
-    public async Task<ErrorOr<List<Category>>> RemoveRangeAsync(List<Category> transactions,
-        CancellationToken cancellationToken)
+    public async Task<ErrorOr<Category>> RemoveAsync(Category category, CancellationToken cancellationToken)
     {
-        dbContext.Categories.RemoveRange(transactions);
+        dbContext.Categories.Remove(category);
 
         await dbContext.SaveChangesAsync(cancellationToken);
 
-        return transactions;
+        return category;
+    }
+
+    public async Task<ErrorOr<List<Category>>> RemoveRangeAsync(List<Category> categories,
+        CancellationToken cancellationToken)
+    {
+        dbContext.Categories.RemoveRange(categories);
+
+        await dbContext.SaveChangesAsync(cancellationToken);
+
+        return categories;
     }
 }
