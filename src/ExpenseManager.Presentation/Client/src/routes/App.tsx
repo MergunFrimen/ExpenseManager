@@ -22,10 +22,12 @@ export default function App() {
                 </div>
 
                 <Tabs defaultValue="transactions" className={"w-full"}>
-                    <TabsList className={""}>
-                        <TabsTrigger value="transactions">Transactions</TabsTrigger>
-                        <TabsTrigger value="categories">Categories</TabsTrigger>
-                    </TabsList>
+                    <div className={'flex flex-row items-center gap-x-8'}>
+                        <TabsList className={""}>
+                            <TabsTrigger value="transactions">Transactions</TabsTrigger>
+                            <TabsTrigger value="categories">Categories</TabsTrigger>
+                        </TabsList>
+                    </div>
                     <TabsContent value="transactions">
                         <TransactionList/>
                     </TabsContent>

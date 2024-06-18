@@ -2,14 +2,14 @@ import useSWRMutation from "swr/mutation";
 import {z} from "zod";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {Form, FormControl, FormField, FormItem, FormMessage} from "@/components/ui/form";
 import {useToast} from "@/components/ui/use-toast.ts";
 import {useEffect} from "react";
-import {CircleXIcon, SearchIcon} from "lucide-react";
-import {Input} from "@/components/ui/input";
+import {FilterXIcon} from "lucide-react";
 import {ScrollArea} from "@/components/ui/scroll-area.tsx";
 import {useAuth} from "@/components/auth/AuthProvider.tsx";
 import {CategoryRow} from "@/components/categories/CategoryRow.tsx";
+import {Button} from "@/components/ui/button.tsx";
+import {CategoryFilterDialog} from "@/components/categories/CategoryFilterDialog.tsx";
 
 const formSchema = z.object({
     name: z.string()
@@ -65,44 +65,15 @@ export function CategoryList() {
     }, []);
 
     return (
-        <div className="flex flex-col gap-y-3 p-2">
-            <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)}
-                      className="space-y-8 flex flex-row size-full items-center justify-center">
-                    <FormField
-                        control={form.control}
-                        name="name"
-                        render={({field}) => (
-                            <FormItem className="size-full">
-                                {/*<FormLabel>Category name</FormLabel>*/}
-                                <FormControl>
-                                    <div className="relative">
-                                        <div
-                                            className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                                            <SearchIcon className="w-4 h-4 text-gray-500 dark:text-gray-400"/>
-                                        </div>
-                                        <button type={'button'}
-                                                className="absolute inset-y-0 end-0 flex items-center pe-3"
-                                                onClick={() => {
-                                                    form.reset({name: ""})
-                                                    trigger({filters: {}})
-                                                }}
-                                        >
-                                            <CircleXIcon className="w-4 h-4 text-gray-500 dark:text-gray-400"/>
-                                        </button>
-                                        <Input
-                                            placeholder="Search category"
-                                            className="h-10 block w-full p-4 ps-10"
-                                            {...field}
-                                        />
-                                    </div>
-                                </FormControl>
-                                <FormMessage/>
-                            </FormItem>
-                        )}
-                    />
-                </form>
-            </Form>
+        <div className="flex flex-col gap-y-3">
+            <div className="flex flex-row gap-x-3">
+                <CategoryFilterDialog form={form} onSubmit={onSubmit}/>
+                <Button variant="ghost" size="icon" onClick={
+                    () => trigger({filters: {}})
+                }>
+                    <FilterXIcon className="h-[1.2rem] w-[1.2rem]"/>
+                </Button>
+            </div>
             <ScrollArea className={'size-full h-[600px] outline outline-1 outline-accent rounded-md p-5'}>
                 {data && data.map(category =>
                     <CategoryRow key={category.id} category={category}/>
