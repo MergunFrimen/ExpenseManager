@@ -4,12 +4,14 @@ import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useToast} from "@/components/ui/use-toast.ts";
 import {useEffect} from "react";
-import {FilterXIcon} from "lucide-react";
+import {FilterXIcon, PlusIcon, RefreshCwIcon} from "lucide-react";
 import {ScrollArea} from "@/components/ui/scroll-area.tsx";
 import {useAuth} from "@/components/auth/AuthProvider.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {TransactionRow} from "@/components/transactions/TransactionRow.tsx";
 import {TransactionFilterDialog} from "@/components/transactions/TransactionFilterDialog.tsx";
+import {CategoryRow} from "@/components/categories/CategoryRow.tsx";
+import {CategoryFilterDialog} from "@/components/categories/CategoryFilterDialog.tsx";
 
 const formSchema = z.object({
     description: z.string(),
@@ -75,14 +77,32 @@ export function TransactionList() {
 
     return (
         <div className="flex flex-col gap-y-3">
-            <div className="flex flex-row gap-x-3">
-                <TransactionFilterDialog form={form} onSubmit={onSubmit}/>
-                <Button variant="ghost" size="icon" onClick={() => trigger({filters: {}})}>
-                    <FilterXIcon className="h-[1.2rem] w-[1.2rem]"/>
+            <div className="flex flex-row gap-x-3 justify-between">
+                <Button
+                    variant="default"
+                    className="bg-green-500"
+                    onClick={
+                        () => trigger({filters: {}})
+                    }>
+                    <PlusIcon className="h-[1.2rem] w-[1.2rem]"/>
+                    Add new
                 </Button>
+                <div className="flex flex-row gap-x-3">
+                    <TransactionFilterDialog form={form} onSubmit={onSubmit}/>
+                    <Button variant="ghost" size="icon" onClick={
+                        () => trigger({filters: {}})
+                    }>
+                        <FilterXIcon className="h-[1.2rem] w-[1.2rem]"/>
+                    </Button>
+                    <Button variant="ghost" size="icon" onClick={
+                        () => trigger({filters: {}})
+                    }>
+                        <RefreshCwIcon className="h-[1.2rem] w-[1.2rem]"/>
+                    </Button>
+                </div>
             </div>
-            <ScrollArea className={'size-full h-[600px] outline outline-1 outline-accent rounded-md p-5'}>
-                {data && data.map(transaction =>
+            <ScrollArea className={'size-full h-[600px] outline outline-1 outline-accent rounded-md px-5'}>
+                {data && data.sort((x, y) => x.id > y.id ? 1 : -1).map(transaction =>
                     <TransactionRow key={transaction.id} transaction={transaction}/>
                 )}
             </ScrollArea>

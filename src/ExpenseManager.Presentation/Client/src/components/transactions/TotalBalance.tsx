@@ -22,7 +22,10 @@ export function TotalBalance() {
     const {token} = useAuth();
     const {data, error, isLoading} = useSWR(
         ["/api/v1/statistics/balance", token],
-        ([url, token]) => fetcher(url, token)
+        ([url, token]) => fetcher(url, token),
+        {
+            refreshInterval: 100
+        }
     );
 
     if (isLoading) return <div>Loading...</div>;

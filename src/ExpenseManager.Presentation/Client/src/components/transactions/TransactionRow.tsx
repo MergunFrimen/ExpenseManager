@@ -4,6 +4,10 @@ import {useState} from "react";
 import {Pencil, Trash2} from "lucide-react";
 import {TransactionDto} from "@/models/transactions/TransactionDto.ts";
 import {Badge} from "@/components/ui/badge.tsx";
+import {CategoryDto} from "@/models/categories/CategoryDto.ts";
+import {EditCategoryForm} from "@/components/categories/EditCategoryForm.tsx";
+import {RemoveCategoryDialog} from "@/components/categories/RemoveCategoryDialog.tsx";
+import {RemoveTransactionDialog} from "@/components/transactions/RemoveTransactionDialog.tsx";
 
 export function TransactionRow({transaction}: { transaction: TransactionDto }) {
     const [open, setOpen] = useState(false);
@@ -55,10 +59,24 @@ export function TransactionRow({transaction}: { transaction: TransactionDto }) {
                         </Button>
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-[425px]" onInteractOutside={(e) => e.preventDefault()}>
-                        {/*<CategoryDialogContext category={transaction} type={dialogType} setOpen={setOpen}/>*/}
+                        <TransactionDialogContext transaction={transaction} type={dialogType} setOpen={setOpen}/>
                     </DialogContent>
                 </Dialog>
             </div>
         </div>
     )
+}
+
+function TransactionDialogContext({type, transaction, setOpen}: {
+    type: 'edit' | 'remove' | undefined,
+    transaction: TransactionDto,
+    setOpen: (open: boolean) => void
+}) {
+    // if (type === 'edit') {
+    //     return <EditCategoryForm type={'edit'} transaction={transaction} setOpen={setOpen}/>
+    // }
+    if (type === 'remove') {
+        return <RemoveTransactionDialog transaction={transaction} setOpen={setOpen}/>
+    }
+    return <></>
 }

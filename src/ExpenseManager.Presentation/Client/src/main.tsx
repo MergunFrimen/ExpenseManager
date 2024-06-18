@@ -5,6 +5,7 @@ import {ThemeProvider} from "@/components/theme/ThemeProvider.tsx";
 import {AuthProvider} from './components/auth/AuthProvider';
 import {Routes} from "@/routes/Routes.tsx";
 import {SWRDevTools} from "swr-devtools";
+import {SWRConfig} from "swr";
 
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement,
@@ -12,13 +13,17 @@ const root = ReactDOM.createRoot(
 
 root.render(
     <React.StrictMode>
-        <SWRDevTools>
+        <SWRConfig value={{
+            // refreshInterval: 100
+        }}>
+            <SWRDevTools>
             <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
                 <AuthProvider>
                     <Routes/>
                 </AuthProvider>
             </ThemeProvider>
-        </SWRDevTools>
+            </SWRDevTools>
+        </SWRConfig>
     </React.StrictMode>
 )
 

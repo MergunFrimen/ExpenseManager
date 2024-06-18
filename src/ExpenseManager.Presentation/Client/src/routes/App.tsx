@@ -21,7 +21,7 @@ export default function App() {
                     <TotalBalance/>
                 </div>
 
-                <Tabs defaultValue="transactions" className={"w-full"}>
+                <Tabs defaultValue="categories" className={"w-full"}>
                     <div className={'flex flex-row items-center gap-x-8'}>
                         <TabsList className={""}>
                             <TabsTrigger value="transactions">Transactions</TabsTrigger>

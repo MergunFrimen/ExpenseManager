@@ -3,9 +3,8 @@ import {Dialog, DialogContent, DialogTrigger} from "@/components/ui/dialog.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {useState} from "react";
 import {Pencil, Trash2} from "lucide-react";
-import {EditCategoryDialog} from "@/components/categories/EditCategoryDialog.tsx";
 import {RemoveCategoryDialog} from "@/components/categories/RemoveCategoryDialog.tsx";
-import {CategoryForm} from "@/components/categories/CategoryForm.tsx";
+import {EditCategoryForm} from "@/components/categories/EditCategoryForm.tsx";
 
 export function CategoryRow({category}: { category: CategoryDto }) {
     const [open, setOpen] = useState(false);
@@ -43,7 +42,7 @@ function CategoryDialogContext({type, category, setOpen}: {
     setOpen: (open: boolean) => void
 }) {
     if (type === 'edit') {
-        return <CategoryForm type={'edit'} category={category} setOpen={setOpen}/>
+        return <EditCategoryForm type={'edit'} category={category} setOpen={setOpen}/>
     }
     if (type === 'remove') {
         return <RemoveCategoryDialog category={category} setOpen={setOpen}/>

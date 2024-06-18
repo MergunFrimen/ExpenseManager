@@ -34,7 +34,7 @@ async function fetcher(url: string, token: string | null, {arg}: { arg: { filter
     return await response.json();
 }
 
-export function CategoryForm({type, category, setOpen}: {
+export function EditCategoryForm({type, category, setOpen}: {
     type: 'create' | 'edit',
     category: CategoryDto,
     setOpen: (open: boolean) => void
