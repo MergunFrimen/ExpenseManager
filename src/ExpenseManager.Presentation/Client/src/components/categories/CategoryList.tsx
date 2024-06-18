@@ -31,7 +31,7 @@ async function fetcher(url: string, token: string | null, {arg}: { arg: { filter
     return await response.json();
 }
 
-export default function Categories() {
+export function CategoryList() {
     const {token} = useAuth();
     const {toast} = useToast()
     const form = useForm<z.infer<typeof formSchema>>({

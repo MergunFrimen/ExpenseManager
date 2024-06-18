@@ -1,75 +1,52 @@
-import {TableCell, TableRow} from "@/components/ui/table.tsx";
-import {Badge} from "@/components/ui/badge.tsx";
-import {Button} from "@/components/ui/button"
-import {Pencil, Trash2} from "lucide-react"
+import {Dialog, DialogContent, DialogTrigger} from "@/components/ui/dialog.tsx";
+import {Button} from "@/components/ui/button.tsx";
+import {useState} from "react";
+import {Pencil, Trash2} from "lucide-react";
 import {TransactionDto} from "@/models/transactions/TransactionDto.ts";
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger
-} from "../ui/dialog";
-import {transactionsApiConnector} from "@/api/transactionsApiConnector.ts";
-import {useAuth} from "@/components/auth/AuthProvider.tsx";
-import {useNavigate} from "react-router-dom";
 
 export function TransactionRow({transaction}: { transaction: TransactionDto }) {
-    const {token} = useAuth();
-    const navigate = useNavigate();
-    const {description, type, category, amount, date} = transaction;
-    const sign = type === "Income" ? "+" : "-";
+    const [open, setOpen] = useState(false);
+    const [dialogType, setDialogType] = useState<'edit' | 'remove' | undefined>(undefined);
 
     return (
-        <TableRow className="items-center odd:bg-accent/20">
-            <TableCell>
-                <div className="font-medium">{description}</div>
-            </TableCell>
-            <TableCell className="hidden sm:table-cell">{type}</TableCell>
-            <TableCell className="hidden sm:table-cell">
-                <Badge className="text-xs" variant="outline">
-                    {category}
-                </Badge>
-            </TableCell>
-            <TableCell className="hidden md:table-cell">{date}</TableCell>
-            <TableCell className="hidden md:table-cell">{`${sign}\$${amount}`}</TableCell>
-            <TableCell className="text-right">
-                <div className="flex flex-row gap-x-2 justify-end">
-                    <Button variant="outline" size="icon" onClick={() => {
-                        navigate(`/app/updateTransaction/${transaction.id}`)
-                    }}>
-                        <Pencil
-                            className="h-[1.2rem] w-[1.2rem]"/>
-                    </Button>
-                    <Dialog>
-                        <DialogTrigger asChild>
-                            <Button variant="destructive" size="icon">
-                                <Trash2
-                                    className="h-[1.2rem] w-[1.2rem]"/>
-                            </Button>
-                        </DialogTrigger>
-                        <DialogContent className="sm:max-w-[425px]">
-                            <DialogHeader>
-                                <DialogTitle>Confirm delete</DialogTitle>
-                                <DialogDescription>
-                                    Are you sure you want to delete this transaction? This action cannot be undone.
-                                </DialogDescription>
-                            </DialogHeader>
-                            <DialogFooter>
-                                <Button type="submit" variant="destructive"
-                                        onClick={async () => {
-                                            if (!token) return;
-                                            await transactionsApiConnector.deleteTransaction(token, transaction)
-                                            window.location.reload();
-                                        }}
-                                >Delete</Button>
-                            </DialogFooter>
-                        </DialogContent>
-                    </Dialog>
-                </div>
-            </TableCell>
-        </TableRow>
-    );
+        <div key={transaction.id} className={'grid grid-cols-5 items-center space-y-3'}>
+            <h1>{transaction.description}</h1>
+            <h1>{transaction.amount}</h1>
+            <h1>{transaction.date}</h1>
+            <h1>{transaction.categoryNames.join(', ')}</h1>
+            <div className="flex flex-row gap-x-1 justify-end">
+                <Dialog open={open} onOpenChange={setOpen}>
+                    <DialogTrigger asChild>
+                        <Button variant="secondary" size="icon"
+                                onClick={() => setDialogType('edit')}>
+                            <Pencil className="h-[1.2rem] w-[1.2rem]"/>
+                        </Button>
+                    </DialogTrigger>
+                    <DialogTrigger asChild>
+                        <Button variant="destructive" size="icon"
+                                onClick={() => setDialogType('remove')}>
+                            <Trash2 className="h-[1.2rem] w-[1.2rem]"/>
+                        </Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[425px]" onInteractOutside={(e) => e.preventDefault()}>
+                        {/*<CategoryDialogContext category={transaction} type={dialogType} setOpen={setOpen}/>*/}
+                    </DialogContent>
+                </Dialog>
+            </div>
+        </div>
+    )
 }
+
+// function CategoryDialogContext({type, category, setOpen}: {
+//     type: 'edit' | 'remove' | undefined,
+//     category: CategoryDto,
+//     setOpen: (open: boolean) => void
+// }) {
+//     if (type === 'edit') {
+//         return <CategoryForm type={'edit'} category={category} setOpen={setOpen}/>
+//     }
+//     if (type === 'remove') {
+//         return <RemoveCategoryDialog category={category} setOpen={setOpen}/>
+//     }
+//     return <></>
+// }

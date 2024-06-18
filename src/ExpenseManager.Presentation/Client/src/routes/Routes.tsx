@@ -6,7 +6,7 @@ import {ProtectedRoute} from "@/routes/ProtectedRoute.tsx";
 import Error from "@/routes/Error.tsx";
 import Stats from "@/routes/Stats.tsx";
 import {Logout} from "@/routes/Logout.tsx";
-import CategoryList from "@/components/categories/CategoryList.tsx";
+import {CategoryList} from "@/components/categories/CategoryList.tsx";
 
 export function Routes() {
     const publicRoutes: RouteObject[] = [

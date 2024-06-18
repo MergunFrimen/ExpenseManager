@@ -1,24 +1,19 @@
 @host = http://localhost:5222
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0NzlmMjkzZi1iY2Y3LTRmMDgtOThkOC1jNjk3Y2FkZTZkM2UiLCJnaXZlbl9uYW1lIjoiRG9taW5payIsImZhbWlseV9uYW1lIjoiVGljaHkiLCJqdGkiOiIyNmZhMzJjYy1jZmNhLTQxMWUtOGZlYS04OWVjZTFjNmI5YTAiLCJpc3MiOiJFeHBlbnNlTWFuYWdlciIsImF1ZCI6IkV4cGVuc2VNYW5hZ2VyIiwiZXhwIjoxNzE4ODMzMzc2fQ.7xUjPKQw-OXYfTkwZ2wGvONwciFUWq00TxbtIbAu_00
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhYWY2YzJlOS0xNDlhLTRhNGYtYTAyNi1iMmJkOWU3MjM4N2EiLCJnaXZlbl9uYW1lIjoiRG9taW5payIsImZhbWlseV9uYW1lIjoiVGljaHkiLCJqdGkiOiJmYjc5ODJlZi1kZTMxLTRlY2EtYjU0Ni0xOTQyOWZjNDVlOTQiLCJpc3MiOiJFeHBlbnNlTWFuYWdlciIsImF1ZCI6IkV4cGVuc2VNYW5hZ2VyIiwiZXhwIjoxNzE5MDIyMDY2fQ.RN_0n9yJoOLAqxmLqcm_cfoSvt8eb0GC3zIgRFLsv-I
 
 ###
 
 @description = test
 @categoryId1 = d1df5ae3-233c-422b-a951-2e355be8af76
 
-GET {{host}}/api/v1/transactions
+POST {{host}}/api/v1/transactions/search
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
   "filters": {
-    "priceRange": {
-      "to": 50
-    },
-    "dateRange": {
-      "from": 50
-    },
-    "transactionType": "Income",
+    "priceRange": {},
+    "dateRange": {},
     "categories": []
   }
 }

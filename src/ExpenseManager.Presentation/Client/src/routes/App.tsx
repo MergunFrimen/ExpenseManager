@@ -1,7 +1,8 @@
 import BaseLayout from "@/layouts/BaseLayout.tsx";
 import {TotalBalance} from "@/components/transactions/TotalBalance";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs.tsx";
-import CategoryList from "@/components/categories/CategoryList.tsx";
+import {CategoryList} from "@/components/categories/CategoryList.tsx";
+import {TransactionList} from "@/components/transactions/TransactionList.tsx";
 
 export default function App() {
 
@@ -20,19 +21,18 @@ export default function App() {
                     <TotalBalance/>
                 </div>
 
-                <Tabs defaultValue="categories" className={"w-full"}>
-                    <TabsList>
+                <Tabs defaultValue="transactions" className={"w-full"}>
+                    <TabsList className={""}>
                         <TabsTrigger value="transactions">Transactions</TabsTrigger>
                         <TabsTrigger value="categories">Categories</TabsTrigger>
                     </TabsList>
-                    <TabsContent value="transactions">Make changes to your account here.</TabsContent>
+                    <TabsContent value="transactions">
+                        <TransactionList/>
+                    </TabsContent>
                     <TabsContent value="categories">
                         <CategoryList/>
                     </TabsContent>
                 </Tabs>
-                {/*<CategoryList/>*/}
-
-                {/*<TransactionTable transactions={transactions}/>*/}
             </div>
         </BaseLayout>
     )

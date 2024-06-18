@@ -1,4 +1,4 @@
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {ModeToggle} from "@/components/theme/ModeToggle.tsx";
 import {
     DropdownMenu,
@@ -61,9 +61,6 @@ export function Header() {
                 </DropdownMenuContent>
             </DropdownMenu>
 
-            {/*<Link to="/" className="text-xl self-start font-bold px-5">*/}
-            {/*    Expense Manager*/}
-            {/*</Link>*/}
             <div className="flex row gap-x-2">
                 <ModeToggle/>
                 {token && <Settings/>}
@@ -73,6 +70,8 @@ export function Header() {
 }
 
 function Settings() {
+    const navigate = useNavigate();
+
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -82,17 +81,13 @@ function Settings() {
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-                <DropdownMenuItem>
-                    <Link to="/app/logout" className="flex items-center size-full">
-                        <LogOutIcon className="mr-2 h-4 w-4"/>
-                        <span>Logout</span>
-                    </Link>
+                <DropdownMenuItem onClick={() => navigate("/app/logout")}>
+                    <LogOutIcon className="mr-2 h-4 w-4"/>
+                    <span>Logout</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator/>
-                <div className={'flex flex-col wrap gap-y-2'}>
-                    <Export/>
-                    <Import/>
-                </div>
+                <Export/>
+                <Import/>
             </DropdownMenuContent>
         </DropdownMenu>
     )

@@ -2,14 +2,13 @@ import BaseLayout from "@/layouts/BaseLayout.tsx";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card.tsx";
 import {Input} from "@/components/ui/input.tsx";
 import {Button} from "@/components/ui/button.tsx";
-import {SubmitHandler, useForm} from "react-hook-form";
-import {Check, LoaderCircle} from "lucide-react";
+import {useForm} from "react-hook-form";
 import {z} from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form.tsx";
 import {Link, Navigate} from "react-router-dom";
 import {toast} from "@/components/ui/use-toast.ts";
-import { useEffect } from "react";
+import {useEffect} from "react";
 import useSWRMutation from "swr/mutation";
 import {useAuth} from "@/components/auth/AuthProvider.tsx";
 

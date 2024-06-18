@@ -5,6 +5,7 @@ export interface TransactionDto {
     description: string;
     amount: number;
     type: string;
-    date: number;
-    categories: CategoryDto[];
+    date?: number;
+    categoryIds: string[];
+    categoryNames: string[];
 }

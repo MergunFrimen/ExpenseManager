@@ -82,7 +82,7 @@ public class TransactionController(ISender mediatr, IMapper mapper) : ApiControl
         );
     }
 
-    [HttpGet]
+    [HttpPost("search")]
     public async Task<IActionResult> Search(SearchTransactionsRequest request)
     {
         var userId = GetUserId();

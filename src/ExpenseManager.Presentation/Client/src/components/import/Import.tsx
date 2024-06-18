@@ -5,8 +5,6 @@ import {Input} from "@/components/ui/input.tsx";
 import {useEffect, useRef} from 'react';
 import {toast} from "@/components/ui/use-toast.ts";
 import {useAuth} from "@/components/auth/AuthProvider.tsx";
-import {Button} from '../ui/button';
-import { DropdownMenuItem } from '../ui/dropdown-menu';
 
 async function fetcher(url: string, token: string | null, {arg}: { arg: ImportDto }) {
     const response = await fetch(url, {
@@ -60,10 +58,10 @@ export function Import() {
                     fileInputRef.current.click();
                 }
             }}
-            className={'relative hover:bg-accent hover:text-accent-foreground flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors hover:cursor-pointer focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50'}
+            className={'relative hover:bg-accent hover:text-accent-foreground flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50'}
         >
             <DownloadIcon className="mr-2 h-4 w-4"/>
-            {isMutating ? "Loading..." : "Import"}
+            Import
             <div hidden className={'hidden'}>
                 <Input ref={fileInputRef} id="picture" type="file" accept=".json" onChange={(e) => {
                     const file = e.target.files?.[0];
