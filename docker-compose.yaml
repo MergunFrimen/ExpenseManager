@@ -27,10 +27,14 @@ services:
     restart: on-failure
     depends_on:
       - expense-manager-db
-#  expense-manager-client:
-#    container_name: expense-manager-client
-#    build: ./src/ExpenseManager.Presentation/Client
-#    network_mode: "host"
-#    restart: on-failure
-#    depends_on:
-#      - expense-manager-api
+  expense-manager-client:
+    container_name: expense-manager-client
+    build:
+      context: ./src/ExpenseManager.Presentation/Client
+      dockerfile: docker/client.dockerfile
+    ports:
+      - "4173:4173"
+    network_mode: "host"
+    restart: on-failure
+    depends_on:
+      - expense-manager-api
