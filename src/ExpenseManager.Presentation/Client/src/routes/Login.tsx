@@ -39,11 +39,8 @@ export default function Login() {
 
     const form = useForm<FormFields>({
         defaultValues: {
-            // TODO: change back after testing
-            // email: "",
-            // password: "",
-            email: "dominik@tichy.cz",
-            password: "Pa$$word1"
+            email: "",
+            password: ""
         },
         resolver: zodResolver(schema),
     });

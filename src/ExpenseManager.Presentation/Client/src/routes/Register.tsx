@@ -41,10 +41,10 @@ export default function Register() {
 
     const form = useForm<FormFields>({
         defaultValues: {
-            firstName: "John",
-            lastName: "Doe",
-            email: "email@email.com",
-            password: "Pa$$word1",
+            firstName: "",
+            lastName: "",
+            email: "",
+            password: "",
         },
         resolver: zodResolver(schema),
     });
