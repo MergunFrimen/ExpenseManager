@@ -10,6 +10,8 @@ export default defineConfig({
         },
     },
     server: {
+        host: "127.0.0.1",
+        port: 5173,
         proxy: {
             "/api": {
                 target: "http://127.0.0.1:5222",
@@ -17,5 +19,16 @@ export default defineConfig({
                 followRedirects: true,
             },
         },
-    }
+    },
+    preview: {
+        host: "127.0.0.1",
+        port: 4173,
+        proxy: {
+            "/api": {
+                target: "http://127.0.0.1:5222",
+                changeOrigin: true,
+                followRedirects: true,
+            },
+        },
+    },
 })
