@@ -12,8 +12,7 @@ Authorization: Bearer {{token}}
 
 {
   "filters": {
-    "priceRange": {},
     "dateRange": {},
-    "categories": []
+    "priceRange": {}
   }
 }

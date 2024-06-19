@@ -27,13 +27,28 @@ import {CategoryDto} from "@/models/categories/CategoryDto";
 import {CheckedState} from "@radix-ui/react-checkbox";
 import {ScrollArea} from "@/components/ui/scroll-area.tsx";
 import useSWRMutation from "swr/mutation";
-import {TransactionDto} from "@/models/transactions/TransactionDto.ts";
 
-async function transactionFetcher(url: string, token: string | null, method: 'POST' | 'PUT', {arg}: {
+interface TransactionFilterDto {
+    filters: {
+        description?: string,
+        transactionType?: 'Expense' | 'Income',
+        categoryIds?: string[],
+        dateRange?: {
+            from: number,
+            to: number
+        },
+        priceRange?: {
+            from: number,
+            to: number
+        }
+    }
+}
+
+async function transactionFetcher(url: string, token: string | null, {arg}: {
     arg: { filters: { name?: string } }
 }) {
-    const response = await fetch(url, {
-        method: method,
+    const response = await fetch(`${url}/search`, {
+        method: 'POST',
         headers: {
             "Content-Type": "application/json",
             "Authorization": "Bearer " + token
@@ -48,29 +63,31 @@ async function transactionFetcher(url: string, token: string | null, method: 'PO
 }
 
 const formSchema = z.object({
-    description: z.string().min(1).max(150),
-    amount: z.coerce.number().gt(0),
-    type: z.enum(["Expense", "Income"]),
-    date: z.date().optional(),
-    categoryIds: z.array(z.string())
+    description: z.string().max(150).optional(),
+    transactionType: z.enum(["Expense", "Income"]).optional(),
+    categoryIds: z.array(z.string()).optional(),
+    dateRange: z.object({
+        from: z.date().optional(),
+        to: z.date().optional()
+    }).optional(),
+    priceRange: z.object({
+        from: z.date().optional(),
+        to: z.date().optional()
+    }).optional()
 })
 
 type FormSchema = z.infer<typeof formSchema>;
 
-export function TransactionFormDialog({type, transaction, children}: {
-    type: 'create' | 'edit',
-    transaction: TransactionDto,
-    children: ReactNode
-}) {
+export function TransactionFilterFormDialog({children}: { children: ReactNode }) {
     const {token} = useAuth();
     const form = useForm<FormSchema>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            description: type === 'edit' ? transaction.description : undefined,
-            amount: type === 'edit' ? transaction.amount : undefined,
-            type: type === 'edit' ? transaction.type : undefined,
-            date: type === 'edit' && transaction.date ? new Date(transaction.date * 1000) : undefined,
-            categoryIds: type === 'edit' ? transaction.categoryIds : []
+            description: undefined,
+            transactionType: undefined,
+            categoryIds: [],
+            dateRange: {},
+            priceRange: {},
         }
     })
     const {
@@ -82,72 +99,67 @@ export function TransactionFormDialog({type, transaction, children}: {
         }
     } = form;
     const {
-        trigger: createTrigger,
-        error: createError
+        trigger,
+        error
     } = useSWRMutation(
         ['/api/v1/transactions', token],
-        ([url, token], arg) => transactionFetcher(url, token, 'POST', arg),
-        {}
-    );
-    const {
-        trigger: updateTrigger,
-        error: updateError
-    } = useSWRMutation(
-        [`/api/v1/transactions/${transaction.id}`, token],
-        ([url, token], arg) => transactionFetcher(url, token, 'PUT', arg),
+        ([url, token], arg) => transactionFetcher(url, token, arg),
         {}
     );
 
     function onSubmit(data: FormSchema) {
+        const dataFrom = data.dateRange?.from ? Math.floor(data.dateRange.from / 1000) : undefined;
+        const dataTo = data.dateRange?.to ? Math.floor(data.dateRange.to / 1000) : undefined;
+
+        const request = {
+            filters: {
+                ...data,
+                dateRange: data.dateRange ? {
+                    from: dataFrom,
+                    to: dataTo
+                } : {},
+                categoryIds: data.categoryIds.length > 0 ? data.categoryIds : undefined
+            }
+        }
+
         toast({
-            title: type === 'create' ?
-                "Created transaction with the following values:" :
-                "Updated transaction with the following values:",
+            title: "Filtered transactions with the following values:",
             description: (
                 <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
           <code className="text-white">
-              {JSON.stringify(data, null, 2)}
+              {JSON.stringify(request, null, 2)}
           </code>
         </pre>
             ),
         })
 
-        const request = {
-            ...data,
-            date: data.date ? Math.floor(data.date / 1000) : null
-        }
+        console.log(request);
 
-        if (type === 'create') {
-            createTrigger(request);
-        } else {
-            updateTrigger(request);
-        }
+        trigger(request);
     }
 
-    useEffect(() => {
-        if (createError)
-            toast({
-                variant: "destructive",
-                title: "Uh oh! Something went wrong.",
-                description: "There was a problem with your request.",
-            })
-    }, [createError, updateError]);
-
-    const title = type === 'create' ? 'Create transaction' : 'Edit transaction';
+    // useEffect(() => {
+    //     if (error)
+    //         toast({
+    //             variant: "destructive",
+    //             title: "Uh oh! Something went wrong.",
+    //             description: "There was a problem with your request.",
+    //         })
+    // }, [error]);
 
     return (
-        <Dialog>
+        <Dialog defaultOpen={true}>
             <DialogTrigger asChild>
                 {children}
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]" onInteractOutside={(e) => e.preventDefault()}>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <DialogHeader>
-                        <DialogTitle>{title}</DialogTitle>
+                        <DialogTitle>Filter transactions</DialogTitle>
                     </DialogHeader>
                     <div className="grid gap-3 py-4">
                         <DescriptionInput getValues={getValues} setValue={setValue} errors={errors}/>
-                        <AmountInput getValues={getValues} setValue={setValue} errors={errors}/>
+                        {/*<AmountInput getValues={getValues} setValue={setValue} errors={errors}/>*/}
                         <TypeSelect getValues={getValues} setValue={setValue} errors={errors}/>
                         <CalendarInput getValues={getValues} setValue={setValue} errors={errors}/>
                         <CategoriesSelect getValues={getValues} setValue={setValue} errors={errors}/>
@@ -218,38 +230,44 @@ function AmountInput({getValues, setValue, errors}: { getValues: any, setValue: 
 }
 
 function TypeSelect({getValues, setValue, errors}: { getValues: any, setValue: any, errors: any }) {
-    const [selectedValue, setSelectedValue] = useState<string>(getValues("type"));
+    const [selectedValue, setSelectedValue] = useState<'Expense' | 'Income' | 'All'>(getValues("transactionType"));
 
     useEffect(() => {
-        setValue("type", selectedValue, {
+        const value = selectedValue === 'All' ? undefined : selectedValue;
+        setValue("transactionType", value, {
             shouldDirty: true
         });
     }, [selectedValue])
 
     return (
         <div className="grid w-full max-w-sm items-center gap-1.5">
-            <Select value={selectedValue} onValueChange={setSelectedValue}>
+            <Label htmlFor="type">Type</Label>
+            <Select id={'type'} value={selectedValue} onValueChange={setSelectedValue}>
                 <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select transaction type"/>
                 </SelectTrigger>
                 <SelectContent>
                     <SelectGroup>
+                        <SelectItem value="All" className={'text-accent'}>All</SelectItem>
                         <SelectItem value="Expense">Expense</SelectItem>
                         <SelectItem value="Income">Income</SelectItem>
                     </SelectGroup>
                 </SelectContent>
             </Select>
-            {errors.type &&
-                <span className={'text-sm font-medium text-destructive'}>{errors.type.message}</span>}
+            {
+                errors.type &&
+                <span className={'text-sm font-medium text-destructive'}>{errors.type.message}</span>
+            }
         </div>
     )
 }
 
 function CalendarInput({getValues, setValue, errors}: { getValues: any, setValue: any, errors: any }) {
-    const [date, setDate] = useState<Date>(getValues("date"));
+    const [date, setDate] = useState<FormSchema['dateRange']>(getValues("dateRange"));
 
     useEffect(() => {
-        setValue("date", date, {
+        console.log(date);
+        setValue("dateRange", date, {
             shouldDirty: true
         });
     }, [date])
@@ -259,6 +277,7 @@ function CalendarInput({getValues, setValue, errors}: { getValues: any, setValue
             <Popover>
                 <PopoverTrigger asChild>
                     <Button
+                        id="date"
                         variant={"outline"}
                         className={cn(
                             "w-full justify-start text-left font-normal",
@@ -266,15 +285,28 @@ function CalendarInput({getValues, setValue, errors}: { getValues: any, setValue
                         )}
                     >
                         <CalendarIcon className="mr-2 h-4 w-4"/>
-                        {date ? format(date, "PPP") : <span>Pick a date</span>}
+                        {date?.from ? (
+                            date.to ? (
+                                <>
+                                    {format(date.from, "LLL dd, y")} -{" "}
+                                    {format(date.to, "LLL dd, y")}
+                                </>
+                            ) : (
+                                format(date.from, "LLL dd, y")
+                            )
+                        ) : (
+                            <span>Pick a date</span>
+                        )}
                     </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-auto p-0">
+                <PopoverContent className="w-auto p-0" align="start">
                     <Calendar
-                        mode="single"
+                        initialFocus
+                        mode="range"
+                        defaultMonth={date?.from}
                         selected={date}
                         onSelect={setDate}
-                        initialFocus
+                        numberOfMonths={2}
                     />
                 </PopoverContent>
             </Popover>
@@ -323,9 +355,9 @@ function CategoriesSelect({getValues, setValue}: { getValues: any, setValue: any
     return (
         <Popover>
             <PopoverTrigger onClick={() => setOpen(!open)}>
-                <Button type={'button'} className="w-full" variant={'outline'}>
-                    Select categories
-                </Button>
+                {/*<Button type={'button'} className="w-full" variant={'outline'}>*/}
+                Select categories
+                {/*</Button>*/}
             </PopoverTrigger>
             <PopoverContent className={'w-full'}>
                 <ScrollArea className="h-[250px] w-full rounded-md">
