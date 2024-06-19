@@ -2,8 +2,8 @@ ARG DOTNET_RUNTIME=mcr.microsoft.com/dotnet/aspnet:8.0
 ARG DOTNET_SDK=mcr.microsoft.com/dotnet/sdk:8.0
 
 FROM ${DOTNET_RUNTIME} AS base
-ENV ASPNETCORE_URLS=http://+:7105
 WORKDIR /home/app
+ENV ASPNETCORE_URLS=http://+:7105
 EXPOSE 7105
 
 FROM ${DOTNET_SDK} AS build
@@ -21,7 +21,7 @@ RUN dotnet restore ExpenseManager.sln
 COPY ["src/", "src/"]
 
 ## Run migrations
-FROM build as migrations
+FROM build AS migrations
 RUN dotnet tool install --version 6.0.9 --global dotnet-ef
 ENV PATH="$PATH:/root/.dotnet/tools"
 ENTRYPOINT dotnet-ef database update -p src/ExpenseManager.Infrastructure/ -s src/ExpenseManager.Presentation/
