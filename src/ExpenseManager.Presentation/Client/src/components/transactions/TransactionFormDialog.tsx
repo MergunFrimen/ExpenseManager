@@ -57,7 +57,11 @@ const formSchema = z.object({
 
 type FormSchema = z.infer<typeof formSchema>;
 
-export function TestFormDialog({type, transaction}: { type: 'create' | 'edit', transaction: TransactionDto }) {
+export function TransactionFormDialog({type, transaction, children}: {
+    type: 'create' | 'edit',
+    transaction: TransactionDto,
+    children: React.ReactNode
+}) {
     const {token} = useAuth();
     const form = useForm<FormSchema>({
         resolver: zodResolver(formSchema),
@@ -132,9 +136,9 @@ export function TestFormDialog({type, transaction}: { type: 'create' | 'edit', t
     const title = type === 'create' ? 'Create transaction' : 'Edit transaction';
 
     return (
-        <Dialog defaultOpen={true}>
+        <Dialog>
             <DialogTrigger asChild>
-                <Button variant="outline">Edit Profile</Button>
+                {children}
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]" onInteractOutside={(e) => e.preventDefault()}>
                 <form onSubmit={handleSubmit(onSubmit)}>

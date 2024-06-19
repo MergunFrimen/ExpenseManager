@@ -1,10 +1,19 @@
-import {DialogDescription, DialogFooter, DialogHeader, DialogTitle} from "@/components/ui/dialog.tsx";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger
+} from "@/components/ui/dialog.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {toast} from "@/components/ui/use-toast.ts";
 import useSWRMutation from "swr/mutation";
 import {useAuth} from "@/components/auth/AuthProvider.tsx";
 import {useEffect} from "react";
 import {TransactionDto} from "@/models/transactions/TransactionDto.ts";
+import {Trash2} from "lucide-react";
 
 async function fetcher(url: string, token: string | null, {arg}: { arg: { transactionIds: string } }) {
     const response = await fetch(url, {
@@ -24,9 +33,8 @@ async function fetcher(url: string, token: string | null, {arg}: { arg: { transa
     return await response.json();
 }
 
-export function RemoveTransactionDialog({transaction, setOpen}: {
-    transaction: TransactionDto,
-    setOpen: (open: boolean) => void
+export function RemoveTransactionDialog({transaction}: {
+    transaction: TransactionDto
 }) {
     const {token} = useAuth();
     const {
@@ -49,23 +57,31 @@ export function RemoveTransactionDialog({transaction, setOpen}: {
     }, [data]);
 
     return <>
-        <DialogHeader>
-            <DialogTitle>Delete</DialogTitle>
-            <DialogDescription>
-                Are you sure you want to delete this transaction? This action cannot be undone.
-            </DialogDescription>
-        </DialogHeader>
-        <DialogFooter>
-            <Button
-                type="submit"
-                variant="destructive"
-                onClick={() => {
-                    trigger({transactionIds: transaction.id})
-                    setOpen(false)
-                }}
-            >
-                Delete
-            </Button>
-        </DialogFooter>
+        <Dialog>
+            <DialogTrigger asChild>
+                <Button variant="destructive" size="icon">
+                    <Trash2 className="h-[1.2rem] w-[1.2rem]"/>
+                </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]" onInteractOutside={(e) => e.preventDefault()}>
+                <DialogHeader>
+                    <DialogTitle>Delete</DialogTitle>
+                    <DialogDescription>
+                        Are you sure you want to delete this transaction? This action cannot be undone.
+                    </DialogDescription>
+                </DialogHeader>
+                <DialogFooter>
+                    <Button
+                        type="submit"
+                        variant="destructive"
+                        onClick={() => {
+                            trigger({transactionIds: transaction.id})
+                        }}
+                    >
+                        Delete
+                    </Button>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
     </>
 }

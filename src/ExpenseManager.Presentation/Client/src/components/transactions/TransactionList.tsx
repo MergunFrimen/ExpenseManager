@@ -10,8 +10,7 @@ import {useAuth} from "@/components/auth/AuthProvider.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {TransactionRow} from "@/components/transactions/TransactionRow.tsx";
 import {TransactionFilterDialog} from "@/components/transactions/TransactionFilterDialog.tsx";
-import {Dialog, DialogContent, DialogTrigger} from "@/components/ui/dialog.tsx";
-import {CreateCategoryForm} from "@/components/categories/CreateCategoryForm.tsx";
+import {TransactionFormDialog} from "@/components/transactions/TransactionFormDialog.tsx";
 
 const formSchema = z.object({
     description: z.string(),
@@ -78,22 +77,21 @@ export function TransactionList() {
     return (
         <div className="flex flex-col gap-y-3">
             <div className="flex flex-row gap-x-3 justify-between">
-                <Dialog open={open} onOpenChange={setOpen}>
-                    <DialogTrigger asChild>
-                        <Button
-                            variant="default"
-                            className="bg-green-500"
-                            onClick={
-                                () => trigger({filters: {}})
-                            }>
-                            <PlusIcon className="h-[1.2rem] w-[1.2rem]"/>
-                            Add new
-                        </Button>
-                    </DialogTrigger>
-                    <DialogContent className="sm:max-w-[425px]" onInteractOutside={(e) => e.preventDefault()}>
-                        <CreateCategoryForm setOpen={setOpen}/>
-                    </DialogContent>
-                </Dialog>
+                <TransactionFormDialog type={'create'} transaction={{
+                    description: '',
+                    type: 'Expense',
+                    amount: 0,
+                    id: '',
+                    categoryIds: [],
+                    categoryNames: [],
+                }}>
+                    <Button
+                        variant="default"
+                        className="bg-green-500">
+                        <PlusIcon className="h-[1.2rem] w-[1.2rem]"/>
+                        Add new
+                    </Button>
+                </TransactionFormDialog>
 
                 <div className="flex flex-row gap-x-3">
                     <TransactionFilterDialog form={form} onSubmit={onSubmit}/>

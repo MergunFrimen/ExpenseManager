@@ -12,18 +12,11 @@ const root = ReactDOM.createRoot(
 
 root.render(
     <React.StrictMode>
-        {/*<SWRConfig value={{*/}
-        {/*    refreshInterval: 100*/}
-        {/*}}>*/}
-        {/*<SWRDevTools>*/}
         <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
             <AuthProvider>
                 <Routes/>
-                {/*<TestFormDialog transaction={testTransaction} type={'edit'}/>*/}
             </AuthProvider>
         </ThemeProvider>
-        {/*</SWRDevTools>*/}
-        {/*</SWRConfig>*/}
         <Toaster/>
     </React.StrictMode>
 )

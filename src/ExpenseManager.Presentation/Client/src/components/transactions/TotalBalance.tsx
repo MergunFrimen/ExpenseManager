@@ -24,7 +24,7 @@ export function TotalBalance() {
         ["/api/v1/statistics/balance", token],
         ([url, token]) => fetcher(url, token),
         {
-            // refreshInterval: 100
+            refreshInterval: 1000
         }
     );
 

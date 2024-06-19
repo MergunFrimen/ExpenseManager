@@ -74,9 +74,7 @@ export function CategoryList() {
                         <Button
                             variant="default"
                             className="bg-green-500"
-                            onClick={
-                                () => trigger({filters: {}})
-                            }>
+                        >
                             <PlusIcon className="h-[1.2rem] w-[1.2rem]"/>
                             Add new
                         </Button>
