@@ -6,7 +6,7 @@ export const Logout = () => {
     const {setToken} = useAuth();
 
     useEffect(() => {
-        setToken();
+        setToken(null);
     }, []);
 
     return <Navigate to="/login"/>;

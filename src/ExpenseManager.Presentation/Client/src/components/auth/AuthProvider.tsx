@@ -3,12 +3,12 @@ import {createContext, ReactNode, useContext, useEffect, useMemo, useState} from
 
 type AuthProviderProps = {
     children: ReactNode
-    storageKey?: string
+    storageKey: string
 }
 
 type AuthProviderState = {
     token: string | null,
-    setToken: (token: string) => void
+    setToken: (token: string | null) => void
 }
 
 const initialState: AuthProviderState = {
@@ -37,7 +37,7 @@ export const AuthProvider = ({
         }
     }, [token]);
 
-    const setToken = (newToken: string) => {
+    const setToken = (newToken: string | null) => {
         _setToken(newToken);
     };
 
