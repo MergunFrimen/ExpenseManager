@@ -35,6 +35,7 @@ export function CategoryFilterDialog({form, onSubmit}: {
                                         <Input
                                             id="name"
                                             defaultValue="@peduarte"
+                                            autoComplete={"off"}
                                             className="col-span-3"
                                             {...field}
                                         />

@@ -88,7 +88,8 @@ export function EditCategoryForm({type, category, setOpen}: {
                                 <FormControl>
                                     <div className="grid w-full max-w-sm items-center gap-1.5">
                                         <Label htmlFor="name">Name</Label>
-                                        <Input type="name" id="name" placeholder="Category name" {...field}/>
+                                        <Input type="name" id="name" autoComplete={"off"}
+                                               placeholder="Category name" {...field}/>
                                     </div>
                                 </FormControl>
                                 <FormMessage/>
