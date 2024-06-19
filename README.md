@@ -1,50 +1,41 @@
 # Expense Manager
 
-## Requirements
-
-stejne jako v interaktivni osnove predmetu:
-
-- [x] zaregistrovat se - heslo nesmí být uloženo v plain textu
-- [x] přihlášení/odhlášení
-- [x] přidat výdaj/příjem
-- [ ] každý výdaj/příjem klasifikovat do několik předpřipravených kategorií
-- [ ] zobrazení aktuálního stavu účtu uživatele
-- [ ] přidat nové kategorie pro klasifikaci příjmu a výdajů
-- [ ] filtrování podle více parametrů (kategorie, měsíc, rok…)
-- [x] CRUD tam, kde to dává smysl
-- [ ] asynchronně importovat a exportovat výdaje/příjmy
-- [ ] zobrazit nějaké jednoduché statistiky a exportovat je do grafu (v případě aplikace s GUI stačí tento graf zobrazit)
-
-
-navic:
-
-- [x] bude to webova aplikace
-- [x] backend v C# (WebAPI etc.) a minimalni frontend (nejspis React nebo Solidjs)
-- [x] duraz na clean architecture a event driven architekturu (MediatR)
-- [ ] deployment pres Docker container
-- [ ] pokud budu mit cas tak to dam i na Azure pres Terraform
-
 ## How to run
+
+Requires Docker and Docker Compose.
 
 ### Docker
 
+This is the easiest way to run the application. It will build the frontend and backend and run them in separate containers.
+
 ```bash
-docker-compose up
+docker-compose up --build
 ```
 
 ### Local
 
+Will require running a Postgres database first. Can do this with Docker:
+```bash
+docker run -it --rm -e POSTGRES_PASSWORD=postgres -p 5432:5432 postgres:alpine
+````
+
+Then run migrations:
+```bash
+dotnet ef database update -p src/ExpenseManager.Infrastructure -s src/ExpenseManager.Presentation --connection "Host=127.0.0.1;Port=5432;Database=postgres;Username=postgres;Password=postgres"
+```
+
 Run the web API:
 ```bash
 dotnet build
-dotnet run
+dotnet run --project src/ExpenseManager.Presentation/
 ```
 
 Run the frontend:
 ```bash
-cd ExpenseManager.Presentation/Client
+cd src/ExpenseManager.Presentation/Client
 npm i
-npm run dev
+npm run build
+npm run preview
 ```
 
 ## Sources
