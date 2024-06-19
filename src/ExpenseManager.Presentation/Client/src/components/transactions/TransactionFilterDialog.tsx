@@ -15,6 +15,8 @@ import {Checkbox} from "@/components/ui/checkbox"
 import {CategoryDto} from "@/models/categories/CategoryDto";
 import {CheckedState} from "@radix-ui/react-checkbox";
 import {ScrollArea} from "@/components/ui/scroll-area.tsx";
+import {Slider} from "@/components/ui/slider.tsx";
+import {Skeleton} from "@/components/ui/skeleton.tsx";
 
 export function TransactionFilterDialog({form, onSubmit, children}: {
     form: any,
@@ -42,7 +44,7 @@ export function TransactionFilterDialog({form, onSubmit, children}: {
                     </DialogHeader>
                     <div className="grid gap-3 py-4">
                         <DescriptionInput getValues={getValues} setValue={setValue} errors={errors}/>
-                        {/*<AmountInput getValues={getValues} setValue={setValue} errors={errors}/>*/}
+                        <PriceRange getValues={getValues} setValue={setValue} errors={errors}/>
                         <TypeSelect getValues={getValues} setValue={setValue} errors={errors}/>
                         <CalendarInput getValues={getValues} setValue={setValue} errors={errors}/>
                         <CategoriesSelect getValues={getValues} setValue={setValue} errors={errors}/>
@@ -82,36 +84,66 @@ function DescriptionInput({getValues, setValue, errors}: { getValues: any, setVa
     )
 }
 
-// function AmountInput({getValues, setValue, errors}: { getValues: any, setValue: any, errors: any }) {
-//     const [inputValue, setInputValue] = useState<string>(getValues("amount"));
-//
-//     function onChange(value: string) {
-//         if (value === '' || !isNaN(Number(value)))
-//             setInputValue(value);
-//     }
-//
-//     useEffect(() => {
-//         setValue("amount", inputValue, {
-//             shouldDirty: true
-//         });
-//     }, [inputValue])
-//
-//     return (
-//         <div className="grid w-full max-w-sm items-center gap-1.5">
-//             <Label htmlFor="amount">Amount</Label>
-//             <Input
-//                 id="amount"
-//                 className="col-span-3"
-//                 autoComplete={"off"}
-//                 type={"number"}
-//                 value={inputValue}
-//                 onChange={(e) => onChange(e.target.value)}
-//             />
-//             {errors.amount &&
-//                 <span className={'text-sm font-medium text-destructive'}>{errors.amount.message}</span>}
-//         </div>
-//     )
-// }
+async function priceRangeFetcher(url: string, token: string | null) {
+    const response = await fetch(url, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
+        }
+    });
+
+    if (!response.ok)
+        throw response;
+
+    return await response.json();
+}
+
+function PriceRange({getValues, setValue, errors}: { getValues: any, setValue: any, errors: any }) {
+    const {token} = useAuth();
+    const [inputValue, setInputValue] = useState(getValues("priceRange"));
+    const {
+        data,
+        isLoading
+    } = useSWR(['/api/v1/statistics/priceRange', token], ([url, token]) => priceRangeFetcher(url, token));
+
+    function onValueChange(value: number[]) {
+        setInputValue({
+            from: value[0],
+            to: value[1]
+        });
+    }
+
+    useEffect(() => {
+        setValue("priceRange", inputValue, {
+            shouldDirty: true
+        });
+    }, [inputValue])
+
+    useEffect(() => {
+        console.log(data)
+        setInputValue({
+            from: data?.minPrice,
+            to: data?.maxPrice
+        });
+    }, [data])
+
+    if (isLoading)
+        return <Skeleton className={"grid grid-cols-2 grid-rows-3 h-[28px] w-full"}/>
+
+    const minPrice = data?.minPrice;
+    const maxPrice = data?.maxPrice;
+
+    return (
+        <div className="grid w-full max-w-sm items-center gap-1.5">
+            <Label htmlFor="priceRange">Price range [{inputValue.from},{inputValue.to}]</Label>
+            <Slider defaultValue={[minPrice, maxPrice]} min={minPrice} max={maxPrice} step={1}
+                    minStepsBetweenThumbs={10} onValueChange={onValueChange}/>
+            {errors.amount &&
+                <span className={'text-sm font-medium text-destructive'}>{errors.amount.message}</span>}
+        </div>
+    )
+}
 
 function TypeSelect({getValues, setValue, errors}: { getValues: any, setValue: any, errors: any }) {
     const [selectedValue, setSelectedValue] = useState<'Expense' | 'Income' | 'All'>(getValues("transactionType"));
@@ -150,7 +182,6 @@ function CalendarInput({getValues, setValue, errors}: { getValues: any, setValue
     const [date, setDate] = useState(getValues("dateRange"));
 
     useEffect(() => {
-        console.log(date);
         setValue("dateRange", date, {
             shouldDirty: true
         });

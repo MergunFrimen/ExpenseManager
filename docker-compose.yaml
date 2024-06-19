@@ -1,0 +1,23 @@
+services:
+  expense-manager-db:
+    container_name: expense-manager-db
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    restart: on-failure
+  expense-manager-api:
+    container_name: expense-manager-api
+    build: ./src/ExpenseManager.Presentation
+    network_mode: "host"
+    restart: on-failure
+    depends_on:
+      - expense-manager-db
+  expense-manager-client:
+    container_name: expense-manager-client
+    build: ./src/ExpenseManager.Presentation/Client
+    network_mode: "host"
+    restart: on-failure
+    depends_on:
+      - expense-manager-api

@@ -23,8 +23,8 @@ const formSchema = z.object({
         to: z.date().optional()
     }).optional(),
     priceRange: z.object({
-        from: z.date().optional(),
-        to: z.date().optional()
+        from: z.number().optional(),
+        to: z.number().optional()
     }).optional()
 })
 
@@ -57,8 +57,14 @@ export function TransactionList() {
             description: undefined,
             transactionType: undefined,
             categoryIds: [],
-            dateRange: {},
-            priceRange: {},
+            dateRange: {
+                from: undefined,
+                to: undefined
+            },
+            priceRange: {
+                from: undefined,
+                to: undefined
+            },
         }
     })
     const {
