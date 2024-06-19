@@ -29,22 +29,6 @@ import {ScrollArea} from "@/components/ui/scroll-area.tsx";
 import useSWRMutation from "swr/mutation";
 import {TransactionDto} from "@/models/transactions/TransactionDto.ts";
 
-async function categoryFetcher(url: string, token: string | null) {
-    const response = await fetch(`${url}/search`, {
-        method: 'POST',
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer " + token
-        },
-        body: JSON.stringify({filters: {name: ''}})
-    });
-
-    if (!response.ok)
-        throw response;
-
-    return await response.json();
-}
-
 async function transactionFetcher(url: string, token: string | null, method: 'POST' | 'PUT', {arg}: {
     arg: { filters: { name?: string } }
 }) {
@@ -317,13 +301,13 @@ function CategoriesSelect({getValues, setValue}: { getValues: any, setValue: any
         else
             setSelectedValues(selectedValues.filter((value) => value !== category.id))
     }
-    
+
     useEffect(() => {
         setValue("categoryIds", selectedValues, {
             shouldDirty: true
         });
     }, [selectedValues])
-    
+
     return (
         <Popover>
             <PopoverTrigger onClick={() => setOpen(!open)}>

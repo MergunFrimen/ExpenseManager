@@ -5,9 +5,6 @@ import {Pencil, Trash2} from "lucide-react";
 import {TransactionDto} from "@/models/transactions/TransactionDto.ts";
 import {Badge} from "@/components/ui/badge.tsx";
 import {RemoveTransactionDialog} from "@/components/transactions/RemoveTransactionDialog.tsx";
-import {CategoryDto} from "@/models/categories/CategoryDto.ts";
-import {EditCategoryForm} from "@/components/categories/EditCategoryForm.tsx";
-import {RemoveCategoryDialog} from "@/components/categories/RemoveCategoryDialog.tsx";
 import {EditTransactionForm} from "@/components/transactions/EditTransactionForm.tsx";
 
 export function TransactionRow({transaction}: { transaction: TransactionDto }) {

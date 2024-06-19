@@ -7,7 +7,6 @@ import {useToast} from "../ui/use-toast";
 import useSWRMutation from "swr/mutation";
 import {useEffect, useState} from "react";
 import {z} from "zod";
-import {Label} from "@/components/ui/label.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {DialogFooter, DialogHeader, DialogTitle} from "@/components/ui/dialog.tsx";
 import {TransactionDto} from "@/models/transactions/TransactionDto.ts";
@@ -17,9 +16,11 @@ import {Calendar} from "@/components/ui/calendar.tsx";
 import {CalendarIcon} from "lucide-react";
 import {format} from "date-fns";
 import {
-    DropdownMenu, DropdownMenuCheckboxItem,
+    DropdownMenu,
+    DropdownMenuCheckboxItem,
     DropdownMenuContent,
-    DropdownMenuLabel, DropdownMenuSeparator,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu.tsx";
 
@@ -171,7 +172,7 @@ export function EditTransactionForm({type, transaction, setOpen}: {
                                         </DropdownMenuTrigger>
                                         <DropdownMenuContent className="w-56">
                                             <DropdownMenuLabel>Appearance</DropdownMenuLabel>
-                                            <DropdownMenuSeparator />
+                                            <DropdownMenuSeparator/>
                                             <DropdownMenuCheckboxItem
                                                 checked={showStatusBar}
                                                 onCheckedChange={setShowStatusBar}
@@ -192,7 +193,7 @@ export function EditTransactionForm({type, transaction, setOpen}: {
                                                 Panel
                                             </DropdownMenuCheckboxItem>
                                         </DropdownMenuContent>
-                                    </DropdownMenu>                                </FormControl>
+                                    </DropdownMenu> </FormControl>
                                 <FormMessage/>
                             </FormItem>
                         )}

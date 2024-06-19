@@ -4,7 +4,7 @@ import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useToast} from "@/components/ui/use-toast.ts";
 import {useEffect, useState} from "react";
-import {FilterXIcon, PlusIcon, RefreshCwIcon} from "lucide-react";
+import {PlusIcon, RefreshCwIcon} from "lucide-react";
 import {ScrollArea} from "@/components/ui/scroll-area.tsx";
 import {useAuth} from "@/components/auth/AuthProvider.tsx";
 import {Button} from "@/components/ui/button.tsx";
@@ -12,7 +12,6 @@ import {TransactionRow} from "@/components/transactions/TransactionRow.tsx";
 import {TransactionFilterDialog} from "@/components/transactions/TransactionFilterDialog.tsx";
 import {Dialog, DialogContent, DialogTrigger} from "@/components/ui/dialog.tsx";
 import {CreateCategoryForm} from "@/components/categories/CreateCategoryForm.tsx";
-import {CategoryFilterDialog} from "@/components/categories/CategoryFilterDialog.tsx";
 
 const formSchema = z.object({
     description: z.string(),
