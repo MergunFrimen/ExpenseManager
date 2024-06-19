@@ -1,12 +1,43 @@
 # Expense Manager
 
+This project tries to implement a simple expense manager application using Clean Architecture and Domain Driven Design.
+
+## Todo
+- [ ] prod secrets
+- [ ] tests
+- [ ] better fetching with SWR
+
+## Tech used
+
+### Backend
+- .NET 8
+#### Domain & Application
+- MediatR
+- FluentValidation
+- ErrorOr
+#### Api
+- Mapster
+- WebApi
+#### Infrastructure
+- Entity Framework Core
+- Npgsql
+#### Auth
+- JWT
+
+### Frontend
+- React
+- React Router
+- SWR
+- React Hook Form + zod
+- shadcn + Tailwind CSS
+
 ## How to run
 
-Requires Docker and Docker Compose.
 
 ### Docker
 
 This is the easiest way to run the application. It will build the frontend and backend and run them in separate containers.
+Requires Docker and Docker Compose.
 
 ```bash
 docker-compose up --build
