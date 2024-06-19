@@ -19,7 +19,7 @@ public class CreateCategoryCommandHandler(ICategoryRepository categoryRepository
             return user.Errors;
 
         // Check if category with the same name already exists
-        var exists = await categoryRepository.ExistsAsync(category => category.Name == command.Name, cancellationToken);
+        var exists = await categoryRepository.ExistsAsync(category => category.User.Id == command.UserId && category.Name == command.Name, cancellationToken);
         if (exists.IsError)
             return exists.Errors;
         if (exists.Value)
