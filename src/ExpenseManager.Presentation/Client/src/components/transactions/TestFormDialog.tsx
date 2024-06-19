@@ -49,7 +49,7 @@ async function transactionFetcher(url: string, token: string | null, method: 'PO
 
 const formSchema = z.object({
     description: z.string().min(1).max(150),
-    amount: z.coerce.number().gte(0),
+    amount: z.coerce.number().gt(0),
     type: z.enum(["Expense", "Income"]),
     date: z.date().optional(),
     categoryIds: z.array(z.string())
@@ -129,6 +129,8 @@ export function TestFormDialog({type, transaction}: { type: 'create' | 'edit', t
             })
     }, [createError, updateError]);
 
+    const title = type === 'create' ? 'Create transaction' : 'Edit transaction';
+
     return (
         <Dialog defaultOpen={true}>
             <DialogTrigger asChild>
@@ -137,7 +139,7 @@ export function TestFormDialog({type, transaction}: { type: 'create' | 'edit', t
             <DialogContent className="sm:max-w-[425px]" onInteractOutside={(e) => e.preventDefault()}>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <DialogHeader>
-                        <DialogTitle>Edit transaction</DialogTitle>
+                        <DialogTitle>{title}</DialogTitle>
                     </DialogHeader>
                     <div className="grid gap-3 py-4">
                         <DescriptionInput getValues={getValues} setValue={setValue} errors={errors}/>
@@ -183,6 +185,11 @@ function DescriptionInput({getValues, setValue, errors}: { getValues: any, setVa
 function AmountInput({getValues, setValue, errors}: { getValues: any, setValue: any, errors: any }) {
     const [inputValue, setInputValue] = useState<string>(getValues("amount"));
 
+    function onChange(value: string) {
+        if (value === '' || !isNaN(Number(value)))
+            setInputValue(value);
+    }
+
     useEffect(() => {
         setValue("amount", inputValue, {
             shouldDirty: true
@@ -196,8 +203,9 @@ function AmountInput({getValues, setValue, errors}: { getValues: any, setValue: 
                 id="amount"
                 className="col-span-3"
                 autoComplete={"off"}
+                type={"number"}
                 value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
+                onChange={(e) => onChange(e.target.value)}
             />
             {errors.amount &&
                 <span className={'text-sm font-medium text-destructive'}>{errors.amount.message}</span>}

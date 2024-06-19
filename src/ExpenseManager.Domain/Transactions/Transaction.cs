@@ -65,6 +65,7 @@ public sealed class Transaction : Entity
 
     public Transaction Update(Transaction update)
     {
+        Amount = update.Amount;
         Description = update.Description;
         Type = update.Type;
         Date = update.Date;
