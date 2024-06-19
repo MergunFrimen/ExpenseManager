@@ -45,7 +45,7 @@ export function Import() {
             toast({
                 variant: "default",
                 title: "Import successful.",
-                description: `Imported ${data.amountCategoryAdded} transactions and ${data.amountCategoryAdded} categories.`,
+                description: `Imported ${data.amountTransactionAdded} transactions and ${data.amountCategoryAdded} categories.`,
             })
         }
     }, [data]);
