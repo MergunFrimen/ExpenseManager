@@ -10,7 +10,7 @@ import {Button} from "@/components/ui/button.tsx";
 import {Label} from "@/components/ui/label.tsx";
 import {Input} from "@/components/ui/input.tsx";
 import {z} from "zod";
-import {SubmitHandler, useForm} from "react-hook-form";
+import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover.tsx";
 import {cn} from "@/lib/utils.ts";
@@ -20,12 +20,19 @@ import {useEffect, useState} from "react";
 import {format} from "date-fns";
 import {Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select.tsx";
 import {toast} from "../ui/use-toast";
+import useSWR from "swr";
+import {useAuth} from "@/components/auth/AuthProvider.tsx";
+import {Checkbox} from "@/components/ui/checkbox"
+import {CategoryDto} from "@/models/categories/CategoryDto";
+import {CheckedState} from "@radix-ui/react-checkbox";
+import {ScrollArea} from "@/components/ui/scroll-area.tsx";
 
 const formSchema = z.object({
     description: z.string().min(1).max(150),
     amount: z.coerce.number().gte(0),
     type: z.enum(["Expense", "Income"]),
     date: z.date().optional(),
+    categoryIds: z.array(z.string())
 })
 
 type FormSchema = z.infer<typeof formSchema>;
@@ -47,6 +54,8 @@ export function TestFormDialog() {
     } = form;
 
     function onSubmit(data: FormSchema) {
+        const seconds = data.date ? Math.floor(data.date / 1000) : null;
+        console.log(seconds)
         console.log(data)
         toast({
             title: "You submitted the following values:",
@@ -59,11 +68,11 @@ export function TestFormDialog() {
     }
 
     return (
-        <Dialog open={true}>
+        <Dialog defaultOpen={true}>
             <DialogTrigger asChild>
                 <Button variant="outline">Edit Profile</Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-[425px]" onInteractOutside={(e) => e.preventDefault()}>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <DialogHeader>
                         <DialogTitle>Edit transaction</DialogTitle>
@@ -73,6 +82,7 @@ export function TestFormDialog() {
                         <AmountInput setValue={setValue} errors={errors}/>
                         <TypeSelect setValue={setValue} errors={errors}/>
                         <CalendarInput setValue={setValue} errors={errors}/>
+                        <CategoriesSelect setValue={setValue} errors={errors}/>
                     </div>
                     <DialogFooter>
                         <Button type="submit">Save changes</Button>
@@ -200,30 +210,71 @@ function CalendarInput({setValue, errors}: { setValue: any, errors: any }) {
     )
 }
 
+async function fetcher(url: string, token: string | null) {
+    const response = await fetch(`${url}/search`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
+        },
+        body: JSON.stringify({filters: {name: ''}})
+    });
+
+    if (!response.ok)
+        throw response;
+
+    return await response.json();
+}
+
 function CategoriesSelect({setValue, errors}: { setValue: any, errors: any }) {
-    const [selectedValue, setSelectedValue] = useState<string>('')
+    const {token} = useAuth();
+    const {data} = useSWR(['/api/v1/categories', token], ([url, token]) => fetcher(url, token));
+
+    const [selectedValues, setSelectedValues] = useState<string[]>([])
+    const [open, setOpen] = useState<boolean>(false);
+
+    function onCheckedChange(checked: CheckedState, category: CategoryDto) {
+        if (checked)
+            setSelectedValues([...selectedValues, category.id]);
+        else
+            setSelectedValues(selectedValues.filter((value) => value !== category.id))
+    }
 
     useEffect(() => {
-        setValue("type", selectedValue, {
+        setValue("categoryIds", selectedValues, {
             shouldDirty: true
         });
-    }, [selectedValue])
+    }, [selectedValues])
 
     return (
-        <div className="grid w-full max-w-sm items-center gap-1.5">
-            <Select value={selectedValue} onValueChange={setSelectedValue}>
-                <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select transaction type"/>
-                </SelectTrigger>
-                <SelectContent>
-                    <SelectGroup>
-                        <SelectItem value="Expense">Expense</SelectItem>
-                        <SelectItem value="Income">Income</SelectItem>
-                    </SelectGroup>
-                </SelectContent>
-            </Select>
-            {errors.type &&
-                <span className={'text-sm font-medium text-destructive'}>{errors.type.message}</span>}
-        </div>
+        <Popover>
+            <PopoverTrigger onClick={() => setOpen(!open)}>
+                <Button type={'button'} className="w-full" variant={'outline'}>
+                    Select categories
+                </Button>
+            </PopoverTrigger>
+            <PopoverContent className={'w-full'}>
+                <ScrollArea className="h-[250px] w-full rounded-md">
+                    {
+                        data && data.map((category: CategoryDto) =>
+                            <div key={category.id}
+                                 className={'relative space-x-2 flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50'}
+                            >
+                                <Checkbox
+                                    checked={selectedValues.includes(category.id)}
+                                    onCheckedChange={(checked) => onCheckedChange(checked, category)}
+                                />
+                                <Label
+                                    htmlFor={category.id}
+                                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                >
+                                    {category.name}
+                                </Label>
+                            </div>
+                        )
+                    }
+                </ScrollArea>
+            </PopoverContent>
+        </Popover>
     )
 }
