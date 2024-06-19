@@ -1,5 +1,6 @@
 import useSWR from 'swr';
 import {useAuth} from "@/components/auth/AuthProvider.tsx";
+import {Skeleton} from "@/components/ui/skeleton.tsx";
 
 async function fetcher(url: string, token: string | null) {
     const response = await fetch(url, {
@@ -28,7 +29,18 @@ export function Balance() {
         }
     );
 
-    if (isLoading) return <div>Loading...</div>;
+    if (isLoading)
+        return (
+            <Skeleton className={"grid grid-cols-2 grid-rows-3 w-[280px]"}>
+                <Skeleton className={"h-[20px] w-[100px]"}/>
+                <Skeleton className={"h-[20px] w-[100px]"}/>
+                <Skeleton className={"h-[20px] w-[100px]"}/>
+                <Skeleton className={"h-[20px] w-[100px]"}/>
+                <Skeleton className={"h-[20px] w-[100px]"}/>
+                <Skeleton className={"h-[20px] w-[100px]"}/>
+            </Skeleton>
+        )
+
     if (error) return <div>Error loading data</div>;
 
     if (!data) return <div>No data</div>;

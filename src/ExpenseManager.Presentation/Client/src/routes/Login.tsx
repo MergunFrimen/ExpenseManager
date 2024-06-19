@@ -39,10 +39,9 @@ export default function Login() {
 
     const form = useForm<FormFields>({
         defaultValues: {
+            // TODO: change back
             // email: "",
             // password: "",
-            // email: "example@com.cz",
-            // password: "example@com.cz",
             email: "dominik@tichy.cz",
             password: "Pa$$word1"
         },
@@ -72,7 +71,7 @@ export default function Login() {
 
     // If the user is authenticated, redirect to the dashboard
     if (token) {
-        return <Navigate to="/app"/>;
+        return <Navigate to="/"/>;
     }
 
     return (

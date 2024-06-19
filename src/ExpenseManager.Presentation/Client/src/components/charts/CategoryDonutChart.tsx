@@ -1,12 +1,38 @@
 import {Cell, Legend, Pie, PieChart, ResponsiveContainer} from 'recharts';
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card.tsx";
-import {ChartsDto} from "@/models/charts/ChartsDto.ts";
+import {useAuth} from "@/components/auth/AuthProvider.tsx";
+import useSWR from 'swr';
+import {Skeleton} from '../ui/skeleton';
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#F2545B']
 
-export function CategoryDonutChart({type, data}: { type: 'expense' | 'income', data: ChartsDto }) {
-    const donutChartData = data[`${type}CategoryDonutChart`]
+async function fetcher(url: string, token: string | null) {
+    const response = await fetch(url, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
+        }
+    });
+
+    if (!response.ok)
+        throw response;
+
+    return await response.json();
+}
+
+export function CategoryDonutChart({type}: { type: 'expense' | 'income' }) {
+    const {token} = useAuth();
+    const {data, isLoading} = useSWR(
+        ["/api/v1/statistics/charts", token],
+        ([url, token]) => fetcher(url, token)
+    );
+
+    if (isLoading)
+        return <Skeleton className="w-full sm:w-[400px] h-[400px]"/>
+
     const title = type === 'expense' ? 'Expense Categories' : 'Income Categories'
+    const donutChartData = data[`${type}CategoryDonutChart`]
 
     return (
         <Card className="w-full sm:w-[400px] h-[400px]">

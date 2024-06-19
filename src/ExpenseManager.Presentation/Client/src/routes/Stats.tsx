@@ -3,32 +3,18 @@ import {CategoryDonutChart} from "@/components/charts/CategoryDonutChart.tsx";
 import useSWR from "swr";
 import {Balance} from "@/components/charts/Balance.tsx";
 import {useAuth} from "@/components/auth/AuthProvider.tsx";
+import {Navigate} from "react-router-dom";
+import { LoaderCircleIcon } from "lucide-react";
 
-async function fetcher(url: string, token: string | null) {
-    const response = await fetch(url, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer " + token
-        }
-    });
-
-    if (!response.ok)
-        throw response;
-
-    return await response.json();
-}
 
 export default function Stats() {
     const {token} = useAuth();
-    const {data, error, isLoading} = useSWR(
-        ["/api/v1/statistics/charts", token],
-        ([url, token]) => fetcher(url, token)
-    );
-
-    if (isLoading) return <div>Loading...</div>;
-    if (error) return <div>Error loading data</div>;
-
+    
+    // If the user is not authenticated, redirect to the login page
+    if (!token) {
+        return <Navigate to="/login"/>;
+    }
+    
     return (
         <BaseLayout>
             <div className="container flex flex-col items-center size-full space-y-6">
@@ -43,8 +29,8 @@ export default function Stats() {
                         <Balance/>
                     </div>
                     <div className={"flex justify-center gap-6 flex-row grow pt-10 flex-wrap"}>
-                        <CategoryDonutChart type={"expense"} data={data}/>
-                        <CategoryDonutChart type={"income"} data={data}/>
+                        <CategoryDonutChart type={"expense"}/>
+                        <CategoryDonutChart type={"income"}/>
                     </div>
                     {/*<div className={"w-full pt-6"}>*/}
                     {/*    <IncomeExpenseStackedBarchart/>*/}

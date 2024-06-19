@@ -72,7 +72,7 @@ export default function Register() {
 
     // If the user is authenticated, redirect to the dashboard
     if (token) {
-        return <Navigate to="/app"/>;
+        return <Navigate to="/"/>;
     }
 
     return (
