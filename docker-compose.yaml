@@ -9,18 +9,24 @@ services:
     restart: on-failure
   expense-manager-migrations:
     container_name: expense-manager-migrations
-    build: .
+    build:
+        context: .
+        dockerfile: docker/migrations.dockerfile
     network_mode: "host"
     restart: on-failure
     depends_on:
       - expense-manager-db
-#  expense-manager-api:
-#    container_name: expense-manager-api
-#    build: ./src/ExpenseManager.Presentation
-#    network_mode: "host"
-#    restart: on-failure
-#    depends_on:
-#      - expense-manager-db
+  expense-manager-api:
+    container_name: expense-manager-api
+    build:
+      context: .
+      dockerfile: docker/api.dockerfile
+    ports:
+      - "5222:5222"
+    network_mode: "host"
+    restart: on-failure
+    depends_on:
+      - expense-manager-db
 #  expense-manager-client:
 #    container_name: expense-manager-client
 #    build: ./src/ExpenseManager.Presentation/Client
