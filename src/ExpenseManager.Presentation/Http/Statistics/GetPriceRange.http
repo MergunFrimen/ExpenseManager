@@ -1,0 +1,11 @@
+@host = http://localhost:5222
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhYWY2YzJlOS0xNDlhLTRhNGYtYTAyNi1iMmJkOWU3MjM4N2EiLCJnaXZlbl9uYW1lIjoiRG9taW5payIsImZhbWlseV9uYW1lIjoiVGljaHkiLCJqdGkiOiJhZmFkNmJmNy05MmQ0LTRjN2ItOTBlZi1mOTI2Y2YxZmI1MGUiLCJpc3MiOiJFeHBlbnNlTWFuYWdlciIsImF1ZCI6IkV4cGVuc2VNYW5hZ2VyIiwiZXhwIjoxNzE5MTc1NDI4fQ.dL0vpr46eMaeFJMNAMNaijAVWTkIMxqId4dli2fYnZM
+
+###
+
+GET {{host}}/api/v1/statistics/priceRange
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+}

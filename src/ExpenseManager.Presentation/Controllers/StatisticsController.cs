@@ -1,5 +1,6 @@
 using ExpenseManager.Application.Statistics.Queries.GetBalance;
 using ExpenseManager.Application.Statistics.Queries.GetCharts;
+using ExpenseManager.Application.Statistics.Queries.GetPriceRange;
 using ExpenseManager.Domain.Common.Errors;
 using ExpenseManager.Presentation.Contracts.Statistics;
 using MapsterMapper;
@@ -24,6 +25,23 @@ public class StatisticsController(ISender mediatr, IMapper mapper) : ApiControll
 
         return result.Match(
             value => Ok(mapper.Map<GetBalanceResponse>(value)),
+            Problem
+        );
+    }
+
+    [HttpGet("priceRange")]
+    public async Task<IActionResult> GetPriceRange()
+    {
+        var userId = GetUserId();
+        if (userId.IsError && userId.FirstError == Errors.Authentication.InvalidCredentials)
+            return Problem(statusCode: StatusCodes.Status401Unauthorized,
+                title: userId.FirstError.Description);
+
+        var query = new GetPriceRangeQuery(userId.Value);
+        var result = await mediatr.Send(query);
+
+        return result.Match(
+            value => Ok(mapper.Map<GetPriceRangeResponse>(value)),
             Problem
         );
     }

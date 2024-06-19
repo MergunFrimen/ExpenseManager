@@ -18,5 +18,8 @@ public class StatisticsMappingConfig : IRegister
 
         config.NewConfig<ChartsResult, ChartsResponse>()
             .Map(dest => dest, src => src);
+
+        config.NewConfig<GetPriceRangeResult, GetPriceRangeResponse>()
+            .Map(dest => dest, src => src);
     }
 }
