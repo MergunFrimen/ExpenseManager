@@ -99,6 +99,11 @@ export function TransactionFormDialog({type, transaction, children}: {
     );
 
     function onSubmit(data: FormSchema) {
+        const request = {
+            ...data,
+            date: data.date ? Math.floor(data.date.getTime() / 1000) : null
+        }
+
         toast({
             title: type === 'create' ?
                 "Created transaction with the following values:" :
@@ -106,21 +111,16 @@ export function TransactionFormDialog({type, transaction, children}: {
             description: (
                 <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
           <code className="text-white">
-              {JSON.stringify(data, null, 2)}
+              {JSON.stringify(request, null, 2)}
           </code>
         </pre>
             ),
         })
 
-        const request = {
-            ...data,
-            date: data.date ? Math.floor(data.date / 1000) : null
-        }
-
         if (type === 'create') {
-            createTrigger(request);
+            createTrigger(request as any);
         } else {
-            updateTrigger(request);
+            updateTrigger(request as any);
         }
     }
 
@@ -275,7 +275,7 @@ function CalendarInput({getValues, setValue, errors}: { getValues: any, setValue
                     <Calendar
                         mode="single"
                         selected={date}
-                        onSelect={setDate}
+                        onSelect={setDate as any}
                         initialFocus
                     />
                 </PopoverContent>

@@ -16,22 +16,6 @@ import {CategoryDto} from "@/models/categories/CategoryDto";
 import {CheckedState} from "@radix-ui/react-checkbox";
 import {ScrollArea} from "@/components/ui/scroll-area.tsx";
 
-interface TransactionFilterDto {
-    filters: {
-        description?: string,
-        transactionType?: 'Expense' | 'Income',
-        categoryIds?: string[],
-        dateRange?: {
-            from: number,
-            to: number
-        },
-        priceRange?: {
-            from: number,
-            to: number
-        }
-    }
-}
-
 export function TransactionFilterDialog({form, onSubmit, children}: {
     form: any,
     onSubmit: any,
@@ -98,36 +82,36 @@ function DescriptionInput({getValues, setValue, errors}: { getValues: any, setVa
     )
 }
 
-function AmountInput({getValues, setValue, errors}: { getValues: any, setValue: any, errors: any }) {
-    const [inputValue, setInputValue] = useState<string>(getValues("amount"));
-
-    function onChange(value: string) {
-        if (value === '' || !isNaN(Number(value)))
-            setInputValue(value);
-    }
-
-    useEffect(() => {
-        setValue("amount", inputValue, {
-            shouldDirty: true
-        });
-    }, [inputValue])
-
-    return (
-        <div className="grid w-full max-w-sm items-center gap-1.5">
-            <Label htmlFor="amount">Amount</Label>
-            <Input
-                id="amount"
-                className="col-span-3"
-                autoComplete={"off"}
-                type={"number"}
-                value={inputValue}
-                onChange={(e) => onChange(e.target.value)}
-            />
-            {errors.amount &&
-                <span className={'text-sm font-medium text-destructive'}>{errors.amount.message}</span>}
-        </div>
-    )
-}
+// function AmountInput({getValues, setValue, errors}: { getValues: any, setValue: any, errors: any }) {
+//     const [inputValue, setInputValue] = useState<string>(getValues("amount"));
+//
+//     function onChange(value: string) {
+//         if (value === '' || !isNaN(Number(value)))
+//             setInputValue(value);
+//     }
+//
+//     useEffect(() => {
+//         setValue("amount", inputValue, {
+//             shouldDirty: true
+//         });
+//     }, [inputValue])
+//
+//     return (
+//         <div className="grid w-full max-w-sm items-center gap-1.5">
+//             <Label htmlFor="amount">Amount</Label>
+//             <Input
+//                 id="amount"
+//                 className="col-span-3"
+//                 autoComplete={"off"}
+//                 type={"number"}
+//                 value={inputValue}
+//                 onChange={(e) => onChange(e.target.value)}
+//             />
+//             {errors.amount &&
+//                 <span className={'text-sm font-medium text-destructive'}>{errors.amount.message}</span>}
+//         </div>
+//     )
+// }
 
 function TypeSelect({getValues, setValue, errors}: { getValues: any, setValue: any, errors: any }) {
     const [selectedValue, setSelectedValue] = useState<'Expense' | 'Income' | 'All'>(getValues("transactionType"));
@@ -142,7 +126,7 @@ function TypeSelect({getValues, setValue, errors}: { getValues: any, setValue: a
     return (
         <div className="grid w-full max-w-sm items-center gap-1.5">
             <Label htmlFor="type">Type</Label>
-            <Select id={'type'} value={selectedValue} onValueChange={setSelectedValue}>
+            <Select name={'type'} value={selectedValue} onValueChange={setSelectedValue as any}>
                 <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select transaction type"/>
                 </SelectTrigger>
@@ -163,7 +147,7 @@ function TypeSelect({getValues, setValue, errors}: { getValues: any, setValue: a
 }
 
 function CalendarInput({getValues, setValue, errors}: { getValues: any, setValue: any, errors: any }) {
-    const [date, setDate] = useState<FormSchema['dateRange']>(getValues("dateRange"));
+    const [date, setDate] = useState(getValues("dateRange"));
 
     useEffect(() => {
         console.log(date);

@@ -58,7 +58,7 @@ export function RemoveCategoryDialog({category, setOpen}: { category: CategoryDt
                 type="submit"
                 variant="destructive"
                 onClick={() => {
-                    trigger({categoryId: category.id})
+                    trigger({categoryId: category.id} as any)
                     setOpen(false)
                 }}
             >

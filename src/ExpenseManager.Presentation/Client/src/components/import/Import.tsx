@@ -28,7 +28,6 @@ export function Import() {
     const {
         data,
         trigger,
-        isMutating,
         error
     } = useSWRMutation(['/api/v1/import', token], ([url, token], arg) => fetcher(url, token, arg));
 

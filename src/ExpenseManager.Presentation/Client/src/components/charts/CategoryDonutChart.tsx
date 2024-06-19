@@ -71,7 +71,7 @@ export function CategoryDonutChart({type}: { type: 'expense' | 'income' }) {
                             label
                         >
                             {
-                                donutChartData.map((_, index) =>
+                                donutChartData.map((_: any, index: number) =>
                                     <Cell key={`cell-${index}`}
                                           fill={COLORS[(index % COLORS.length) + (Math.floor(index / COLORS.length))]}/>)
                             }

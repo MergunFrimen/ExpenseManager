@@ -12,6 +12,7 @@ import {TransactionRow} from "@/components/transactions/TransactionRow.tsx";
 import {TransactionFormDialog} from "@/components/transactions/TransactionFormDialog.tsx";
 import {TabsList, TabsTrigger} from "@/components/ui/tabs.tsx";
 import {TransactionFilterDialog} from "@/components/transactions/TransactionFilterDialog.tsx";
+import { TransactionDto } from "@/models/transactions/TransactionDto.ts";
 
 const formSchema = z.object({
     description: z.string().max(150).optional(),
@@ -71,8 +72,8 @@ export function TransactionList() {
     );
 
     function onSubmit(data: FormSchema) {
-        const dataFrom = data.dateRange?.from ? Math.floor(data.dateRange.from / 1000) : undefined;
-        const dataTo = data.dateRange?.to ? Math.floor(data.dateRange.to / 1000) : undefined;
+        const dataFrom = data.dateRange?.from ? Math.floor(data.dateRange.from.getTime() / 1000) : undefined;
+        const dataTo = data.dateRange?.to ? Math.floor(data.dateRange.to.getTime() / 1000) : undefined;
 
         const request = {
             filters: {
@@ -81,7 +82,7 @@ export function TransactionList() {
                     from: dataFrom,
                     to: dataTo
                 } : {},
-                categoryIds: data.categoryIds.length > 0 ? data.categoryIds : undefined
+                categoryIds: data.categoryIds?.length && data.categoryIds?.length > 0 ? data.categoryIds : undefined
             }
         }
 
@@ -96,11 +97,11 @@ export function TransactionList() {
             ),
         })
 
-        trigger(request);
+        trigger(request as any);
     }
 
     useEffect(() => {
-        trigger({filters: {}});
+        trigger({filters: {}} as any);
     }, []);
 
     useEffect(() => {
@@ -142,14 +143,14 @@ export function TransactionList() {
                         </Button>
                     </TransactionFilterDialog>
                     <Button variant="ghost" size="icon" onClick={
-                        () => trigger({filters: {}})
+                        () => trigger({filters: {}} as any)
                     }>
                         <RefreshCwIcon className="h-[1.2rem] w-[1.2rem]"/>
                     </Button>
                 </div>
             </div>
             <ScrollArea className={'size-full h-[670px] outline outline-1 outline-accent rounded-md px-5'}>
-                {data && data.sort((x, y) => x.id > y.id ? 1 : -1).map(transaction =>
+                {data && data.sort((x: TransactionDto, y: TransactionDto) => x.id > y.id ? 1 : -1).map((transaction: TransactionDto) =>
                     <TransactionRow key={transaction.id} transaction={transaction}/>
                 )}
             </ScrollArea>

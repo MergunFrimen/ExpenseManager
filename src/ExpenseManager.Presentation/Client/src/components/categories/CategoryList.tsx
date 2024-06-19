@@ -13,6 +13,7 @@ import {CategoryFilterDialog} from "@/components/categories/CategoryFilterDialog
 import {Dialog, DialogContent, DialogTrigger} from "@/components/ui/dialog.tsx";
 import {CreateCategoryForm} from "@/components/categories/CreateCategoryForm.tsx";
 import {TabsList, TabsTrigger} from "@/components/ui/tabs.tsx";
+import {CategoryDto} from "@/models/categories/CategoryDto.ts";
 
 const formSchema = z.object({
     name: z.string()
@@ -51,7 +52,7 @@ export function CategoryList() {
     const [open, setOpen] = useState(false);
 
     function onSubmit(e: { name?: string }) {
-        trigger({filters: e});
+        trigger({filters: e} as any);
     }
 
     useEffect(() => {
@@ -64,7 +65,7 @@ export function CategoryList() {
     }, [error]);
 
     useEffect(() => {
-        trigger({filters: {}});
+        trigger({filters: {}} as any);
     }, []);
 
     return (
@@ -92,14 +93,14 @@ export function CategoryList() {
                     </Dialog>
                     <CategoryFilterDialog form={form} onSubmit={onSubmit}/>
                     <Button variant="ghost" size="icon" onClick={
-                        () => trigger({filters: {}})
+                        () => trigger({filters: {}} as any)
                     }>
                         <RefreshCwIcon className="h-[1.2rem] w-[1.2rem]"/>
                     </Button>
                 </div>
             </div>
             <ScrollArea className={'size-full h-[670px] outline outline-1 outline-accent rounded-md px-5'}>
-                {data && data.sort((x, y) => x.id > y.id ? 1 : -1).map(category =>
+                {data && data.sort((x: CategoryDto, y: CategoryDto) => x.id > y.id ? 1 : -1).map((category: CategoryDto) =>
                     <CategoryRow key={category.id} category={category}/>
                 )}
             </ScrollArea>

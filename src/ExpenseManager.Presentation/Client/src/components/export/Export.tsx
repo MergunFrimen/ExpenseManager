@@ -27,7 +27,7 @@ export function Export() {
         trigger,
         isMutating,
         error
-    } = useSWRMutation(['/api/v1/export', token], ([url, token], arg) => fetcher(url, token, arg));
+    } = useSWRMutation(['/api/v1/export', token], ([url, token]) => fetcher(url, token));
     const [downloadUrl, setDownloadUrl] = useState<string | undefined>(undefined);
 
     useEffect(() => {

@@ -5,11 +5,9 @@ import {CategoryList} from "@/components/categories/CategoryList.tsx";
 import {TransactionList} from "@/components/transactions/TransactionList.tsx";
 import {useAuth} from "@/components/auth/AuthProvider.tsx";
 import {Navigate} from "react-router-dom";
-import {useState} from "react";
 
 export default function App() {
     const {token} = useAuth();
-    const [tab, setTab] = useState<'transactions' | 'categories'>("transactions");
 
     // If the user is not authenticated, redirect to the login page
     if (!token) {

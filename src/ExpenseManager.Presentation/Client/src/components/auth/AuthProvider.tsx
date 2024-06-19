@@ -3,7 +3,7 @@ import {createContext, ReactNode, useContext, useEffect, useMemo, useState} from
 
 type AuthProviderProps = {
     children: ReactNode
-    storageKey: string
+    storageKey?: string
 }
 
 type AuthProviderState = {

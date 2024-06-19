@@ -53,7 +53,7 @@ export function RemoveTransactionDialog({transaction}: {
     }, [error]);
 
     async function onSubmit() {
-        const data = await trigger({transactionIds: transaction.id});
+        const data = await trigger({transactionIds: transaction.id} as any);
 
         toast({
             title: "Deleted transaction with the following values:",

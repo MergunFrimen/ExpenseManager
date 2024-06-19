@@ -54,7 +54,7 @@ export function CreateCategoryForm({setOpen}: {
     );
 
     function onSubmit(e: FormFields) {
-        trigger(e);
+        trigger(e as any);
     }
 
     useEffect(() => {
