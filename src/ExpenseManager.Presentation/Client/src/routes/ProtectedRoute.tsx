@@ -9,7 +9,7 @@ export const ProtectedRoute = () => {
     if (!token) {
         return <Navigate to="/login"/>;
     }
-    
+
     if (location.pathname !== '/') {
         return <Outlet/>
     }

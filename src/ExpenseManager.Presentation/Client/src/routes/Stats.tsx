@@ -1,20 +1,18 @@
 import BaseLayout from "@/layouts/BaseLayout.tsx";
 import {CategoryDonutChart} from "@/components/charts/CategoryDonutChart.tsx";
-import useSWR from "swr";
 import {Balance} from "@/components/charts/Balance.tsx";
 import {useAuth} from "@/components/auth/AuthProvider.tsx";
 import {Navigate} from "react-router-dom";
-import { LoaderCircleIcon } from "lucide-react";
 
 
 export default function Stats() {
     const {token} = useAuth();
-    
+
     // If the user is not authenticated, redirect to the login page
     if (!token) {
         return <Navigate to="/login"/>;
     }
-    
+
     return (
         <BaseLayout>
             <div className="container flex flex-col items-center size-full space-y-6">

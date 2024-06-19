@@ -32,12 +32,12 @@ export function Balance() {
     if (isLoading)
         return (
             <Skeleton className={"grid grid-cols-2 grid-rows-3 w-[280px]"}>
-                <Skeleton className={"h-[20px] w-[100px]"}/>
-                <Skeleton className={"h-[20px] w-[100px]"}/>
-                <Skeleton className={"h-[20px] w-[100px]"}/>
-                <Skeleton className={"h-[20px] w-[100px]"}/>
-                <Skeleton className={"h-[20px] w-[100px]"}/>
-                <Skeleton className={"h-[20px] w-[100px]"}/>
+                <Skeleton className={"h-[28px] w-full"}/>
+                <Skeleton className={"h-[28px] w-full"}/>
+                <Skeleton className={"h-[28px] w-full"}/>
+                <Skeleton className={"h-[28px] w-full"}/>
+                <Skeleton className={"h-[28px] w-full"}/>
+                <Skeleton className={"h-[28px] w-full"}/>
             </Skeleton>
         )
 

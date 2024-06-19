@@ -4,7 +4,7 @@ import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs.tsx
 import {CategoryList} from "@/components/categories/CategoryList.tsx";
 import {TransactionList} from "@/components/transactions/TransactionList.tsx";
 import {useAuth} from "@/components/auth/AuthProvider.tsx";
-import { Navigate } from "react-router-dom";
+import {Navigate} from "react-router-dom";
 
 export default function App() {
     const {token} = useAuth();
