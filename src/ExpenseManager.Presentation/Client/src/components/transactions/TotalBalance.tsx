@@ -28,7 +28,7 @@ export function TotalBalance() {
             refreshInterval: 1000
         }
     );
-    
+
     if (isLoading)
         return (
             <Skeleton className={"grid grid-cols-2 grid-rows-3 w-[280px] h-[28px]"}>
