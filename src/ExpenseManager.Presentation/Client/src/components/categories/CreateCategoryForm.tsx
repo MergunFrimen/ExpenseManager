@@ -67,7 +67,7 @@ export function CreateCategoryForm({setOpen}: {
     }, [error]);
 
     return (
-        <div className="flex flex-col gap-y-3 p-2">
+        <div className="flex flex-col gap-y-3">
             <DialogHeader>
                 <DialogTitle>Create category</DialogTitle>
             </DialogHeader>
@@ -82,15 +82,15 @@ export function CreateCategoryForm({setOpen}: {
                                 {/*<FormLabel>Category name</FormLabel>*/}
                                 <FormControl>
                                     <div className="grid w-full max-w-sm items-center gap-1.5">
-                                        <Label htmlFor="name">Category name</Label>
-                                        <Input type="name" id="name" placeholder="Category name" {...field}/>
+                                        <Label htmlFor="name">Name</Label>
+                                        <Input type="name" id="name" placeholder="" {...field}/>
                                     </div>
                                 </FormControl>
                                 <FormMessage/>
                             </FormItem>
                         )}
                     />
-                    <Button type="submit" onClick={() => {
+                    <Button type="submit" className={'w-full'} onClick={() => {
                         setOpen(false)
                     }}>
                         Submit

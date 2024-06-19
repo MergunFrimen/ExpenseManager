@@ -23,10 +23,17 @@ async function fetcher(url: string, token: string | null) {
 
 export function CategoryDonutChart({type}: { type: 'expense' | 'income' }) {
     const {token} = useAuth();
-    const {data, isLoading} = useSWR(
+    const {data, isLoading, error} = useSWR(
         ["/api/v1/statistics/charts", token],
         ([url, token]) => fetcher(url, token)
     );
+
+    if (error)
+        return (
+            <div>
+                Error loading data
+            </div>
+        );
 
     if (isLoading)
         return <Skeleton className="w-full sm:w-[400px] h-[400px]"/>
@@ -70,7 +77,6 @@ export function CategoryDonutChart({type}: { type: 'expense' | 'income' }) {
                             }
                         </Pie>
                         <Legend/>
-
                     </PieChart>
                 </ResponsiveContainer>
             </CardContent>

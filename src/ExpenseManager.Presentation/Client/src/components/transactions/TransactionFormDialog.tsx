@@ -153,7 +153,9 @@ export function TransactionFormDialog({type, transaction, children}: {
                         <CategoriesSelect getValues={getValues} setValue={setValue} errors={errors}/>
                     </div>
                     <DialogFooter>
-                        <Button type="submit">Save changes</Button>
+                        <Button type="submit" className={'w-full'}>
+                            Submit
+                        </Button>
                     </DialogFooter>
                 </form>
             </DialogContent>

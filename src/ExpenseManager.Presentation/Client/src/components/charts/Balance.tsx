@@ -41,9 +41,12 @@ export function Balance() {
             </Skeleton>
         )
 
-    if (error) return <div>Error loading data</div>;
-
-    if (!data) return <div>No data</div>;
+    if (error)
+        return (
+            <div>
+                Error loading data
+            </div>
+        );
 
     function numberWithCommas(number: number) {
         return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");

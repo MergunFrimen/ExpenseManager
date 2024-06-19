@@ -49,7 +49,8 @@ export function RemoveCategoryDialog({category, setOpen}: { category: CategoryDt
         <DialogHeader>
             <DialogTitle>Delete</DialogTitle>
             <DialogDescription>
-                Are you sure you want to delete this transaction? This action cannot be undone.
+                Are you sure you want to delete this transaction?
+                This action cannot be undone.
             </DialogDescription>
         </DialogHeader>
         <DialogFooter>

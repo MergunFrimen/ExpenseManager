@@ -72,7 +72,7 @@ export function EditCategoryForm({type, category, setOpen}: {
     const title = type === 'create' ? 'Create category' : 'Edit category';
 
     return (
-        <div className="flex flex-col gap-y-3 p-2">
+        <div className="flex flex-col gap-y-3">
             <DialogHeader>
                 <DialogTitle>{title}</DialogTitle>
             </DialogHeader>
@@ -87,7 +87,7 @@ export function EditCategoryForm({type, category, setOpen}: {
                                 {/*<FormLabel>Category name</FormLabel>*/}
                                 <FormControl>
                                     <div className="grid w-full max-w-sm items-center gap-1.5">
-                                        <Label htmlFor="name">Category name</Label>
+                                        <Label htmlFor="name">Name</Label>
                                         <Input type="name" id="name" placeholder="Category name" {...field}/>
                                     </div>
                                 </FormControl>
@@ -95,7 +95,7 @@ export function EditCategoryForm({type, category, setOpen}: {
                             </FormItem>
                         )}
                     />
-                    <Button type="submit" onClick={() => {
+                    <Button type="submit" className={'w-full'} onClick={() => {
                         setOpen(false)
                     }}>
                         Submit

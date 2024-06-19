@@ -28,7 +28,7 @@ export function TotalBalance() {
             refreshInterval: 1000
         }
     );
-
+    
     if (isLoading)
         return (
             <Skeleton className={"grid grid-cols-2 grid-rows-3 w-[280px] h-[28px]"}>
@@ -40,7 +40,7 @@ export function TotalBalance() {
         return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 
-    const totalBalance = numberWithCommas(data['totalBalance']);
+    const totalBalance = data ? numberWithCommas(data['totalBalance']) : 0;
 
     return (
         <div className={"grid grid-cols-2 w-[280px]"}>

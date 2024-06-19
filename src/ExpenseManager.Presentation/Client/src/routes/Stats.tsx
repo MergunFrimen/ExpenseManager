@@ -30,9 +30,6 @@ export default function Stats() {
                         <CategoryDonutChart type={"expense"}/>
                         <CategoryDonutChart type={"income"}/>
                     </div>
-                    {/*<div className={"w-full pt-6"}>*/}
-                    {/*    <IncomeExpenseStackedBarchart/>*/}
-                    {/*</div>*/}
                 </div>
             </div>
         </BaseLayout>
