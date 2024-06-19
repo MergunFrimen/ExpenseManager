@@ -98,7 +98,7 @@ export function CategoryList() {
                     </Button>
                 </div>
             </div>
-            <ScrollArea className={'size-full h-[600px] outline outline-1 outline-accent rounded-md px-5'}>
+            <ScrollArea className={'size-full h-[670px] outline outline-1 outline-accent rounded-md px-5'}>
                 {data && data.sort((x, y) => x.id > y.id ? 1 : -1).map(category =>
                     <CategoryRow key={category.id} category={category}/>
                 )}

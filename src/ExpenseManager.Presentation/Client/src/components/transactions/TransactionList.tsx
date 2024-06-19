@@ -11,7 +11,7 @@ import {Button} from "@/components/ui/button.tsx";
 import {TransactionRow} from "@/components/transactions/TransactionRow.tsx";
 import {TransactionFormDialog} from "@/components/transactions/TransactionFormDialog.tsx";
 import {TabsList, TabsTrigger} from "@/components/ui/tabs.tsx";
-import {TransactionFilterFormDialog} from "@/components/transactions/TransactionFilterFormDialog.tsx";
+import {TransactionFilterDialog} from "@/components/transactions/TransactionFilterDialog.tsx";
 
 const formSchema = z.object({
     description: z.string().max(150).optional(),
@@ -136,11 +136,11 @@ export function TransactionList() {
                             Add new
                         </Button>
                     </TransactionFormDialog>
-                    <TransactionFilterFormDialog form={form} onSubmit={onSubmit}>
+                    <TransactionFilterDialog form={form} onSubmit={onSubmit}>
                         <Button variant="secondary" size="icon">
                             <FilterIcon className="h-[1.2rem] w-[1.2rem]"/>
                         </Button>
-                    </TransactionFilterFormDialog>
+                    </TransactionFilterDialog>
                     <Button variant="ghost" size="icon" onClick={
                         () => trigger({filters: {}})
                     }>
@@ -148,7 +148,7 @@ export function TransactionList() {
                     </Button>
                 </div>
             </div>
-            <ScrollArea className={'size-full h-[600px] outline outline-1 outline-accent rounded-md px-5'}>
+            <ScrollArea className={'size-full h-[670px] outline outline-1 outline-accent rounded-md px-5'}>
                 {data && data.sort((x, y) => x.id > y.id ? 1 : -1).map(transaction =>
                     <TransactionRow key={transaction.id} transaction={transaction}/>
                 )}
