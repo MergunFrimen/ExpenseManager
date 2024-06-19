@@ -60,6 +60,9 @@ export function RemoveCategoryDialog({category, setOpen}: { category: CategoryDt
                 onClick={() => {
                     trigger({categoryId: category.id} as any)
                     setOpen(false)
+                    toast({
+                        title: "Deleted category.",
+                    })
                 }}
             >
                 Delete

@@ -58,6 +58,10 @@ export function EditCategoryForm({type, category, setOpen}: {
 
     function onSubmit(e: FormFields) {
         trigger(e as any);
+
+        toast({
+            title: "Updated category.",
+        })
     }
 
     useEffect(() => {

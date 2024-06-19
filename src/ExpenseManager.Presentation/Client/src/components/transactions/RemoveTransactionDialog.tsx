@@ -55,16 +55,9 @@ export function RemoveTransactionDialog({transaction}: {
     async function onSubmit() {
         trigger({transactionIds: transaction.id} as any);
 
-        // toast({
-        //     title: "Deleted transaction with the following values:",
-        //     description: (
-        //         <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-        //   <code className="text-white">
-        //       {JSON.stringify(data[0], null, 2)}
-        //   </code>
-        // </pre>
-        //     ),
-        // })
+        toast({
+            title: "Deleted transaction.",
+        })
     }
 
     return (

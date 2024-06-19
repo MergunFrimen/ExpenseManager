@@ -1,6 +1,5 @@
 import {ReactNode} from "react";
 import {Header} from "@/components/Header.tsx";
-import {Toaster} from "@/components/ui/toaster.tsx";
 
 export default function BaseLayout({children}: { children: ReactNode }) {
     return (
@@ -9,7 +8,6 @@ export default function BaseLayout({children}: { children: ReactNode }) {
             <main className={'mt-[80px] size-full'}>
                 {children}
             </main>
-            <Toaster/>
         </div>
     )
 }
