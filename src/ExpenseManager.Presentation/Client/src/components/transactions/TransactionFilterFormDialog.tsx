@@ -1,17 +1,7 @@
-import {
-    Dialog,
-    DialogContent,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger
-} from "@/components/ui/dialog.tsx";
+import {Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger} from "@/components/ui/dialog.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {Label} from "@/components/ui/label.tsx";
 import {Input} from "@/components/ui/input.tsx";
-import {z} from "zod";
-import {useForm} from "react-hook-form";
-import {zodResolver} from "@hookform/resolvers/zod";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover.tsx";
 import {cn} from "@/lib/utils.ts";
 import {CalendarIcon} from "lucide-react";
@@ -19,14 +9,12 @@ import {Calendar} from "@/components/ui/calendar.tsx";
 import {ReactNode, useEffect, useState} from "react";
 import {format} from "date-fns";
 import {Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select.tsx";
-import {toast} from "../ui/use-toast";
 import useSWR from "swr";
 import {useAuth} from "@/components/auth/AuthProvider.tsx";
 import {Checkbox} from "@/components/ui/checkbox"
 import {CategoryDto} from "@/models/categories/CategoryDto";
 import {CheckedState} from "@radix-ui/react-checkbox";
 import {ScrollArea} from "@/components/ui/scroll-area.tsx";
-import useSWRMutation from "swr/mutation";
 
 interface TransactionFilterDto {
     filters: {
@@ -44,52 +32,11 @@ interface TransactionFilterDto {
     }
 }
 
-async function transactionFetcher(url: string, token: string | null, {arg}: {
-    arg: { filters: { name?: string } }
+export function TransactionFilterFormDialog({form, onSubmit, children}: {
+    form: any,
+    onSubmit: any,
+    children: ReactNode
 }) {
-    const response = await fetch(`${url}/search`, {
-        method: 'POST',
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer " + token
-        },
-        body: JSON.stringify(arg)
-    });
-
-    if (!response.ok)
-        throw response;
-
-    return await response.json();
-}
-
-const formSchema = z.object({
-    description: z.string().max(150).optional(),
-    transactionType: z.enum(["Expense", "Income"]).optional(),
-    categoryIds: z.array(z.string()).optional(),
-    dateRange: z.object({
-        from: z.date().optional(),
-        to: z.date().optional()
-    }).optional(),
-    priceRange: z.object({
-        from: z.date().optional(),
-        to: z.date().optional()
-    }).optional()
-})
-
-type FormSchema = z.infer<typeof formSchema>;
-
-export function TransactionFilterFormDialog({children}: { children: ReactNode }) {
-    const {token} = useAuth();
-    const form = useForm<FormSchema>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            description: undefined,
-            transactionType: undefined,
-            categoryIds: [],
-            dateRange: {},
-            priceRange: {},
-        }
-    })
     const {
         handleSubmit,
         setValue,
@@ -98,57 +45,9 @@ export function TransactionFilterFormDialog({children}: { children: ReactNode })
             errors
         }
     } = form;
-    const {
-        trigger,
-        error
-    } = useSWRMutation(
-        ['/api/v1/transactions', token],
-        ([url, token], arg) => transactionFetcher(url, token, arg),
-        {}
-    );
-
-    function onSubmit(data: FormSchema) {
-        const dataFrom = data.dateRange?.from ? Math.floor(data.dateRange.from / 1000) : undefined;
-        const dataTo = data.dateRange?.to ? Math.floor(data.dateRange.to / 1000) : undefined;
-
-        const request = {
-            filters: {
-                ...data,
-                dateRange: data.dateRange ? {
-                    from: dataFrom,
-                    to: dataTo
-                } : {},
-                categoryIds: data.categoryIds.length > 0 ? data.categoryIds : undefined
-            }
-        }
-
-        toast({
-            title: "Filtered transactions with the following values:",
-            description: (
-                <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">
-              {JSON.stringify(request, null, 2)}
-          </code>
-        </pre>
-            ),
-        })
-
-        console.log(request);
-
-        trigger(request);
-    }
-
-    // useEffect(() => {
-    //     if (error)
-    //         toast({
-    //             variant: "destructive",
-    //             title: "Uh oh! Something went wrong.",
-    //             description: "There was a problem with your request.",
-    //         })
-    // }, [error]);
 
     return (
-        <Dialog defaultOpen={true}>
+        <Dialog>
             <DialogTrigger asChild>
                 {children}
             </DialogTrigger>
@@ -164,9 +63,10 @@ export function TransactionFilterFormDialog({children}: { children: ReactNode })
                         <CalendarInput getValues={getValues} setValue={setValue} errors={errors}/>
                         <CategoriesSelect getValues={getValues} setValue={setValue} errors={errors}/>
                     </div>
-                    <DialogFooter>
-                        <Button type="submit">Save changes</Button>
-                    </DialogFooter>
+                    <Button type="submit" className={'w-full'} onClick={() => {
+                    }}>
+                        Apply filter
+                    </Button>
                 </form>
             </DialogContent>
         </Dialog>
@@ -355,9 +255,9 @@ function CategoriesSelect({getValues, setValue}: { getValues: any, setValue: any
     return (
         <Popover>
             <PopoverTrigger onClick={() => setOpen(!open)}>
-                {/*<Button type={'button'} className="w-full" variant={'outline'}>*/}
-                Select categories
-                {/*</Button>*/}
+                <Button type={'button'} className="w-full" variant={'outline'}>
+                    Select categories
+                </Button>
             </PopoverTrigger>
             <PopoverContent className={'w-full'}>
                 <ScrollArea className="h-[250px] w-full rounded-md">

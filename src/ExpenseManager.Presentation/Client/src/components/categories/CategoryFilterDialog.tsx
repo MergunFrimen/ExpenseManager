@@ -43,15 +43,10 @@ export function CategoryFilterDialog({form, onSubmit}: {
                                 </FormItem>
                             )}
                         />
-                        <Button type="submit" onClick={() => {
+                        <Button type="submit" className={'w-full'} onClick={() => {
                             setOpen(false);
                         }}>Apply filter</Button>
                     </form>
-                    <Button type="button" variant={'ghost'} onClick={() => {
-                        form.reset();
-                    }}>
-                        Clear filter
-                    </Button>
                 </Form>
             </DialogContent>
         </Dialog>

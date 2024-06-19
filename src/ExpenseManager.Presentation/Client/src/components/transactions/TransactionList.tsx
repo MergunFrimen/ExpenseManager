@@ -4,27 +4,36 @@ import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useToast} from "@/components/ui/use-toast.ts";
 import {useEffect} from "react";
-import {PlusIcon, RefreshCwIcon} from "lucide-react";
+import {FilterIcon, PlusIcon, RefreshCwIcon} from "lucide-react";
 import {ScrollArea} from "@/components/ui/scroll-area.tsx";
 import {useAuth} from "@/components/auth/AuthProvider.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {TransactionRow} from "@/components/transactions/TransactionRow.tsx";
-import {TransactionFilterDialog} from "@/components/transactions/TransactionFilterDialog.tsx";
 import {TransactionFormDialog} from "@/components/transactions/TransactionFormDialog.tsx";
 import {TabsList, TabsTrigger} from "@/components/ui/tabs.tsx";
+import {TransactionFilterFormDialog} from "@/components/transactions/TransactionFilterFormDialog.tsx";
 
 const formSchema = z.object({
-    description: z.string(),
-    type: z.enum(['Expense', 'Income']),
-    dateFrom: z.date(),
-    dateTo: z.date(),
-    priceFrom: z.number().min(0),
-    priceTo: z.number().min(0),
+    description: z.string().max(150).optional(),
+    transactionType: z.enum(["Expense", "Income"]).optional(),
+    categoryIds: z.array(z.string()).optional(),
+    dateRange: z.object({
+        from: z.date().optional(),
+        to: z.date().optional()
+    }).optional(),
+    priceRange: z.object({
+        from: z.date().optional(),
+        to: z.date().optional()
+    }).optional()
 })
 
-async function fetcher(url: string, token: string | null, {arg}: { arg: { filters: { name?: string } } }) {
+type FormSchema = z.infer<typeof formSchema>;
+
+async function transactionFetcher(url: string, token: string | null, {arg}: {
+    arg: { filters: { name?: string } }
+}) {
     const response = await fetch(`${url}/search`, {
-        method: "POST",
+        method: 'POST',
         headers: {
             "Content-Type": "application/json",
             "Authorization": "Bearer " + token
@@ -41,25 +50,58 @@ async function fetcher(url: string, token: string | null, {arg}: { arg: { filter
 export function TransactionList() {
     const {token} = useAuth();
     const {toast} = useToast()
-    const form = useForm<z.infer<typeof formSchema>>({
+    const form = useForm<FormSchema>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            description: '',
-            dateFrom: new Date(Date.now()),
-            dateTo: new Date(Date.now()),
-            priceFrom: 0,
-            priceTo: 0,
-        },
+            description: undefined,
+            transactionType: undefined,
+            categoryIds: [],
+            dateRange: {},
+            priceRange: {},
+        }
     })
     const {
         data,
         trigger,
         error
-    } = useSWRMutation(['/api/v1/transactions', token], ([url, token], arg) => fetcher(url, token, arg));
+    } = useSWRMutation(
+        ['/api/v1/transactions', token],
+        ([url, token], arg) => transactionFetcher(url, token, arg),
+        {}
+    );
 
-    function onSubmit(e) {
-        trigger({filters: e});
+    function onSubmit(data: FormSchema) {
+        const dataFrom = data.dateRange?.from ? Math.floor(data.dateRange.from / 1000) : undefined;
+        const dataTo = data.dateRange?.to ? Math.floor(data.dateRange.to / 1000) : undefined;
+
+        const request = {
+            filters: {
+                ...data,
+                dateRange: data.dateRange ? {
+                    from: dataFrom,
+                    to: dataTo
+                } : {},
+                categoryIds: data.categoryIds.length > 0 ? data.categoryIds : undefined
+            }
+        }
+
+        toast({
+            title: "Filtered transactions with the following values:",
+            description: (
+                <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+          <code className="text-white">
+              {JSON.stringify(request, null, 2)}
+          </code>
+        </pre>
+            ),
+        })
+
+        trigger(request);
     }
+
+    useEffect(() => {
+        trigger({filters: {}});
+    }, []);
 
     useEffect(() => {
         if (error)
@@ -69,10 +111,6 @@ export function TransactionList() {
                 description: "There was a problem with your request.",
             })
     }, [error]);
-
-    useEffect(() => {
-        trigger({filters: {}});
-    }, []);
 
     return (
         <div className="flex flex-col gap-y-3">
@@ -98,7 +136,11 @@ export function TransactionList() {
                             Add new
                         </Button>
                     </TransactionFormDialog>
-                    <TransactionFilterDialog form={form} onSubmit={onSubmit}/>
+                    <TransactionFilterFormDialog form={form} onSubmit={onSubmit}>
+                        <Button variant="secondary" size="icon">
+                            <FilterIcon className="h-[1.2rem] w-[1.2rem]"/>
+                        </Button>
+                    </TransactionFilterFormDialog>
                     <Button variant="ghost" size="icon" onClick={
                         () => trigger({filters: {}})
                     }>
