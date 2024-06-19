@@ -104,18 +104,18 @@ export function TransactionFormDialog({type, transaction, children}: {
             date: data.date ? Math.floor(data.date.getTime() / 1000) : null
         }
 
-        toast({
-            title: type === 'create' ?
-                "Created transaction with the following values:" :
-                "Updated transaction with the following values:",
-            description: (
-                <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">
-              {JSON.stringify(request, null, 2)}
-          </code>
-        </pre>
-            ),
-        })
+        // toast({
+        //     title: type === 'create' ?
+        //         "Created transaction with the following values:" :
+        //         "Updated transaction with the following values:",
+        //     description: (
+        //         <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+        //   <code className="text-white">
+        //       {JSON.stringify(request, null, 2)}
+        //   </code>
+        // </pre>
+        //     ),
+        // })
 
         if (type === 'create') {
             createTrigger(request as any);
