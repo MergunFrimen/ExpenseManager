@@ -10,10 +10,10 @@ public class UpdateTransactionCommandValidator : AbstractValidator<UpdateTransac
     {
         RuleFor(x => x.UserId).NotEmpty();
         RuleFor(x => x.Id).NotEmpty();
-        RuleFor(x => x.CategoryIds);
-        RuleFor(x => x.Type).TransactionType();
         RuleFor(x => x.Description).NotEmpty().MaximumLength(Transaction.DescriptionMaxLength);
         RuleFor(x => x.Amount).MoneyAmount();
-        RuleFor(x => x.Date).NotEmpty();
+        RuleFor(x => x.Type).TransactionType();
+        RuleFor(x => x.Date);
+        RuleFor(x => x.CategoryIds).NotNull();
     }
 }

@@ -2,7 +2,7 @@ export interface TransactionDto {
     id: string;
     description: string;
     amount: number;
-    type: string;
+    type: 'Income' | 'Expense';
     date?: number;
     categoryIds: string[];
     categoryNames: string[];

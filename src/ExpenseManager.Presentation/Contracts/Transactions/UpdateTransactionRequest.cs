@@ -4,6 +4,6 @@ public sealed record UpdateTransactionRequest(
     string Description,
     decimal Amount,
     string Type,
-    ulong Date,
+    ulong? Date,
     string[] CategoryIds
 );

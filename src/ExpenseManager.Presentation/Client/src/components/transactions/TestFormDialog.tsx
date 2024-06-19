@@ -26,6 +26,42 @@ import {Checkbox} from "@/components/ui/checkbox"
 import {CategoryDto} from "@/models/categories/CategoryDto";
 import {CheckedState} from "@radix-ui/react-checkbox";
 import {ScrollArea} from "@/components/ui/scroll-area.tsx";
+import useSWRMutation from "swr/mutation";
+import {TransactionDto} from "@/models/transactions/TransactionDto.ts";
+
+async function categoryFetcher(url: string, token: string | null) {
+    const response = await fetch(`${url}/search`, {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
+        },
+        body: JSON.stringify({filters: {name: ''}})
+    });
+
+    if (!response.ok)
+        throw response;
+
+    return await response.json();
+}
+
+async function transactionFetcher(url: string, token: string | null, method: 'POST' | 'PUT', {arg}: {
+    arg: { filters: { name?: string } }
+}) {
+    const response = await fetch(url, {
+        method: method,
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
+        },
+        body: JSON.stringify(arg)
+    });
+
+    if (!response.ok)
+        throw response;
+
+    return await response.json();
+}
 
 const formSchema = z.object({
     description: z.string().min(1).max(150),
@@ -37,35 +73,77 @@ const formSchema = z.object({
 
 type FormSchema = z.infer<typeof formSchema>;
 
-export function TestFormDialog() {
+export function TestFormDialog({type, transaction}: { type: 'create' | 'edit', transaction: TransactionDto }) {
+    const {token} = useAuth();
     const form = useForm<FormSchema>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            description: "",
-            amount: 0,
+            description: type === 'edit' ? transaction.description : undefined,
+            amount: type === 'edit' ? transaction.amount : undefined,
+            type: type === 'edit' ? transaction.type : undefined,
+            date: type === 'edit' && transaction.date ? new Date(transaction.date * 1000) : undefined,
+            categoryIds: type === 'edit' ? transaction.categoryIds : []
         }
     })
     const {
         handleSubmit,
         setValue,
+        getValues,
         formState: {
             errors
         }
     } = form;
+    const {
+        trigger: createTrigger,
+        error: createError
+    } = useSWRMutation(
+        ['/api/v1/transactions', token],
+        ([url, token], arg) => transactionFetcher(url, token, 'POST', arg),
+        {}
+    );
+    const {
+        trigger: updateTrigger,
+        error: updateError
+    } = useSWRMutation(
+        [`/api/v1/transactions/${transaction.id}`, token],
+        ([url, token], arg) => transactionFetcher(url, token, 'PUT', arg),
+        {}
+    );
 
     function onSubmit(data: FormSchema) {
-        const seconds = data.date ? Math.floor(data.date / 1000) : null;
-        console.log(seconds)
-        console.log(data)
         toast({
-            title: "You submitted the following values:",
+            title: type === 'create' ?
+                "Created transaction with the following values:" :
+                "Updated transaction with the following values:",
             description: (
                 <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+          <code className="text-white">
+              {JSON.stringify(data, null, 2)}
+          </code>
         </pre>
             ),
         })
+
+        const request = {
+            ...data,
+            date: data.date ? Math.floor(data.date / 1000) : null
+        }
+
+        if (type === 'create') {
+            createTrigger(request);
+        } else {
+            updateTrigger(request);
+        }
     }
+
+    useEffect(() => {
+        if (createError)
+            toast({
+                variant: "destructive",
+                title: "Uh oh! Something went wrong.",
+                description: "There was a problem with your request.",
+            })
+    }, [createError, updateError]);
 
     return (
         <Dialog defaultOpen={true}>
@@ -78,11 +156,11 @@ export function TestFormDialog() {
                         <DialogTitle>Edit transaction</DialogTitle>
                     </DialogHeader>
                     <div className="grid gap-3 py-4">
-                        <DescriptionInput setValue={setValue} errors={errors}/>
-                        <AmountInput setValue={setValue} errors={errors}/>
-                        <TypeSelect setValue={setValue} errors={errors}/>
-                        <CalendarInput setValue={setValue} errors={errors}/>
-                        <CategoriesSelect setValue={setValue} errors={errors}/>
+                        <DescriptionInput getValues={getValues} setValue={setValue} errors={errors}/>
+                        <AmountInput getValues={getValues} setValue={setValue} errors={errors}/>
+                        <TypeSelect getValues={getValues} setValue={setValue} errors={errors}/>
+                        <CalendarInput getValues={getValues} setValue={setValue} errors={errors}/>
+                        <CategoriesSelect getValues={getValues} setValue={setValue} errors={errors}/>
                     </div>
                     <DialogFooter>
                         <Button type="submit">Save changes</Button>
@@ -93,8 +171,8 @@ export function TestFormDialog() {
     );
 }
 
-function DescriptionInput({setValue, errors}: { setValue: any, errors: any }) {
-    const [inputValue, setInputValue] = useState<string>('')
+function DescriptionInput({getValues, setValue, errors}: { getValues: any, setValue: any, errors: any }) {
+    const [inputValue, setInputValue] = useState<string>(getValues("description"));
 
     useEffect(() => {
         setValue("description", inputValue, {
@@ -118,8 +196,8 @@ function DescriptionInput({setValue, errors}: { setValue: any, errors: any }) {
     )
 }
 
-function AmountInput({setValue, errors}: { setValue: any, errors: any }) {
-    const [inputValue, setInputValue] = useState<string>('')
+function AmountInput({getValues, setValue, errors}: { getValues: any, setValue: any, errors: any }) {
+    const [inputValue, setInputValue] = useState<string>(getValues("amount"));
 
     useEffect(() => {
         setValue("amount", inputValue, {
@@ -143,8 +221,8 @@ function AmountInput({setValue, errors}: { setValue: any, errors: any }) {
     )
 }
 
-function TypeSelect({setValue, errors}: { setValue: any, errors: any }) {
-    const [selectedValue, setSelectedValue] = useState<string>('')
+function TypeSelect({getValues, setValue, errors}: { getValues: any, setValue: any, errors: any }) {
+    const [selectedValue, setSelectedValue] = useState<string>(getValues("type"));
 
     useEffect(() => {
         setValue("type", selectedValue, {
@@ -171,8 +249,8 @@ function TypeSelect({setValue, errors}: { setValue: any, errors: any }) {
     )
 }
 
-function CalendarInput({setValue, errors}: { setValue: any, errors: any }) {
-    const [date, setDate] = useState<Date>()
+function CalendarInput({getValues, setValue, errors}: { getValues: any, setValue: any, errors: any }) {
+    const [date, setDate] = useState<Date>(getValues("date"));
 
     useEffect(() => {
         setValue("date", date, {
@@ -226,11 +304,11 @@ async function fetcher(url: string, token: string | null) {
     return await response.json();
 }
 
-function CategoriesSelect({setValue, errors}: { setValue: any, errors: any }) {
+function CategoriesSelect({getValues, setValue}: { getValues: any, setValue: any, errors: any }) {
     const {token} = useAuth();
     const {data} = useSWR(['/api/v1/categories', token], ([url, token]) => fetcher(url, token));
 
-    const [selectedValues, setSelectedValues] = useState<string[]>([])
+    const [selectedValues, setSelectedValues] = useState<string[]>(getValues("categoryIds"));
     const [open, setOpen] = useState<boolean>(false);
 
     function onCheckedChange(checked: CheckedState, category: CategoryDto) {
@@ -239,13 +317,13 @@ function CategoriesSelect({setValue, errors}: { setValue: any, errors: any }) {
         else
             setSelectedValues(selectedValues.filter((value) => value !== category.id))
     }
-
+    
     useEffect(() => {
         setValue("categoryIds", selectedValues, {
             shouldDirty: true
         });
     }, [selectedValues])
-
+    
     return (
         <Popover>
             <PopoverTrigger onClick={() => setOpen(!open)}>
