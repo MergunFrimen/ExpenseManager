@@ -34,6 +34,18 @@ export function CategoryDonutChart({type}: { type: 'expense' | 'income' }) {
     const title = type === 'expense' ? 'Expense Categories' : 'Income Categories'
     const donutChartData = data[`${type}CategoryDonutChart`]
 
+    if (donutChartData.length === 0)
+        return (
+            <Card className="w-full sm:w-[400px] h-[400px]">
+                <CardHeader>
+                    <CardTitle>{title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <span>No data available</span>
+                </CardContent>
+            </Card>
+        )
+
     return (
         <Card className="w-full sm:w-[400px] h-[400px]">
             <CardHeader>

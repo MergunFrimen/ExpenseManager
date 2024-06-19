@@ -11,7 +11,8 @@ public class SearchTransactionsQueryHandler(ITransactionRepository transactionRe
     public async Task<ErrorOr<List<TransactionResult>>> Handle(SearchTransactionsQuery query,
         CancellationToken cancellationToken)
     {
-        var allTransactions = await transactionRepository.FindAsync(category => true, cancellationToken);
+        var allTransactions =
+            await transactionRepository.FindAsync(category => category.User.Id == query.UserId, cancellationToken);
         if (allTransactions.IsError)
             return allTransactions.Errors;
 

@@ -12,6 +12,7 @@ import {Button} from "@/components/ui/button.tsx";
 import {CategoryFilterDialog} from "@/components/categories/CategoryFilterDialog.tsx";
 import {Dialog, DialogContent, DialogTrigger} from "@/components/ui/dialog.tsx";
 import {CreateCategoryForm} from "@/components/categories/CreateCategoryForm.tsx";
+import {TabsList, TabsTrigger} from "@/components/ui/tabs.tsx";
 
 const formSchema = z.object({
     name: z.string()
@@ -69,22 +70,26 @@ export function CategoryList() {
     return (
         <div className="flex flex-col gap-y-3">
             <div className="flex flex-row gap-x-3 justify-between">
-                <Dialog open={open} onOpenChange={setOpen}>
-                    <DialogTrigger asChild>
-                        <Button
-                            variant="default"
-                            className="bg-green-500"
-                        >
-                            <PlusIcon className="h-[1.2rem] w-[1.2rem]"/>
-                            Add new
-                        </Button>
-                    </DialogTrigger>
-                    <DialogContent className="sm:max-w-[425px]" onInteractOutside={(e) => e.preventDefault()}>
-                        <CreateCategoryForm setOpen={setOpen}/>
-                    </DialogContent>
-                </Dialog>
+                <TabsList>
+                    <TabsTrigger value="transactions">Transactions</TabsTrigger>
+                    <TabsTrigger value="categories">Categories</TabsTrigger>
+                </TabsList>
 
                 <div className="flex flex-row gap-x-3">
+                    <Dialog open={open} onOpenChange={setOpen}>
+                        <DialogTrigger asChild>
+                            <Button
+                                variant="default"
+                                className="bg-green-500"
+                            >
+                                <PlusIcon className="h-[1.2rem] w-[1.2rem]"/>
+                                Add new
+                            </Button>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-[425px]" onInteractOutside={(e) => e.preventDefault()}>
+                            <CreateCategoryForm setOpen={setOpen}/>
+                        </DialogContent>
+                    </Dialog>
                     <CategoryFilterDialog form={form} onSubmit={onSubmit}/>
                     <Button variant="ghost" size="icon" onClick={
                         () => trigger({filters: {}})

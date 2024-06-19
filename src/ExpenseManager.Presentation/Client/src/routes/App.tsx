@@ -1,13 +1,15 @@
 import BaseLayout from "@/layouts/BaseLayout.tsx";
 import {TotalBalance} from "@/components/transactions/TotalBalance";
-import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs.tsx";
+import {Tabs, TabsContent} from "@/components/ui/tabs.tsx";
 import {CategoryList} from "@/components/categories/CategoryList.tsx";
 import {TransactionList} from "@/components/transactions/TransactionList.tsx";
 import {useAuth} from "@/components/auth/AuthProvider.tsx";
 import {Navigate} from "react-router-dom";
+import {useState} from "react";
 
 export default function App() {
     const {token} = useAuth();
+    const [tab, setTab] = useState<'transactions' | 'categories'>("transactions");
 
     // If the user is not authenticated, redirect to the login page
     if (!token) {
@@ -31,12 +33,6 @@ export default function App() {
                 </div>
 
                 <Tabs defaultValue="transactions" className={"w-full"}>
-                    <div className={'flex flex-row items-center gap-x-8'}>
-                        <TabsList className={""}>
-                            <TabsTrigger value="transactions">Transactions</TabsTrigger>
-                            <TabsTrigger value="categories">Categories</TabsTrigger>
-                        </TabsList>
-                    </div>
                     <TabsContent value="transactions">
                         <TransactionList/>
                     </TabsContent>
