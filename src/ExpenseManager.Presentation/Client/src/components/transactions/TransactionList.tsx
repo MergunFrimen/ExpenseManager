@@ -155,7 +155,7 @@ export function TransactionList() {
                     </Button>
                 </div>
             </div>
-            <ScrollArea className={'size-full h-[670px] outline outline-1 outline-accent rounded-md px-5'}>
+            <ScrollArea className={'size-full h-[600px] outline outline-1 outline-accent rounded-md px-5'}>
                 {data && data.sort((x: TransactionDto, y: TransactionDto) => x.id > y.id ? 1 : -1).map((transaction: TransactionDto) =>
                     <TransactionRow key={transaction.id} transaction={transaction}/>
                 )}
