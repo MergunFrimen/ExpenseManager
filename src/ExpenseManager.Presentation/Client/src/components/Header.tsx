@@ -8,7 +8,7 @@ import {
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu.tsx";
 import {Button} from "@/components/ui/button.tsx";
-import {AreaChartIcon, LayoutGridIcon, ListIcon, LogOutIcon, SettingsIcon} from "lucide-react";
+import {BarChartBig, LayoutGridIcon, ListIcon, LogOutIcon, SettingsIcon} from "lucide-react";
 import {useAuth} from "@/components/auth/AuthProvider.tsx";
 import {Export} from "@/components/export/Export.tsx";
 import {Import} from "@/components/import/Import.tsx";
@@ -46,11 +46,11 @@ function Navigation() {
             <DropdownMenuContent align="end">
                 <DropdownMenuItem onClick={() => navigate("/")}>
                     <LayoutGridIcon className="mr-2 h-4 w-4"/>
-                    <span>App page</span>
+                    <span>Dashboard</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => navigate("/stats")}>
-                    <AreaChartIcon className="mr-2 h-4 w-4"/>
-                    <span>Stats page</span>
+                    <BarChartBig className="mr-2 h-4 w-4"/>
+                    <span>Statistics</span>
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>

@@ -38,7 +38,6 @@ export function RemoveTransactionDialog({transaction}: {
 }) {
     const {token} = useAuth();
     const {
-        data,
         error,
         trigger
     } = useSWRMutation(['/api/v1/transactions', token], ([url, token], arg) => fetcher(url, token, arg));
@@ -53,17 +52,29 @@ export function RemoveTransactionDialog({transaction}: {
 
     }, [error]);
 
-    useEffect(() => {
-    }, [data]);
+    async function onSubmit() {
+        const data = await trigger({transactionIds: transaction.id});
 
-    return <>
+        toast({
+            title: "Deleted transaction with the following values:",
+            description: (
+                <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+          <code className="text-white">
+              {JSON.stringify(data[0], null, 2)}
+          </code>
+        </pre>
+            ),
+        })
+    }
+
+    return (
         <Dialog>
             <DialogTrigger asChild>
                 <Button variant="destructive" size="icon">
                     <Trash2 className="h-[1.2rem] w-[1.2rem]"/>
                 </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]" onInteractOutside={(e) => e.preventDefault()}>
+            <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
                     <DialogTitle>Delete</DialogTitle>
                     <DialogDescription>
@@ -74,14 +85,11 @@ export function RemoveTransactionDialog({transaction}: {
                     <Button
                         type="submit"
                         variant="destructive"
-                        onClick={() => {
-                            trigger({transactionIds: transaction.id})
-                        }}
-                    >
+                        onClick={onSubmit}>
                         Delete
                     </Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>
-    </>
+    );
 }

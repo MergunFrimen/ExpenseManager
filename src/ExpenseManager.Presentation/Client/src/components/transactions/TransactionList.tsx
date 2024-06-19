@@ -3,7 +3,7 @@ import {z} from "zod";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useToast} from "@/components/ui/use-toast.ts";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import {PlusIcon, RefreshCwIcon} from "lucide-react";
 import {ScrollArea} from "@/components/ui/scroll-area.tsx";
 import {useAuth} from "@/components/auth/AuthProvider.tsx";
@@ -56,7 +56,6 @@ export function TransactionList() {
         trigger,
         error
     } = useSWRMutation(['/api/v1/transactions', token], ([url, token], arg) => fetcher(url, token, arg));
-    const [open, setOpen] = useState(false);
 
     function onSubmit(e) {
         trigger({filters: e});

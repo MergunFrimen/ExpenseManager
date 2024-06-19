@@ -1,5 +1,6 @@
 import {useAuth} from "@/components/auth/AuthProvider.tsx";
 import useSWR from "swr";
+import {Skeleton} from "../ui/skeleton";
 
 async function fetcher(url: string, token: string | null) {
     const response = await fetch(url, {
@@ -20,7 +21,7 @@ async function fetcher(url: string, token: string | null) {
 
 export function TotalBalance() {
     const {token} = useAuth();
-    const {data, error, isLoading} = useSWR(
+    const {data, isLoading} = useSWR(
         ["/api/v1/statistics/balance", token],
         ([url, token]) => fetcher(url, token),
         {
@@ -28,10 +29,12 @@ export function TotalBalance() {
         }
     );
 
-    if (isLoading) return <div>Loading...</div>;
-    if (error) return <div>Error loading data</div>;
-
-    if (!data) return <div>No data</div>;
+    if (isLoading)
+        return (
+            <Skeleton className={"grid grid-cols-2 grid-rows-3 w-[280px] h-[28px]"}>
+                <Skeleton className={"h-[28px] w-full"}/>
+            </Skeleton>
+        )
 
     function numberWithCommas(number: number) {
         return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
