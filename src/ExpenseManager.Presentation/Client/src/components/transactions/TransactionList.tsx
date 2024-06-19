@@ -12,7 +12,7 @@ import {TransactionRow} from "@/components/transactions/TransactionRow.tsx";
 import {TransactionFormDialog} from "@/components/transactions/TransactionFormDialog.tsx";
 import {TabsList, TabsTrigger} from "@/components/ui/tabs.tsx";
 import {TransactionFilterDialog} from "@/components/transactions/TransactionFilterDialog.tsx";
-import { TransactionDto } from "@/models/transactions/TransactionDto.ts";
+import {TransactionDto} from "@/models/transactions/TransactionDto.ts";
 
 const formSchema = z.object({
     description: z.string().max(150).optional(),
